@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 .DS_Store
+.ruff_cache
+_version.py
