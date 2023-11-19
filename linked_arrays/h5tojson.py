@@ -54,6 +54,7 @@ but it did not work because the `buf` argument was not the right shape and it is
 NOTE: NaN, Inf, and -Inf are not valid JSON. They are written out anyway and can be read back in.
 One solution is to replace all NaN with "NaN" before writing to JSON.
 Encoding all float dataset as base64-encoded strings may also solve this problem.
+Floating point attributes can still be NaN though...
 
 Adapted from kerchunk/hdf.py version 0.2.2. The following is the license for the adapted kerchunk code.
 
@@ -89,6 +90,7 @@ from collections import defaultdict
 import warnings
 import fsspec
 import h5py
+import json
 import logging
 import numcodecs
 import numpy as np
@@ -101,6 +103,43 @@ import ujson
 logger = logging.getLogger("h5tojson")
 
 
+class FloatJSONEncoder(json.JSONEncoder):
+    """JSON encoder that converts NaN, Inf, and -Inf to strings."""
+    def encode(self, obj, *args, **kwargs):
+        """Convert NaN, Inf, and -Inf to strings."""
+        obj = FloatJSONEncoder._convert_nan(obj)
+        return super().encode(obj, *args, **kwargs)
+
+    def iterencode(self, obj, *args, **kwargs):
+        """Convert NaN, Inf, and -Inf to strings."""
+        obj = FloatJSONEncoder._convert_nan(obj)
+        return super().iterencode(obj, *args, **kwargs)
+
+    @staticmethod
+    def _convert_nan(obj):
+        """Convert NaN, Inf, and -Inf from a JSON object to strings."""
+        if isinstance(obj, dict):
+            return {k: FloatJSONEncoder._convert_nan(v) for k,v in obj.items()}
+        elif isinstance(obj, list):
+            return [FloatJSONEncoder._convert_nan(v) for v in obj]
+        elif isinstance(obj, float):
+            return FloatJSONEncoder._nan_to_string(obj)
+        return obj
+
+    @staticmethod
+    def _nan_to_string(obj: float):
+        """Convert NaN, Inf, and -Inf from a float to a string."""
+        if np.isnan(obj):
+            return "NaN"
+        elif np.isinf(obj):
+            if obj > 0:
+                return "Infinity"
+            else:
+                return "-Infinity"
+        else:
+            return float(obj)
+
+
 class H5ToJson:
     """Class to manage translation of an HDF5 file to JSON with Kerchunk-style references to dataset chunks."""
 
@@ -110,7 +149,7 @@ class H5ToJson:
         json_file_path: Union[str, Path],
         chunk_refs_file_path: Union[str, Path],
         dataset_inline_threshold=500,
-        object_dataset_inline_threshold=100000,
+        object_dataset_inline_threshold=200000,
         storage_options=None,
     ):
         """Create an object to translate an HDF5 file to JSON with Kerchunk-style references to dataset chunks.
@@ -128,7 +167,7 @@ class H5ToJson:
             Default is 500.
         object_dataset_inline_threshold : int, optional
             Maximum number of bytes per dataset that has an object dtype to store inline in the JSON file.
-            Default is 100000.
+            Default is 200000.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
@@ -162,7 +201,9 @@ class H5ToJson:
         # write the dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
         with open(self.json_file_path, "w") as f:
-            ujson.dump(self.json_dict, f, indent=2, escape_forward_slashes=False)
+            # ujson.dump(self.json_dict, f, indent=2, escape_forward_slashes=False)
+            # NOTE: ujson does not allow for custom encoders, so use the standard library json module
+            json.dump(self.json_dict, f, indent=2, allow_nan=False, cls=FloatJSONEncoder)
 
         # write the chunk refs dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
@@ -535,10 +576,15 @@ class H5ToJson:
         - LZ4 (ID: 32004)
         - Bitshuffle (ID: 32008)
         """
+        filters_json = []
         if h5obj.scaleoffset:
-            raise RuntimeError(f"{h5obj.name} uses HDF5 scaleoffset filter - not supported")
+            warnings.warn(f"{h5obj.name} uses HDF5 scaleoffset filter - not supported")
+            filters_json.append({"id": "scaleoffset"})
+            # raise RuntimeError(f"{h5obj.name} uses HDF5 scaleoffset filter - not supported")
         if h5obj.compression in ("szip", "lzf"):
-            raise RuntimeError(f"{h5obj.name} uses szip or lzf compression - not supported")
+            warnings.warn(f"{h5obj.name} uses szip or lzf compression - not supported")
+            filters_json.append({"id": h5obj.compression})
+            # raise RuntimeError(f"{h5obj.name} uses szip or lzf compression - not supported")
         filters = []
         if h5obj.shuffle and h5obj.dtype.kind != "O":
             # cannot use shuffle if we materialised objects
@@ -581,10 +627,12 @@ class H5ToJson:
                 # already handled before this loop
                 pass
             else:
-                raise RuntimeError(
-                    f"{h5obj.name} uses filter id {filter_id} with properties {properties}, not supported."
-                )
-        filters_json = [f.get_config() for f in filters]  # json-serializable list of filters
+                # raise RuntimeError(
+                #     f"{h5obj.name} uses filter id {filter_id} with properties {properties}, not supported."
+                # )
+                warnings.warn(f"{h5obj.name} uses filter id {filter_id} with properties {properties}, not supported.")
+                filters_json.append({"id": filter_id, "properties": properties})
+        filters_json.extend([f.get_config() for f in filters])  # json-serializable list of filters
         # use numcodecs.get_codec to get the codec object from the config dict
         return filters_json
 
