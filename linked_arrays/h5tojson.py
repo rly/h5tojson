@@ -298,7 +298,7 @@ class H5ToJson:
             logger.debug(f"Translating numpy array with dtype {value.dtype}")
             if value.dtype.kind == "S":
                 # decode from byte array to python string so that it is json-serializable
-                value = value.astype("U").tolist()
+                value = np.char.decode(value).tolist()
             elif value.dtype.kind == "V":
                 # array with compound dtype
                 value = self._translate_compound_dtype_array(value)
@@ -541,6 +541,7 @@ class H5ToJson:
         if data is None and h5dataset.dtype.kind == "S":
             if dset_size <= self.object_dataset_inline_threshold:
                 # decode from byte array to python string so that it is json-serializable
+                # NOTE: in some cases np.char.decode may be needed instead of astype("U")
                 data = h5dataset[:].astype("U").tolist()
 
         # handle compound dtype datasets
