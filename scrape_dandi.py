@@ -71,6 +71,7 @@ def scrape_dandi_nwb_to_json(dandiset_indices_to_read: slice, overwrite: bool):
         # separately, when streaming, is http fs or s3 fs faster?
 
     if failed_reads:
+        print("Failed reads:")
         print(failed_reads)
         sys.exit(1)
 
@@ -133,7 +134,6 @@ def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
 
 
 if __name__ == "__main__":
-    # process_dandiset_from_id("000628", overwrite=True)
-
+    # process_dandiset_from_id("000244", overwrite=True)
     dandiset_indices_to_read = slice(0, 1000)  # None = all
     scrape_dandi_nwb_to_json(dandiset_indices_to_read, overwrite=False)
