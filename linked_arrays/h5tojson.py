@@ -105,6 +105,7 @@ logger = logging.getLogger("h5tojson")
 
 class FloatJSONEncoder(json.JSONEncoder):
     """JSON encoder that converts NaN, Inf, and -Inf to strings."""
+
     def encode(self, obj, *args, **kwargs):
         """Convert NaN, Inf, and -Inf to strings."""
         obj = FloatJSONEncoder._convert_nan(obj)
@@ -119,7 +120,7 @@ class FloatJSONEncoder(json.JSONEncoder):
     def _convert_nan(obj):
         """Convert NaN, Inf, and -Inf from a JSON object to strings."""
         if isinstance(obj, dict):
-            return {k: FloatJSONEncoder._convert_nan(v) for k,v in obj.items()}
+            return {k: FloatJSONEncoder._convert_nan(v) for k, v in obj.items()}
         elif isinstance(obj, list):
             return [FloatJSONEncoder._convert_nan(v) for v in obj]
         elif isinstance(obj, float):
@@ -296,9 +297,8 @@ class H5ToJson:
         elif isinstance(value, np.ndarray):
             logger.debug(f"Translating numpy array with dtype {value.dtype}")
             if value.dtype.kind == "S":
-                # decode in case the array contains utf8-encoded strings
-                # and convert to list so that it is json-serializable
-                value = np.char.decode(value, "utf-8").tolist()
+                # decode from byte array to python string so that it is json-serializable
+                value = value.astype("U").tolist()
             elif value.dtype.kind == "V":
                 # array with compound dtype
                 value = self._translate_compound_dtype_array(value)
@@ -537,6 +537,7 @@ class H5ToJson:
         # store the entire dataset in the "data" key as a list
         if data is None and h5dataset.dtype.kind == "S":
             if dset_size <= self.object_dataset_inline_threshold:
+                # decode from byte array to python string so that it is json-serializable
                 data = h5dataset[:].astype("U").tolist()
 
         # handle compound dtype datasets
