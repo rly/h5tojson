@@ -4,8 +4,6 @@ Requires:
 ```
 pip install fsspec requests aiohttp dandi
 ```
-
-
 """
 
 from dandi.dandiapi import DandiAPIClient, RemoteDandiset
@@ -16,10 +14,7 @@ from tqdm import tqdm
 import traceback
 import warnings
 
-
-num_dandisets_to_read = 1000
-
-# these take too long
+# these take too long - skip when scraping dandisets in bulk
 skip_dandisets = ["DANDI:000016", "DANDI:000226", "DANDI:000232", "DANDI:000341", "DANDI:000541"]
 # DANDI:000226
 # Read time: 770.77 s
@@ -31,18 +26,20 @@ skip_dandisets = ["DANDI:000016", "DANDI:000226", "DANDI:000232", "DANDI:000341"
 # Read time: 2064.57 s
 
 
-def scrape_dandi_nwb_to_json(overwrite: bool):
+def scrape_dandi_nwb_to_json(dandiset_indices_to_read: slice, overwrite: bool):
     """Test reading the first NWB asset from a random selection of 50 dandisets that uses NWB.
 
     Parameters
     ----------
+    dandiset_indices_to_read : slice
+        The slice of dandisets returned from `DandiAPIClient.get_dandisets()` to read.
     overwrite : bool
         Whether to overwrite existing files.
     """
     client = DandiAPIClient()
     dandisets = list(client.get_dandisets())
 
-    dandisets_to_read = dandisets[:num_dandisets_to_read]
+    dandisets_to_read = dandisets[dandiset_indices_to_read]
     print("Reading NWB files from the following dandisets:")
     print([d.get_raw_metadata()["identifier"] for d in dandisets_to_read])
 
@@ -104,8 +101,9 @@ def process_dandiset(dandiset: RemoteDandiset, overwrite: bool):
     if first_asset:  # if not necessary but useful for testing on first asset
         asset = first_asset
 
-        # assets = list(dandiset.get_assets())
-        # for asset in tqdm(assets):
+    # read all assets
+    # assets = list(dandiset.get_assets())
+    # for asset in tqdm(assets):
         if asset.path.split(".")[-1] != "nwb":
             return
 
@@ -136,4 +134,6 @@ def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
 
 if __name__ == "__main__":
     # process_dandiset_from_id("000628", overwrite=True)
-    scrape_dandi_nwb_to_json(overwrite=False)
+
+    dandiset_indices_to_read = slice(0, 1000)  # None = all
+    scrape_dandi_nwb_to_json(dandiset_indices_to_read, overwrite=False)
