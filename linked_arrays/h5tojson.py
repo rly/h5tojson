@@ -398,7 +398,8 @@ class H5ToJson:
 
     def _translate_object_array_to_list(self, values: np.ndarray) -> list:
         """Encode a non-scalar array of HDF5 objects as a nested list of decoded, dereferenced values."""
-        # this might modify values in-place. TODO check this
+        # this will modify the array values in-place.
+
         value2 = values.ravel()
         for i, val in enumerate(value2):
             if isinstance(val, bytes):
@@ -531,6 +532,12 @@ class H5ToJson:
             #     data = self._translate_array_object_refs(values)
             # else:
             #     raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}")
+
+        # handle fixed-length string datasets
+        # store the entire dataset in the "data" key as a list
+        if data is None and h5dataset.dtype.kind == "S":
+            if dset_size <= self.object_dataset_inline_threshold:
+                data = h5dataset[:].astype("U").tolist()
 
         # handle compound dtype datasets
         # store the entire dataset in the "data" key as a list
