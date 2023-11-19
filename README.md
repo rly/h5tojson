@@ -36,3 +36,15 @@ To use notebooks, install `jupyterlab`.
 
 TODO:
 - [ ] Set up pre-commit hooks
+
+## What can we use these JSON for?
+
+Answering queries across many dandisets, e.g.:
+- What is the listed species of each dandiset?
+- What neurodata types are used by each dandiset?
+- What NWB extensions are used by each dandiset?
+- What versions of NWB are used by each dandiset?
+- What compression and chunking settings are used by each dataset within each dandiset?
+- How many dandisets have raw data?
+- How many dandisets have processed data from a particular pipeline?
+- How many dandisets have the same data organization in all of their NWB files?
