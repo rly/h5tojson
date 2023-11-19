@@ -102,9 +102,9 @@ def process_dandiset(dandiset: RemoteDandiset, overwrite: bool):
     if first_asset:  # if not necessary but useful for testing on first asset
         asset = first_asset
 
-    # read all assets
-    # assets = list(dandiset.get_assets())
-    # for asset in tqdm(assets):
+        # read all assets
+        # assets = list(dandiset.get_assets())
+        # for asset in tqdm(assets):
         if asset.path.split(".")[-1] != "nwb":
             return
 
