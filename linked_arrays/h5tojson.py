@@ -469,6 +469,9 @@ class H5ToJson:
         else:
             filters = H5ToJson.decode_filters(h5dataset)
 
+        if isinstance(fill, (np.number, np.bool_)):
+            fill = fill.item()  # convert to python int/float so that it is json-serializable
+
         # Get storage info of this HDF5 dataset
         # this_dset_dict["storage_info"] = H5ToJson.storage_info(h5dataset)  # dict
         # NOTE: the keys below are used by zarr.
