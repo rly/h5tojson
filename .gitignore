@@ -162,3 +162,5 @@ cython_debug/
 .DS_Store
 .ruff_cache
 _version.py
+
+dandi_json

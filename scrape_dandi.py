@@ -7,7 +7,8 @@ pip install fsspec requests aiohttp dandi
 
 
 """
-from dandi.dandiapi import DandiAPIClient
+
+from dandi.dandiapi import DandiAPIClient, RemoteDandiset
 from linked_arrays import H5ToJson
 import os
 import sys
@@ -16,7 +17,7 @@ import traceback
 import warnings
 
 
-num_dandisets_to_read = 100
+num_dandisets_to_read = 1000
 
 # these take too long
 skip_dandisets = ["DANDI:000016", "DANDI:000226", "DANDI:000232", "DANDI:000341", "DANDI:000541"]
@@ -29,11 +30,15 @@ skip_dandisets = ["DANDI:000016", "DANDI:000226", "DANDI:000232", "DANDI:000341"
 # DANDI:000541
 # Read time: 2064.57 s
 
-overwrite = False
 
+def scrape_dandi_nwb_to_json(overwrite: bool):
+    """Test reading the first NWB asset from a random selection of 50 dandisets that uses NWB.
 
-def scrape_dandi_nwb_to_json():
-    """Test reading the first NWB asset from a random selection of 50 dandisets that uses NWB."""
+    Parameters
+    ----------
+    overwrite : bool
+        Whether to overwrite existing files.
+    """
     client = DandiAPIClient()
     dandisets = list(client.get_dandisets())
 
@@ -60,37 +65,11 @@ def scrape_dandi_nwb_to_json():
         if dandiset_identifier in skip_dandisets:
             continue
 
-
-
-        # iterate through assets until we get an NWB file (it could be MP4)
-        assets = dandiset.get_assets()
-        first_asset = next(assets)
-        while first_asset.path.split(".")[-1] != "nwb":
-            first_asset = next(assets)
-        if first_asset.path.split(".")[-1] != "nwb":
-            print("No NWB files?!")
-            continue
-
-        if first_asset:  # if not necessary but useful for testing on first asset
-            asset = first_asset
-
-        # assets = list(dandiset.get_assets())
-        # for asset in tqdm(assets):
-            if asset.path.split(".")[-1] != "nwb":
-                continue
-
-            json_path = f"dandi_json/{dandiset_identifier[6:]}/{asset.path}.json"  # strop "DANDI:" prefix
-            if os.path.exists(json_path) and not overwrite:
-                continue
-            os.makedirs(os.path.dirname(json_path), exist_ok=True)
-
-            s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
-            try:
-                translator = H5ToJson(s3_url, json_path, None)
-                translator.translate()
-            except Exception as e:
-                print(traceback.format_exc())
-                failed_reads[dandiset] = e
+        try:
+            process_dandiset(dandiset, overwrite)
+        except Exception as e:
+            print(traceback.format_exc())
+            failed_reads[dandiset] = e
 
         # separately, when streaming, is http fs or s3 fs faster?
 
@@ -99,5 +78,62 @@ def scrape_dandi_nwb_to_json():
         sys.exit(1)
 
 
+def process_dandiset(dandiset: RemoteDandiset, overwrite: bool):
+    """Process a single dandiset from a RemoteDandiset object.
+
+    Parameters
+    ----------
+    dandiset : RemoteDandiset
+        The dandiset to process.
+    overwrite : bool
+        Whether to overwrite existing files.
+    """
+    id = dandiset.identifier
+    if id.startswith("DANDI:"):
+        id = id[6:]
+
+    # iterate through assets until we get an NWB file (it could be MP4)
+    assets = dandiset.get_assets()
+    first_asset = next(assets)
+    while first_asset.path.split(".")[-1] != "nwb":
+        first_asset = next(assets)
+    if first_asset.path.split(".")[-1] != "nwb":
+        print("No NWB files?!")
+        return
+
+    if first_asset:  # if not necessary but useful for testing on first asset
+        asset = first_asset
+
+        # assets = list(dandiset.get_assets())
+        # for asset in tqdm(assets):
+        if asset.path.split(".")[-1] != "nwb":
+            return
+
+        json_path = f"dandi_json/{id}/{asset.path}.json"
+        if os.path.exists(json_path) and not overwrite:
+            return
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+
+        s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
+        translator = H5ToJson(s3_url, json_path, None)
+        translator.translate()
+
+
+def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
+    """Process a single dandiset from the dandiset ID.
+
+    Parameters
+    ----------
+    dandiset_id : str
+        The dandiset ID to process.
+    overwrite : bool
+        Whether to overwrite existing files.
+    """
+    client = DandiAPIClient()
+    dandiset = client.get_dandiset(dandiset_id)
+    process_dandiset(dandiset, overwrite)
+
+
 if __name__ == "__main__":
-    scrape_dandi_nwb_to_json()
+    # process_dandiset_from_id("000628", overwrite=True)
+    scrape_dandi_nwb_to_json(overwrite=False)
