@@ -7,7 +7,6 @@ Not supported:
 - Attributes and datasets with compound data types with non-scalar fields
 - External datasets (I think)
 
-
 Datasets with object dtype (strings, references) or compound dtype are read into memory and stored in the JSON file.
 WARNING: The translation of a dataset of strings, references, or compound dtypes to JSON will use a lot of memory
 and result in a bloated JSON file.
@@ -21,7 +20,9 @@ edge chunk is not full, if the chunks are not compressed.
 ######
 # TODO change how attributes are stored so that the dtype and shape are revealed in the case of compound dtypes?
 # TODO should an HDF5 dataset at /group1/group1.1/dataset1 be stored in the JSON file as
-#      /groups/group1/groups/group1.1/datasets/dataset1 or /groups/group1.1/dataset1? how would attributes be stored?
+#      /groups/group1/groups/group1.1/datasets/dataset1 or /groups/group1.1/dataset1 with key "type": "dataset"?
+#      How would attributes, soft links, and external links be stored and differentiated? The first way is easier
+#      to validate using JSON Schema.
 ######
 
 All attributes will be serialized into JSON.
@@ -51,10 +52,8 @@ Attempts were made to use the custom VLenHDF5String codec from the HDF5Zarr pack
 https://github.com/catalystneuro/HDF5Zarr/blob/ac96afda37e079086f264dcc0d0230b7cf9d3397/hdf5zarr/hdf5zarr.py#L69
 but it did not work because the `buf` argument was not the right shape and it is not clear what is going on.
 
-NOTE: NaN, Inf, and -Inf are not valid JSON. They are written out anyway and can be read back in.
-One solution is to replace all NaN with "NaN" before writing to JSON.
-Encoding all float dataset as base64-encoded strings may also solve this problem.
-Floating point attributes can still be NaN though...
+NOTE: NaN, Inf, and -Inf are not valid JSON. They are replaced with "NaN", "Infinity", and "-Infinity" respectively.
+They may show up in attribute values, inlined datasets data values, and dataset fillvalue values.
 
 Adapted from kerchunk/hdf.py version 0.2.2. The following is the license for the adapted kerchunk code.
 
