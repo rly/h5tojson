@@ -10,7 +10,8 @@ Kerchunk with:
 HDMF can map HDF5 files into builders
 HDF5Zarr can also translate HDF5 files into Zarr stores
 
-
+Another, very verbose/detailed way to represent the HDF5 file as JSON is:
+https://hdf5-json.readthedocs.io/en/latest/examples/tall.html
 
 ## Dev setup
 
