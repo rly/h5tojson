@@ -1,8 +1,8 @@
-"""Test reading NWB files from the DANDI Archive using fsspec.
+"""Test reading NWB files from the DANDI Archive using remfile.
 
 Requires:
 ```
-pip install fsspec requests aiohttp dandi
+pip install remfile dandi
 ```
 """
 
@@ -16,15 +16,41 @@ import traceback
 import warnings
 
 # these take too long - skip when scraping dandisets in bulk
-skip_dandisets = ["DANDI:000016", "DANDI:000226", "DANDI:000232", "DANDI:000341", "DANDI:000541"]
-# DANDI:000226
-# Read time: 770.77 s
-# DANDI:000232
-# Read time: 926.37 s
-# DANDI:000341
-# Read time: 389.20 s
-# DANDI:000541
-# Read time: 2064.57 s
+skip_dandisets = []
+
+# DANDI:000016 - a lot of groups
+# Read time: 428.04 s
+
+# DANDI:000232 - a lot of groups
+# Read time: 259.02 s
+
+# DANDI:000235 - large pixel mask datasets. file is 250-400 MB
+# Read time: 173.54 s
+
+# DANDI:000236 - large pixel mask datasets. file is 250-400 MB
+# Read time: 181.86 s
+
+# DANDI:000237 - large pixel mask datasets. file is 250-400 MB
+# Read time: 184.55 s
+
+# DANDI:000238 - large pixel mask dataset(s)
+# Read time: 131.80 s
+
+# DANDI:000294 - (icephys) a lot of groups
+# Read time: 330.36 s
+
+# DANDI:000341 - (icephys) a lot of groups
+# Read time: 170.40 s
+
+# DANDI:000488 - a lot of groups (images) and large string datasets
+# Read time: 337.40 s
+
+# DANDI:000541 - a lot of voxel masks. file is 86 MB
+# Read time: 140.97 s
+
+# DANDI:000546 - over 2300 ElectricalSeries
+# Read time: 1224.84 s
+
 
 
 def scrape_dandi_nwb_to_json(dandiset_indices_to_read: slice, overwrite: bool):
@@ -115,8 +141,11 @@ def process_dandiset(dandiset: RemoteDandiset, overwrite: bool):
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
 
         s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
+        start = time.perf_counter()
         translator = H5ToJson(s3_url, json_path, None)
         translator.translate()
+        end = time.perf_counter()
+        print(f"Read time: {end - start:.2f} s")
 
 
 def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
@@ -136,8 +165,11 @@ def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
 
 if __name__ == "__main__":
     # process_dandiset_from_id("000244", overwrite=True)
+    # NOTE perf_counter includes sleep time
     start = time.perf_counter()
     dandiset_indices_to_read = slice(None)  # slice(0, 1000)  # slice(None) = all
     scrape_dandi_nwb_to_json(dandiset_indices_to_read, overwrite=False)
     end = time.perf_counter()
     print(f"Run time: {end - start:.2f} s")
+
+    # TODO store read time stats in a file, relate to NWB file structure

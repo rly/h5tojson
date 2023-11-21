@@ -31,6 +31,7 @@ dependencies = [
     "numcodecs>=0.12.1",
     "fsspec>=2023.10.0",
     "tqdm>=4.66.1",
+    "remfile>=0.1.9",
 ]
 dynamic = ["version"]
 

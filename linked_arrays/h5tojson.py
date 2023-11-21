@@ -23,6 +23,9 @@ edge chunk is not full, if the chunks are not compressed.
 #      /groups/group1/groups/group1.1/datasets/dataset1 or /groups/group1.1/dataset1 with key "type": "dataset"?
 #      How would attributes, soft links, and external links be stored and differentiated? The first way is easier
 #      to validate using JSON Schema.
+# TODO save full path to object in each object. it is duplicated information but it makes searching
+#      for objects easier. or ctrl-f for a neurodata type and figure out the path to that object.
+#      that is one benefit toward the approach of storing the path in the key.
 ######
 
 All attributes will be serialized into JSON.
@@ -95,6 +98,7 @@ import numcodecs
 import numpy as np
 import os
 from pathlib import Path
+import remfile
 from tqdm import tqdm
 from typing import Union
 import ujson
@@ -171,15 +175,20 @@ class H5ToJson:
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
-        self.hdf5_file_path = str(hdf5_file_path)
-        fs, path = fsspec.core.url_to_fs(self.hdf5_file_path, **(storage_options or {}))
-        self._input_file = fs.open(path, "rb")
+        hdf5_file_path = str(hdf5_file_path)
+        if hdf5_file_path.startswith("https://") or hdf5_file_path.startswith("http://"):
+            self._uri = hdf5_file_path
+            # NOTE remfile tends to be 4x faster than fsspec for reading HDF5 files
+            self._input_file = remfile.File(hdf5_file_path)
+        else:
+            self._uri = "file://" + hdf5_file_path
+            fs, path = fsspec.core.url_to_fs(self._uri, **(storage_options or {}))
+            self._input_file = fs.open(path, "rb")
         self._h5f = h5py.File(self._input_file, mode="r")
         self.dataset_inline_threshold = dataset_inline_threshold
         self.object_dataset_inline_threshold = object_dataset_inline_threshold
         self.json_file_path = str(json_file_path)
         self.chunk_refs_file_path = str(chunk_refs_file_path) if chunk_refs_file_path else None
-        self._uri = "file://" + self.hdf5_file_path
 
     def close(self):
         """Close the HDF5 file."""
