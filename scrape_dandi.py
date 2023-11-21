@@ -10,6 +10,7 @@ from dandi.dandiapi import DandiAPIClient, RemoteDandiset
 from linked_arrays import H5ToJson
 import os
 import sys
+import time
 from tqdm import tqdm
 import traceback
 import warnings
@@ -135,5 +136,8 @@ def process_dandiset_from_id(dandiset_id: str, overwrite: bool):
 
 if __name__ == "__main__":
     # process_dandiset_from_id("000244", overwrite=True)
-    dandiset_indices_to_read = slice(0, 1000)  # None = all
+    start = time.perf_counter()
+    dandiset_indices_to_read = slice(None)  # slice(0, 1000)  # slice(None) = all
     scrape_dandi_nwb_to_json(dandiset_indices_to_read, overwrite=False)
+    end = time.perf_counter()
+    print(f"Run time: {end - start:.2f} s")
