@@ -52,6 +52,13 @@ To use notebooks, install `jupyterlab`.
 TODO:
 - [ ] Set up pre-commit hooks
 
+## Querying JSON:
+- JSONPath - older language. Works well.
+  - Python implementation https://github.com/h2non/jsonpath-ng
+- JMESPath - newer language, like JSONPath but has pros and cons. It is a complete grammar, can do joins/multiselects, yields single results, has pipes, and does not support recursion. Very popular. Used by AWS CLI.
+  - Python implementation https://github.com/jmespath/jmespath.py
+- jq - older language that is turing-complete and can do a lot
+
 ## What can we use these JSON for?
 
 Answering queries across many dandisets, e.g.:
