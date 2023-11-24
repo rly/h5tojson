@@ -99,6 +99,7 @@ import numpy as np
 import os
 from pathlib import Path
 import remfile
+from datetime import datetime
 from tqdm import tqdm
 from typing import Union
 import ujson
@@ -152,8 +153,9 @@ class H5ToJson:
         hdf5_file_path: Union[str, Path],  # or BinaryIO
         json_file_path: Union[str, Path],
         chunk_refs_file_path: Union[str, Path],
-        dataset_inline_threshold=500,
-        object_dataset_inline_threshold=200000,
+        dataset_inline_max_bytes=500,
+        object_dataset_inline_max_bytes=200000,
+        compound_dtype_dataset_inline_max_bytes=2000,
         storage_options=None,
     ):
         """Create an object to translate an HDF5 file to JSON with Kerchunk-style references to dataset chunks.
@@ -166,12 +168,15 @@ class H5ToJson:
             Path to the JSON file to write.
         chunk_refs_file_path : Union[str, Path]
             Path to the JSON file to write chunk references to. If None, then chunk references will not be written.
-        dataset_inline_threshold : int, optional
+        dataset_inline_max_bytes : int, optional
             Maximum number of bytes per dataset that does not have an object dtype to store inline in the JSON file.
             Default is 500.
-        object_dataset_inline_threshold : int, optional
+        object_dataset_inline_max_bytes : int, optional
             Maximum number of bytes per dataset that has an object dtype to store inline in the JSON file.
             Default is 200000.
+        compound_dtype_dataset_inline_max_bytes : int, optional
+            Maximum number of bytes per dataset that has a compound dtype to store inline in the JSON file.
+            Default is 2000.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
@@ -185,8 +190,9 @@ class H5ToJson:
             fs, path = fsspec.core.url_to_fs(self._uri, **(storage_options or {}))
             self._input_file = fs.open(path, "rb")
         self._h5f = h5py.File(self._input_file, mode="r")
-        self.dataset_inline_threshold = dataset_inline_threshold
-        self.object_dataset_inline_threshold = object_dataset_inline_threshold
+        self.dataset_inline_max_bytes = dataset_inline_max_bytes
+        self.object_dataset_inline_max_bytes = object_dataset_inline_max_bytes
+        self.compound_dtype_dataset_inline_max_bytes = compound_dtype_dataset_inline_max_bytes
         self.json_file_path = str(json_file_path)
         self.chunk_refs_file_path = str(chunk_refs_file_path) if chunk_refs_file_path else None
 
@@ -198,14 +204,19 @@ class H5ToJson:
         """Translate the HDF5 file to JSON with Kerchunk-style references to dataset chunks."""
         self.json_dict = {
             "version": 1,
-            "refs": {},  # the only key will be the root group "/"
+            "created_at": datetime.utcnow().isoformat(),
+            "translation_options": {
+                "dataset_inline_threshold_max_bytes": self.dataset_inline_max_bytes,
+                "object_dataset_inline_max_bytes": self.object_dataset_inline_max_bytes,
+                "compound_dtype_dataset_inline_max_bytes": self.compound_dtype_dataset_inline_max_bytes,
+            },
         }
         if self.chunk_refs_file_path:
             self.json_dict["templates"] = {"c": "file://" + self.chunk_refs_file_path}  # use kerchunk-style template
         self.chunk_refs = {}
 
         # translate the root group and all its contents
-        self.translate_group(self._h5f, self.json_dict["refs"])
+        self.translate_group(self._h5f, self.json_dict)
 
         # write the dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
@@ -232,7 +243,7 @@ class H5ToJson:
         """
         logger.debug(f"HDF5 group: {h5obj.name}")
         if h5obj.name == "/":  # root group
-            name = "/"
+            name = "file"
         else:
             name = os.path.basename(h5obj.name)
         logger.debug(f"Group name: {name}")
@@ -282,6 +293,11 @@ class H5ToJson:
             An HDF5 group or dataset.
         object_dict : dict
             A dictionary representing the translated HDF5 group or dataset.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the attributes of the HDF5 group or dataset.
         """
         ret = {}
         for n, v in h5obj.attrs.items():
@@ -512,18 +528,18 @@ class H5ToJson:
 
         data = None
 
-        # if the dataset is a scalar, then store the value directly into the "data" key
+        # if the dataset is a scalar or has only 1 element, then store the value directly into the "data" key
         # just like for attributes
-        if h5dataset.shape == ():
+        if h5dataset.shape == () or h5dataset.size == 1:
             value = h5dataset[()]
             data = self._translate_data(value)  # a value, not a dict
 
-        dset_size = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
+        dset_size_bytes = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
 
         # handle object dtype datasets (strings, references)
         # store the entire dataset in the "data" key as a dict
         if data is None and h5dataset.dtype.kind == "O":
-            if dset_size <= self.object_dataset_inline_threshold:
+            if dset_size_bytes <= self.object_dataset_inline_max_bytes:
                 # scalar case is handled above
                 values = h5dataset[:]  # read the entire dataset into memory
                 # array.flat[0] returns the first element of the flattened array - useful for testing dtype
@@ -532,9 +548,9 @@ class H5ToJson:
                 data = self._translate_object_array_to_list(values)
             else:
                 warnings.warn(
-                    f"Dataset with name {h5dataset.name} has object dtype and is too large to inline: {dset_size} > "
-                    f"{self.object_dataset_inline_threshold}. Increase `object_dataset_inline_threshold` to inline "
-                    "this dataset."
+                    f"Dataset with name {h5dataset.name} has object dtype and is too large to inline:"
+                    f" {dset_size_bytes} > {self.object_dataset_inline_max_bytes} bytes. Increase"
+                    " `object_dataset_inline_max_bytes` to inline this dataset."
                 )
 
             # if isinstance(values.flat[0], (bytes, str)):
@@ -547,21 +563,34 @@ class H5ToJson:
         # handle fixed-length string datasets
         # store the entire dataset in the "data" key as a list
         if data is None and h5dataset.dtype.kind == "S":
-            if dset_size <= self.object_dataset_inline_threshold:
+            if dset_size_bytes <= self.object_dataset_inline_max_bytes:
                 # decode from byte array to python string so that it is json-serializable
                 # NOTE: in some cases np.char.decode may be needed instead of astype("U")
                 data = h5dataset[:].astype("U").tolist()
+            else:
+                warnings.warn(
+                    f"Dataset with name {h5dataset.name} has 'S' dtype and is too large to inline: {dset_size_bytes} >"
+                    f" {self.object_dataset_inline_max_bytes} bytes. Increase"
+                    " `object_dataset_inline_max_bytes` to inline this dataset."
+                )
 
         # handle compound dtype datasets
         # store the entire dataset in the "data" key as a list
         if data is None and h5dataset.dtype.kind == "V":
             # scalar case is handled above
-            values = h5dataset[:]  # read the entire dataset into memory
-            data = self._translate_compound_dtype_array(values)
+            if dset_size_bytes <= self.compound_dtype_dataset_inline_max_bytes:
+                values = h5dataset[:]  # read the entire dataset into memory
+                data = self._translate_compound_dtype_array(values)
+            else:
+                warnings.warn(
+                    f"Dataset with name {h5dataset.name} has compound dtype and is too large to inline: size"
+                    f" {dset_size_bytes} > {self.compound_dtype_dataset_inline_max_bytes} bytes. Increase"
+                    " `compound_dtype_dataset_inline_max_bytes` to inline this dataset."
+                )
 
         if data is None:
             # if dataset is small enough, inline it into "data" key
-            if dset_size <= self.dataset_inline_threshold:
+            if dset_size_bytes <= self.dataset_inline_max_bytes:
                 # NOTE this is OK for ints, but floats will be stored as strings which means potential
                 # loss of precision. an alternative is to read the floats into memory (decode with all
                 # filters) and then encode it in base64 and then store it in JSON.

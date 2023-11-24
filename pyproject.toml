@@ -82,6 +82,7 @@ addopts = "--cov --cov-report html"
 
 [tool.codespell]
 skip = "htmlcov,.git,.mypy_cache,.pytest_cache,.coverage,*.pdf,*.svg,venvs,.tox"
+ignore-words-list = "fo"
 
 [tool.coverage.run]
 branch = true

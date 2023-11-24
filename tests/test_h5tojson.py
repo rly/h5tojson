@@ -1,5 +1,6 @@
 """Functions to test translation from HDF5 to JSON using H5ToJson"""
 
+from dateutil.parser import parse
 import fsspec
 import h5py
 import json
@@ -11,7 +12,7 @@ import zarr
 from linked_arrays.h5tojson import H5ToJson
 
 
-def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwargs: dict = None):
+def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwargs: dict = None) -> tuple[dict, dict]:
     """Helper function to create an HDF5 file using the callable function, and translate it to JSON
 
     Parameters
@@ -22,6 +23,11 @@ def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwa
         A function that takes an h5py.File object as its only argument.
     kwargs : dict
         Keyword arguments to pass to the H5ToJson constructor.
+
+    Returns
+    -------
+    tuple[dict, dict]
+        A tuple containing the JSON dictionary and the chunk_refs dictionary.
     """
     hdf5_file_path = tmp_path / "test.h5"
     with h5py.File(hdf5_file_path, "w") as f:
@@ -41,13 +47,22 @@ def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwa
     return json_dict, chunk_refs
 
 
-def _get_array_from_chunk_refs(chunk_refs: dict, dataset_name: str):
+def _get_array_from_chunk_refs(chunk_refs: dict, dataset_name: str) -> np.ndarray:
     """Use Zarr to get an array from a chunk_refs dictionary."""
     mapper = fsspec.get_mapper("reference://", fo=chunk_refs)
     z = zarr.open(mapper)
     if z[dataset_name].shape == ():
         return z[dataset_name][()]
     return z[dataset_name][:]
+
+
+def is_iso8601(date_string: str) -> bool:
+    """Check if a string is a valid ISO 8601 date."""
+    try:
+        parse(date_string)
+        return True
+    except ValueError:
+        return False
 
 
 def test_translate_root(tmp_path):
@@ -58,8 +73,21 @@ def test_translate_root(tmp_path):
 
     json_dict, _ = _create_translate(tmp_path, set_up_test_file)
 
+    created_at = json_dict.pop("created_at")
+    assert is_iso8601(created_at)
+
     expected_chunk_refs_file_path = f"file://{str(tmp_path / 'chunk_refs.json')}"
-    expected = {"version": 1, "templates": {"c": expected_chunk_refs_file_path}, "refs": {"/": {}}}
+    expected = {
+        "version": 1,
+        "templates": {"c": expected_chunk_refs_file_path},
+        "file": {},
+        "translation_options": {
+            "compound_dtype_dataset_inline_max_bytes": 2000,
+            "dataset_inline_threshold_max_bytes": 500,
+            "object_dataset_inline_max_bytes": 200000,
+        },
+    }
+
     assert json_dict == expected
 
 
@@ -76,7 +104,7 @@ def test_translate_subgroup(tmp_path):
             "group1": {},
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
 
 def test_translate_nested_group_links(tmp_path):
@@ -113,7 +141,7 @@ def test_translate_nested_group_links(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
 
 def test_translate_scalar_int_dataset(tmp_path):
@@ -141,7 +169,7 @@ def test_translate_scalar_int_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -183,7 +211,7 @@ def test_translate_1d_int_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -206,7 +234,7 @@ def test_translate_1d_int_dataset_no_inline(tmp_path):
     def set_up_test_file(f: h5py.File):
         f.create_dataset("dataset1", data=[1, 2, 3])
 
-    json_dict, chunk_refs = _create_translate(tmp_path, set_up_test_file, {"dataset_inline_threshold": 0})
+    json_dict, chunk_refs = _create_translate(tmp_path, set_up_test_file, {"dataset_inline_max_bytes": 0})
 
     expected = {
         "datasets": {
@@ -225,7 +253,7 @@ def test_translate_1d_int_dataset_no_inline(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -268,7 +296,7 @@ def test_translate_2d_int_dataset_full(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -295,7 +323,7 @@ def test_translate_2d_int_dataset_full_inline(tmp_path):
     def set_up_test_file(f: h5py.File):
         f.create_dataset("dataset1", data=data, chunks=(9, 9), compression="gzip")
 
-    json_dict, chunk_refs = _create_translate(tmp_path, set_up_test_file, {"dataset_inline_threshold": 800})
+    json_dict, chunk_refs = _create_translate(tmp_path, set_up_test_file, {"dataset_inline_max_bytes": 800})
 
     # NOTE: the inlined base64 data is gzipped, so it is not human-readable. TODO do we want this?
     expected = {
@@ -326,7 +354,7 @@ def test_translate_2d_int_dataset_full_inline(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -380,7 +408,7 @@ def test_translate_dataset_deep(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -422,7 +450,7 @@ def test_translate_scalar_string_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -464,7 +492,7 @@ def test_translate_1d_string_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -502,7 +530,7 @@ def test_translate_2d_string_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -545,7 +573,7 @@ def test_translate_2d_string_dataset_full(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -589,7 +617,7 @@ def test_translate_scalar_dataset_object_refs(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -631,7 +659,7 @@ def test_translate_1d_dataset_object_refs(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -674,7 +702,7 @@ def test_translate_2d_dataset_object_refs(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -726,7 +754,7 @@ def test_translate_scalar_compound_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -781,7 +809,7 @@ def test_translate_1d_compound_dataset(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -841,7 +869,7 @@ def test_translate_scalar_compound_dataset_object_refs(tmp_path):
             "group1": {},
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -907,7 +935,7 @@ def test_translate_1d_compound_dataset_object_refs(tmp_path):
             "group1": {},
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
     expected_uri = f"file://{str(tmp_path / 'test.h5')}"
     expected_refs = {
@@ -1029,7 +1057,7 @@ def test_translate_attrs(tmp_path):
 
     json_dict, _ = _create_translate(tmp_path, set_up_test_file)
 
-    attrs = json_dict["refs"]["/"]["attributes"]
+    attrs = json_dict["file"]["attributes"]
     assert attrs["vlen_utf8"] == "2.0±0.1"
     assert attrs["vlen_ascii"] == "value1"
     assert attrs["int"] == 42
@@ -1146,7 +1174,7 @@ def test_translate_nested_group_attrs(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
 
 
 def test_translate_dataset_attrs(tmp_path):
@@ -1180,4 +1208,4 @@ def test_translate_dataset_attrs(tmp_path):
             },
         },
     }
-    assert json_dict["refs"]["/"] == expected
+    assert json_dict["file"] == expected
