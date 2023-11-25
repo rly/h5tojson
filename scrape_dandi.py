@@ -21,37 +21,40 @@ import warnings
 skip_dandisets = []
 
 # DANDI:000016 - a lot of groups
-# Read time: 428.04 s
+# Translation time: 253.93 s
 
 # DANDI:000232 - a lot of groups
-# Read time: 259.02 s
+# Translation time: 169.02 s
 
-# DANDI:000235 - large pixel mask datasets. file is 250-400 MB
-# Read time: 173.54 s
+# DANDI:000235 - large pixel mask datasets
+# Translation time: 91.94 s
 
-# DANDI:000236 - large pixel mask datasets. file is 250-400 MB
-# Read time: 181.86 s
+# DANDI:000236 - large pixel mask datasets
+# Translation time: 116.44 s
 
-# DANDI:000237 - large pixel mask datasets. file is 250-400 MB
-# Read time: 184.55 s
+# DANDI:000237 - large pixel mask datasets
+# Translation time: 220.21 s
 
 # DANDI:000238 - large pixel mask dataset(s)
-# Read time: 131.80 s
+# Translation time: 258.22 s
 
 # DANDI:000294 - (icephys) a lot of groups
-# Read time: 330.36 s
+# Translation time: 773.42 s
+
+# DANDI:000301
+# Translation time: 124.68 s
 
 # DANDI:000341 - (icephys) a lot of groups
-# Read time: 170.40 s
+# Translation time: 373.19 s
 
 # DANDI:000488 - a lot of groups (images) and large string datasets
-# Read time: 337.40 s
+# Translation time: 737.30 s
 
-# DANDI:000541 - a lot of voxel masks. file is 86 MB
-# Read time: 140.97 s
+# DANDI:000541 - a lot of voxel masks
+# Translation time: 183.81 s
 
 # DANDI:000546 - over 2300 ElectricalSeries
-# Read time: 1224.84 s
+# Translation time: 917.51 s
 
 
 def scrape_dandi_nwb_to_json(
@@ -104,6 +107,7 @@ def scrape_dandi_nwb_to_json(
             failed_reads[dandiset] = e
 
     # write translation times to a csv file
+    # TODO append to a csv file after every read so we don't lose data if the script crashes
     with open(translation_times_path, "w") as f:
         f.write("dandiset_id,read_time\n")
         for dandiset, translation_time in translation_times.items():
@@ -186,7 +190,7 @@ def process_dandiset_from_id(dandiset_id: str, output_dir: str, overwrite: bool)
 
 
 if __name__ == "__main__":
-    # process_dandiset_from_id("000244", overwrite=True)
+    # process_dandiset_from_id("000546", output_dir="dandi_json", overwrite=True)
 
     # NOTE perf_counter includes sleep time
     start = time.perf_counter()
