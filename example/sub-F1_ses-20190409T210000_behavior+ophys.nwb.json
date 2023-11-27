@@ -1,0 +1,1517 @@
+{
+  "version": 1,
+  "created_at": "2023-11-24T09:26:46.387708",
+  "translation_options": {
+    "dataset_inline_threshold_max_bytes": 500,
+    "object_dataset_inline_max_bytes": 200000,
+    "compound_dtype_dataset_inline_max_bytes": 2000
+  },
+  "file": {
+    "groups": {
+      "acquisition": {
+        "groups": {
+          "TwoPhotonSeries": {
+            "datasets": {
+              "data": {
+                "filters": [
+                  {
+                    "id": "zlib",
+                    "level": 4
+                  }
+                ],
+                "dtype": "uint16",
+                "shape": [
+                  31723,
+                  796,
+                  512
+                ],
+                "chunks": [
+                  2,
+                  100,
+                  64
+                ],
+                "compressor": null,
+                "fill_value": null,
+                "data": null,
+                "attributes": {
+                  "conversion": 1.0,
+                  "resolution": -1.0,
+                  "unit": "n.a."
+                }
+              },
+              "dimension": {
+                "filters": [],
+                "dtype": "int32",
+                "shape": [
+                  2
+                ],
+                "chunks": [
+                  2
+                ],
+                "compressor": null,
+                "fill_value": null,
+                "data": [
+                  512,
+                  796
+                ]
+              },
+              "starting_time": {
+                "filters": [],
+                "dtype": "float64",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": null,
+                "attributes": {
+                  "rate": 15.0,
+                  "unit": "seconds"
+                }
+              }
+            },
+            "soft_links": {
+              "imaging_plane": {
+                "path": "/general/optophysiology/ImagingPlane"
+              }
+            },
+            "attributes": {
+              "comments": "Generalized from RoiInterface",
+              "description": "no description",
+              "namespace": "core",
+              "neurodata_type": "TwoPhotonSeries",
+              "object_id": "a08422db-299d-40a9-bf8d-0eb63403bd85"
+            }
+          }
+        }
+      },
+      "analysis": {},
+      "general": {
+        "groups": {
+          "devices": {
+            "groups": {
+              "Microscope": {
+                "attributes": {
+                  "namespace": "core",
+                  "neurodata_type": "Device",
+                  "object_id": "453637df-e8ae-41d3-a5d8-09500bc97512"
+                }
+              }
+            }
+          },
+          "optophysiology": {
+            "groups": {
+              "ImagingPlane": {
+                "groups": {
+                  "channel_0": {
+                    "datasets": {
+                      "description": {
+                        "filters": [],
+                        "dtype": "object",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": "no description"
+                      },
+                      "emission_lambda": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": "NaN"
+                      }
+                    },
+                    "attributes": {
+                      "namespace": "core",
+                      "neurodata_type": "OpticalChannel",
+                      "object_id": "f36740b7-8ec1-4034-bf56-11600789e71d"
+                    }
+                  }
+                },
+                "datasets": {
+                  "description": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "no description"
+                  },
+                  "excitation_lambda": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "NaN"
+                  },
+                  "imaging_rate": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": 15.0
+                  },
+                  "indicator": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "unknown"
+                  },
+                  "location": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "unknown"
+                  }
+                },
+                "soft_links": {
+                  "device": {
+                    "path": "/general/devices/Microscope"
+                  }
+                },
+                "attributes": {
+                  "namespace": "core",
+                  "neurodata_type": "ImagingPlane",
+                  "object_id": "6831782e-a859-4b1a-a86a-9a723567c3df"
+                }
+              }
+            }
+          },
+          "subject": {
+            "datasets": {
+              "date_of_birth": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "2019-01-16T21:00:00-08:00"
+              },
+              "genotype": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "CaMKII-cre hemizygous"
+              },
+              "sex": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "MALE"
+              },
+              "species": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "Mus musculus"
+              },
+              "subject_id": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "F1"
+              },
+              "weight": {
+                "filters": [],
+                "dtype": "object",
+                "shape": [],
+                "chunks": [],
+                "compressor": null,
+                "fill_value": null,
+                "data": "28.8 g"
+              }
+            },
+            "attributes": {
+              "namespace": "core",
+              "neurodata_type": "Subject",
+              "object_id": "43739e8b-0fd9-4850-9681-197b25b49956"
+            }
+          }
+        },
+        "datasets": {
+          "experiment_description": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [],
+            "chunks": [],
+            "compressor": null,
+            "fill_value": null,
+            "data": "TwoTower_foraging"
+          },
+          "experimenter": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [
+              1
+            ],
+            "chunks": [
+              1
+            ],
+            "compressor": null,
+            "fill_value": null,
+            "data": [
+              "Mark Plitt"
+            ]
+          },
+          "institution": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [],
+            "chunks": [],
+            "compressor": null,
+            "fill_value": null,
+            "data": "Stanford University School of Medicine"
+          },
+          "lab": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [],
+            "chunks": [],
+            "compressor": null,
+            "fill_value": null,
+            "data": "GiocomoLab"
+          },
+          "surgery": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [],
+            "chunks": [],
+            "compressor": null,
+            "fill_value": null,
+            "data": "cannula implant date: 2019-03-14 00:00:00"
+          },
+          "virus": {
+            "filters": [],
+            "dtype": "object",
+            "shape": [],
+            "chunks": [],
+            "compressor": null,
+            "fill_value": null,
+            "data": "virus injection date: 2019-03-14 00:00:00, virus: AAV1-CAG-FLEX-GCaMP6f-WPRE"
+          }
+        }
+      },
+      "processing": {
+        "groups": {
+          "behavior": {
+            "groups": {
+              "BehavioralTimeSeries": {
+                "groups": {
+                  "dz": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "m"
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "(virtual cm) raw rotary encoder information",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "a2dc9d25-7a15-4b01-b9de-850d399e56e9"
+                    }
+                  },
+                  "lick": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "number of licks in 2P frame",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "777dde83-e7a6-42a3-b695-90a7dc118a03"
+                    }
+                  },
+                  "lick rate": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "count/s"
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "smooth version of no. licks",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "286dcfda-68c9-4ecf-8567-3cbfec29c1a0"
+                    }
+                  },
+                  "pos": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "m"
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "(virtual cm) position on virtual reality track",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "e669adef-bd3e-49d0-8e65-5a130a37c18e"
+                    }
+                  },
+                  "rzone": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "information about collisions with objects in virtual track, 0-collision",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "1d16b8ca-32a8-4c9e-9130-2157df34ed51"
+                    }
+                  },
+                  "speed": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "m"
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "mouse's speed on ball",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "a5c04327-8736-407b-8c78-368b6ec94539"
+                    }
+                  },
+                  "teleport": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "information about collisions with objects in virtual track, 0-collision",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "306fb2f9-4da7-4dc4-88a7-59da825c2867"
+                    }
+                  },
+                  "tstart": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [
+                          31722
+                        ],
+                        "chunks": [
+                          31722
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.460937499999998,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "information about collisions with objects in virtual track, 0-collision",
+                      "namespace": "core",
+                      "neurodata_type": "TimeSeries",
+                      "object_id": "87b6fecc-7190-4ff1-9cbf-e1fb685f67d1"
+                    }
+                  }
+                },
+                "attributes": {
+                  "namespace": "core",
+                  "neurodata_type": "BehavioralTimeSeries",
+                  "object_id": "23b6f680-af5c-4075-a0a7-66d52e494a11"
+                }
+              }
+            },
+            "attributes": {
+              "description": "Container for behavior time series",
+              "namespace": "core",
+              "neurodata_type": "ProcessingModule",
+              "object_id": "619836bf-3418-4d8e-9b31-2b2cdd0db875"
+            }
+          },
+          "ophys": {
+            "groups": {
+              "Fluorescence": {
+                "groups": {
+                  "Deconvolved": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float32",
+                        "shape": [
+                          31722,
+                          1004
+                        ],
+                        "chunks": [
+                          31722,
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.4609,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "soft_links": {
+                      "rois": {
+                        "path": "/processing/ophys/Fluorescence/RoiResponseSeries/rois"
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "no description",
+                      "namespace": "core",
+                      "neurodata_type": "RoiResponseSeries",
+                      "object_id": "43d98ee6-0edf-466c-afb9-cb2c4af4f41d"
+                    }
+                  },
+                  "Neuropil": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float32",
+                        "shape": [
+                          31722,
+                          1004
+                        ],
+                        "chunks": [
+                          31722,
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.4609,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "soft_links": {
+                      "rois": {
+                        "path": "/processing/ophys/Fluorescence/RoiResponseSeries/rois"
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "no description",
+                      "namespace": "core",
+                      "neurodata_type": "RoiResponseSeries",
+                      "object_id": "5c5d76e4-7f4d-47c9-b884-8c8c95674668"
+                    }
+                  },
+                  "RoiResponseSeries": {
+                    "datasets": {
+                      "data": {
+                        "filters": [],
+                        "dtype": "float32",
+                        "shape": [
+                          31722,
+                          1004
+                        ],
+                        "chunks": [
+                          31722,
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "conversion": 1.0,
+                          "resolution": -1.0,
+                          "unit": "n.a."
+                        }
+                      },
+                      "rois": {
+                        "filters": [],
+                        "dtype": "int64",
+                        "shape": [
+                          1004
+                        ],
+                        "chunks": [
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "description": "region for Imaging plane0",
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "DynamicTableRegion",
+                          "object_id": "125a15fc-47a0-4f07-a11a-33020305b761",
+                          "table": {
+                            "dtype": "object_reference",
+                            "path": "/groups/processing/groups/ophys/groups/ImageSegmentation/groups/PlaneSegmentation"
+                          }
+                        }
+                      },
+                      "starting_time": {
+                        "filters": [],
+                        "dtype": "float64",
+                        "shape": [],
+                        "chunks": [],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "rate": 15.4609,
+                          "unit": "seconds"
+                        }
+                      }
+                    },
+                    "attributes": {
+                      "comments": "no comments",
+                      "description": "no description",
+                      "namespace": "core",
+                      "neurodata_type": "RoiResponseSeries",
+                      "object_id": "51d98ba9-0d2c-4b09-9982-add280aad216"
+                    }
+                  }
+                },
+                "attributes": {
+                  "namespace": "core",
+                  "neurodata_type": "Fluorescence",
+                  "object_id": "49311720-2564-43d9-8a06-fcb001b19c8f"
+                }
+              },
+              "ImageSegmentation": {
+                "groups": {
+                  "PlaneSegmentation": {
+                    "datasets": {
+                      "Accepted": {
+                        "filters": [],
+                        "dtype": "int64",
+                        "shape": [
+                          1004
+                        ],
+                        "chunks": [
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "description": "1 if ROi was accepted or 0 if rejected as a cell during segmentation operation",
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "VectorData",
+                          "object_id": "cc4a00e6-32e5-4adb-b62e-87169a1fdcec"
+                        }
+                      },
+                      "Rejected": {
+                        "filters": [],
+                        "dtype": "int64",
+                        "shape": [
+                          1004
+                        ],
+                        "chunks": [
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "description": "1 if ROi was rejected or 0 if accepted as a cell during segmentation operation",
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "VectorData",
+                          "object_id": "5b34c041-48d3-4bc2-b778-2574f95882c4"
+                        }
+                      },
+                      "RoiCentroid": {
+                        "filters": [],
+                        "dtype": "int64",
+                        "shape": [
+                          1004,
+                          2
+                        ],
+                        "chunks": [
+                          1004,
+                          2
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "description": "x,y location of centroid of the roi in image_mask",
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "VectorData",
+                          "object_id": "8b649375-ec54-4c67-b0e6-7545bf35c7d4"
+                        }
+                      },
+                      "id": {
+                        "filters": [],
+                        "dtype": "int64",
+                        "shape": [
+                          1004
+                        ],
+                        "chunks": [
+                          1004
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "ElementIdentifiers",
+                          "object_id": "5742e809-6128-4574-9525-54748e180582"
+                        }
+                      },
+                      "image_mask": {
+                        "filters": [
+                          {
+                            "id": "zlib",
+                            "level": 9
+                          }
+                        ],
+                        "dtype": "float64",
+                        "shape": [
+                          1004,
+                          796,
+                          512
+                        ],
+                        "chunks": [
+                          1,
+                          100,
+                          64
+                        ],
+                        "compressor": null,
+                        "fill_value": null,
+                        "data": null,
+                        "attributes": {
+                          "description": "image masks",
+                          "namespace": "hdmf-common",
+                          "neurodata_type": "VectorData",
+                          "object_id": "760668f6-04a5-43b8-8f54-cb751eea3aaf"
+                        }
+                      }
+                    },
+                    "soft_links": {
+                      "imaging_plane": {
+                        "path": "/general/optophysiology/ImagingPlane"
+                      }
+                    },
+                    "groups": {
+                      "reference_images": {}
+                    },
+                    "attributes": {
+                      "colnames": [
+                        "image_mask",
+                        "RoiCentroid",
+                        "Accepted",
+                        "Rejected"
+                      ],
+                      "description": "Segmented ROIs",
+                      "namespace": "core",
+                      "neurodata_type": "PlaneSegmentation",
+                      "object_id": "4e45fc74-8a47-4cf3-a468-a4ab974d722e"
+                    }
+                  }
+                },
+                "attributes": {
+                  "namespace": "core",
+                  "neurodata_type": "ImageSegmentation",
+                  "object_id": "44097414-219b-4bef-8f81-a92fa6bac1e0"
+                }
+              },
+              "SegmentationImages": {
+                "datasets": {
+                  "correlation": {
+                    "filters": [],
+                    "dtype": "float32",
+                    "shape": [
+                      796,
+                      512
+                    ],
+                    "chunks": [
+                      796,
+                      512
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "namespace": "core",
+                      "neurodata_type": "GrayscaleImage",
+                      "object_id": "f80ea167-7642-4f9a-989e-ff0e2ea168b0"
+                    }
+                  },
+                  "mean": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      796,
+                      512
+                    ],
+                    "chunks": [
+                      796,
+                      512
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "namespace": "core",
+                      "neurodata_type": "GrayscaleImage",
+                      "object_id": "c041770a-2ef2-4ac1-bd89-75982f50cfcc"
+                    }
+                  }
+                },
+                "attributes": {
+                  "description": "no description",
+                  "namespace": "core",
+                  "neurodata_type": "Images",
+                  "object_id": "37b93a0b-e0e3-48c7-9ef0-cdf246fefc91"
+                }
+              }
+            },
+            "attributes": {
+              "description": "contains optical physiology processed data",
+              "namespace": "core",
+              "neurodata_type": "ProcessingModule",
+              "object_id": "80bc1295-5a11-47f7-99f7-5308a21e52a6"
+            }
+          }
+        }
+      },
+      "specifications": {
+        "groups": {
+          "core": {
+            "groups": {
+              "2.2.5": {
+                "datasets": {
+                  "namespace": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"namespaces\":[{\"doc\":\"NWB namespace\",\"schema\":[{\"namespace\":\"hdmf-common\"},{\"source\":\"nwb.base\"},{\"source\":\"nwb.device\"},{\"source\":\"nwb.epoch\"},{\"source\":\"nwb.image\"},{\"source\":\"nwb.file\"},{\"source\":\"nwb.misc\"},{\"source\":\"nwb.behavior\"},{\"source\":\"nwb.ecephys\"},{\"source\":\"nwb.icephys\"},{\"source\":\"nwb.ogen\"},{\"source\":\"nwb.ophys\"},{\"source\":\"nwb.retinotopy\"}],\"name\":\"core\",\"full_name\":\"NWB core\",\"version\":\"2.2.5\",\"author\":[\"Andrew Tritt\",\"Oliver Ruebel\",\"Ryan Ly\",\"Ben Dichter\",\"Keith Godfrey\",\"Jeff Teeters\"],\"contact\":[\"ajtritt@lbl.gov\",\"oruebel@lbl.gov\",\"rly@lbl.gov\",\"bdichter@lbl.gov\",\"keithg@alleninstitute.org\",\"jteeters@berkeley.edu\"]}]}"
+                  },
+                  "nwb.base": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"datasets\":[{\"doc\":\"An abstract data type for a dataset.\",\"neurodata_type_inc\":\"Data\",\"neurodata_type_def\":\"NWBData\"},{\"shape\":[[null,null],[null,null,3],[null,null,4]],\"dims\":[[\"x\",\"y\"],[\"x\",\"y\",\"r, g, b\"],[\"x\",\"y\",\"r, g, b, a\"]],\"dtype\":\"numeric\",\"doc\":\"An abstract data type for an image. Shape can be 2-D (x, y), or 3-D where the third dimension can have three or four elements, e.g. (x, y, (r, g, b)) or (x, y, (r, g, b, a)).\",\"neurodata_type_inc\":\"NWBData\",\"neurodata_type_def\":\"Image\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Pixel resolution of the image, in pixels per centimeter.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"description\",\"doc\":\"Description of the image.\",\"required\":false,\"dtype\":\"text\"}]}],\"groups\":[{\"doc\":\"An abstract data type for a generic container storing collections of data and metadata. Base type for all data and metadata containers.\",\"neurodata_type_inc\":\"Container\",\"neurodata_type_def\":\"NWBContainer\"},{\"doc\":\"An abstract data type for a generic container storing collections of data, as opposed to metadata.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"NWBDataInterface\"},{\"groups\":[{\"name\":\"sync\",\"doc\":\"Lab-specific time and sync information as provided directly from hardware devices and that is necessary for aligning all acquired time information to a common timebase. The timestamp array stores time in the common timebase. This group will usually only be populated in TimeSeries that are stored external to the NWB file, in files storing raw data. Once timestamp data is calculated, the contents of 'sync' are mostly for archival purposes.\",\"quantity\":\"?\"}],\"datasets\":[{\"shape\":[[null],[null,null],[null,null,null],[null,null,null,null]],\"dims\":[[\"num_times\"],[\"num_times\",\"num_DIM2\"],[\"num_times\",\"num_DIM2\",\"num_DIM3\"],[\"num_times\",\"num_DIM2\",\"num_DIM3\",\"num_DIM4\"]],\"name\":\"data\",\"doc\":\"Data values. Data can be in 1-D, 2-D, 3-D, or 4-D. The first dimension should always represent time. This can also be used to store binary data (e.g., image frames). This can also be a link to data stored in an external file.\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"}]},{\"dtype\":\"float64\",\"name\":\"starting_time\",\"doc\":\"Timestamp of the first sample in seconds. When timestamps are uniformly spaced, the timestamp of the first sample can be specified and all subsequent ones calculated from the sampling rate attribute.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"rate\",\"doc\":\"Sampling rate, in Hz.\",\"dtype\":\"float32\"},{\"name\":\"unit\",\"doc\":\"Unit of measurement for time, which is fixed to 'seconds'.\",\"dtype\":\"text\",\"value\":\"seconds\"}]},{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"float64\",\"name\":\"timestamps\",\"doc\":\"Timestamps for samples stored in data, in seconds, relative to the common experiment master-clock stored in NWBFile.timestamps_reference_time.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"interval\",\"doc\":\"Value is '1'\",\"dtype\":\"int32\",\"value\":1},{\"name\":\"unit\",\"doc\":\"Unit of measurement for timestamps, which is fixed to 'seconds'.\",\"dtype\":\"text\",\"value\":\"seconds\"}]},{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"uint8\",\"name\":\"control\",\"doc\":\"Numerical labels that apply to each time point in data for the purpose of querying and slicing data by these values. If present, the length of this array should be the same size as the first dimension of data.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_control_values\"],\"dtype\":\"text\",\"name\":\"control_description\",\"doc\":\"Description of each control value. Must be present if control is present. If present, control_description[0] should describe time points where control == 0.\",\"quantity\":\"?\"}],\"doc\":\"General purpose time series.\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"TimeSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"groups\":[{\"doc\":\"Data objects stored in this collection.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBDataInterface\"},{\"doc\":\"Tables stored in this collection.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"DynamicTable\"}],\"doc\":\"A collection of processed data.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"ProcessingModule\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of this collection of processed data.\",\"dtype\":\"text\"}]},{\"datasets\":[{\"doc\":\"Images stored in this collection.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"Image\"}],\"doc\":\"A collection of images.\",\"default_name\":\"Images\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"Images\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of this collection of images.\",\"dtype\":\"text\"}]}]}"
+                  },
+                  "nwb.behavior": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[[null],[null,null]],\"dims\":[[\"num_times\"],[\"num_times\",\"num_features\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"1-D or 2-D array storing position or direction relative to some reference frame.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. The default value is 'meters'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"meters\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"dtype\":\"text\",\"name\":\"reference_frame\",\"doc\":\"Description defining what exactly 'straight-ahead' means.\",\"quantity\":\"?\"}],\"doc\":\"Direction, e.g., of gaze or travel, or position. The TimeSeries::data field is a 2D array storing position or direction relative to some reference frame. Array structure: [num measurements] [num dimensions]. Each SpatialSeries has a text dataset reference_frame that indicates the zero-position, or the zero-axes for direction. For example, if representing gaze direction, 'straight-ahead' might be a specific pixel on the monitor, or some other point in space. For position data, the 0,0 point might be the top-left corner of an enclosure, as viewed from the tracking camera. The unit of data will indicate how to interpret SpatialSeries values.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"SpatialSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"groups\":[{\"doc\":\"IntervalSeries object containing start and stop times of epochs.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"IntervalSeries\"}],\"doc\":\"TimeSeries for storing behavioral epochs.  The objective of this and the other two Behavioral interfaces (e.g. BehavioralEvents and BehavioralTimeSeries) is to provide generic hooks for software tools/scripts. This allows a tool/script to take the output one specific interface (e.g., UnitTimes) and plot that data relative to another data modality (e.g., behavioral events) without having to define all possible modalities in advance. Declaring one of these interfaces means that one or more TimeSeries of the specified type is published. These TimeSeries should reside in a group having the same name as the interface. For example, if a BehavioralTimeSeries interface is declared, the module will have one or more TimeSeries defined in the module sub-group 'BehavioralTimeSeries'. BehavioralEpochs should use IntervalSeries. BehavioralEvents is used for irregular events. BehavioralTimeSeries is for continuous data.\",\"default_name\":\"BehavioralEpochs\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"BehavioralEpochs\"},{\"groups\":[{\"doc\":\"TimeSeries object containing behavioral events.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"TimeSeries\"}],\"doc\":\"TimeSeries for storing behavioral events. See description of <a href=\\\"#BehavioralEpochs\\\">BehavioralEpochs</a> for more details.\",\"default_name\":\"BehavioralEvents\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"BehavioralEvents\"},{\"groups\":[{\"doc\":\"TimeSeries object containing continuous behavioral data.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"TimeSeries\"}],\"doc\":\"TimeSeries for storing Behavoioral time series data. See description of <a href=\\\"#BehavioralEpochs\\\">BehavioralEpochs</a> for more details.\",\"default_name\":\"BehavioralTimeSeries\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"BehavioralTimeSeries\"},{\"groups\":[{\"doc\":\"TimeSeries object containing time series data on pupil size.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"TimeSeries\"}],\"doc\":\"Eye-tracking data, representing pupil size.\",\"default_name\":\"PupilTracking\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"PupilTracking\"},{\"groups\":[{\"doc\":\"SpatialSeries object containing data measuring direction of gaze.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"SpatialSeries\"}],\"doc\":\"Eye-tracking data, representing direction of gaze.\",\"default_name\":\"EyeTracking\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"EyeTracking\"},{\"groups\":[{\"doc\":\"SpatialSeries object containing direction of gaze travel.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"SpatialSeries\"}],\"doc\":\"With a CompassDirection interface, a module publishes a SpatialSeries object representing a floating point value for theta. The SpatialSeries::reference_frame field should indicate what direction corresponds to 0 and which is the direction of rotation (this should be clockwise). The si_unit for the SpatialSeries should be radians or degrees.\",\"default_name\":\"CompassDirection\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"CompassDirection\"},{\"groups\":[{\"doc\":\"SpatialSeries object containing position data.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"SpatialSeries\"}],\"doc\":\"Position data, whether along the x, x/y or x/y/z axis.\",\"default_name\":\"Position\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"Position\"}]}"
+                  },
+                  "nwb.device": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"doc\":\"Metadata about a data acquisition device, e.g., recording system, electrode, microscope.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"Device\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the device (e.g., model, firmware version, processing software version, etc.) as free-form text.\",\"required\":false,\"dtype\":\"text\"},{\"name\":\"manufacturer\",\"doc\":\"The name of the manufacturer of the device.\",\"required\":false,\"dtype\":\"text\"}]}]}"
+                  },
+                  "nwb.ecephys": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[[null],[null,null],[null,null,null]],\"dims\":[[\"num_times\"],[\"num_times\",\"num_channels\"],[\"num_times\",\"num_channels\",\"num_samples\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Recorded voltage data.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. This value is fixed to 'volts'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion' and 'channel_conversion' (if present).\",\"dtype\":\"text\",\"value\":\"volts\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"name\":\"electrodes\",\"doc\":\"DynamicTableRegion pointer to the electrodes that this time series was generated from.\",\"neurodata_type_inc\":\"DynamicTableRegion\"},{\"shape\":[null],\"dims\":[\"num_channels\"],\"dtype\":\"float32\",\"name\":\"channel_conversion\",\"doc\":\"Channel-specific conversion factor. Multiply the data in the 'data' dataset by these values along the channel axis (as indicated by axis attribute) AND by the global conversion factor in the 'conversion' attribute of 'data' to get the data values in Volts, i.e, data in Volts = data * data.conversion * channel_conversion. This approach allows for both global and per-channel data conversion factors needed to support the storage of electrical recordings as native values generated by data acquisition systems. If this dataset is not present, then there is no channel-specific conversion factor, i.e. it is 1 for all channels.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"axis\",\"doc\":\"The zero-indexed axis of the 'data' dataset that the channel-specific conversion factor corresponds to. This value is fixed to 1.\",\"dtype\":\"int32\",\"value\":1}]}],\"doc\":\"A time series of acquired voltage data from extracellular recordings. The data field is an int or float array storing data in volts. The first dimension should always represent time. The second dimension, if present, should represent channels.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"ElectricalSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[[null,null],[null,null,null]],\"dims\":[[\"num_events\",\"num_samples\"],[\"num_events\",\"num_channels\",\"num_samples\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Spike waveforms.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for waveforms, which is fixed to 'volts'.\",\"dtype\":\"text\",\"value\":\"volts\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"float64\",\"name\":\"timestamps\",\"doc\":\"Timestamps for samples stored in data, in seconds, relative to the common experiment master-clock stored in NWBFile.timestamps_reference_time. Timestamps are required for the events. Unlike for TimeSeries, timestamps are required for SpikeEventSeries and are thus re-specified here.\",\"attributes\":[{\"name\":\"interval\",\"doc\":\"Value is '1'\",\"dtype\":\"int32\",\"value\":1},{\"name\":\"unit\",\"doc\":\"Unit of measurement for timestamps, which is fixed to 'seconds'.\",\"dtype\":\"text\",\"value\":\"seconds\"}]}],\"doc\":\"Stores snapshots/snippets of recorded spike events (i.e., threshold crossings). This may also be raw data, as reported by ephys hardware. If so, the TimeSeries::description field should describe how events were detected. All SpikeEventSeries should reside in a module (under EventWaveform interface) even if the spikes were reported and stored by hardware. All events span the same recording channels and store snapshots of equal duration. TimeSeries::data array structure: [num events] [num channels] [num samples] (or [num events] [num samples] for single electrode).\",\"neurodata_type_inc\":\"ElectricalSeries\",\"neurodata_type_def\":\"SpikeEventSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_features\"],\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of features (eg, ''PC1'') for each of the extracted features.\"},{\"shape\":[null,null,null],\"dims\":[\"num_events\",\"num_channels\",\"num_features\"],\"dtype\":\"float32\",\"name\":\"features\",\"doc\":\"Multi-dimensional array of features extracted from each event.\"},{\"shape\":[null],\"dims\":[\"num_events\"],\"dtype\":\"float64\",\"name\":\"times\",\"doc\":\"Times of events that features correspond to (can be a link).\"},{\"name\":\"electrodes\",\"doc\":\"DynamicTableRegion pointer to the electrodes that this time series was generated from.\",\"neurodata_type_inc\":\"DynamicTableRegion\"}],\"doc\":\"Features, such as PC1 and PC2, that are extracted from signals stored in a SpikeEventSeries or other source.\",\"default_name\":\"FeatureExtraction\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"FeatureExtraction\"},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"detection_method\",\"doc\":\"Description of how events were detected, such as voltage threshold, or dV/dT threshold, as well as relevant values.\"},{\"shape\":[null],\"dims\":[\"num_events\"],\"dtype\":\"int32\",\"name\":\"source_idx\",\"doc\":\"Indices (zero-based) into source ElectricalSeries::data array corresponding to time of event. ''description'' should define what is meant by time of event (e.g., .25 ms before action potential peak, zero-crossing time, etc). The index points to each event from the raw data.\"},{\"shape\":[null],\"dims\":[\"num_events\"],\"dtype\":\"float64\",\"name\":\"times\",\"doc\":\"Timestamps of events, in seconds.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for event times, which is fixed to 'seconds'.\",\"dtype\":\"text\",\"value\":\"seconds\"}]}],\"links\":[{\"name\":\"source_electricalseries\",\"doc\":\"Link to the ElectricalSeries that this data was calculated from. Metadata about electrodes and their position can be read from that ElectricalSeries so it's not necessary to include that information here.\",\"target_type\":\"ElectricalSeries\"}],\"doc\":\"Detected spike events from voltage trace(s).\",\"default_name\":\"EventDetection\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"EventDetection\"},{\"groups\":[{\"doc\":\"SpikeEventSeries object(s) containing detected spike event waveforms.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"SpikeEventSeries\"}],\"doc\":\"Represents either the waveforms of detected events, as extracted from a raw data trace in /acquisition, or the event waveforms that were stored during experiment acquisition.\",\"default_name\":\"EventWaveform\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"EventWaveform\"},{\"groups\":[{\"doc\":\"ElectricalSeries object(s) containing filtered electrophysiology data.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"ElectricalSeries\"}],\"doc\":\"Electrophysiology data from one or more channels that has been subjected to filtering. Examples of filtered data include Theta and Gamma (LFP has its own interface). FilteredEphys modules publish an ElectricalSeries for each filtered channel or set of channels. The name of each ElectricalSeries is arbitrary but should be informative. The source of the filtered data, whether this is from analysis of another time series or as acquired by hardware, should be noted in each's TimeSeries::description field. There is no assumed 1::1 correspondence between filtered ephys signals and electrodes, as a single signal can apply to many nearby electrodes, and one electrode may have different filtered (e.g., theta and/or gamma) signals represented. Filter properties should be noted in the ElectricalSeries.\",\"default_name\":\"FilteredEphys\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"FilteredEphys\"},{\"groups\":[{\"doc\":\"ElectricalSeries object(s) containing LFP data for one or more channels.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"ElectricalSeries\"}],\"doc\":\"LFP data from one or more channels. The electrode map in each published ElectricalSeries will identify which channels are providing LFP data. Filter properties should be noted in the ElectricalSeries description or comments field.\",\"default_name\":\"LFP\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"LFP\"},{\"datasets\":[{\"dtype\":[{\"doc\":\"x coordinate\",\"name\":\"x\",\"dtype\":\"float32\"},{\"doc\":\"y coordinate\",\"name\":\"y\",\"dtype\":\"float32\"},{\"doc\":\"z coordinate\",\"name\":\"z\",\"dtype\":\"float32\"}],\"name\":\"position\",\"doc\":\"stereotaxic or common framework coordinates\",\"quantity\":\"?\"}],\"links\":[{\"name\":\"device\",\"doc\":\"Link to the device that was used to record from this electrode group.\",\"target_type\":\"Device\"}],\"doc\":\"A physical grouping of electrodes, e.g. a shank of an array.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"ElectrodeGroup\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of this electrode group.\",\"dtype\":\"text\"},{\"name\":\"location\",\"doc\":\"Location of electrode group. Specify the area, layer, comments on estimation of area/layer, etc. Use standard atlas names for anatomical regions when possible.\",\"dtype\":\"text\"}]},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"waveform_filtering\",\"doc\":\"Filtering applied to data before generating mean/sd\"},{\"shape\":[null,null],\"dims\":[\"num_clusters\",\"num_samples\"],\"dtype\":\"float32\",\"name\":\"waveform_mean\",\"doc\":\"The mean waveform for each cluster, using the same indices for each wave as cluster numbers in the associated Clustering module (i.e, cluster 3 is in array slot [3]). Waveforms corresponding to gaps in cluster sequence should be empty (e.g., zero- filled)\"},{\"shape\":[null,null],\"dims\":[\"num_clusters\",\"num_samples\"],\"dtype\":\"float32\",\"name\":\"waveform_sd\",\"doc\":\"Stdev of waveforms for each cluster, using the same indices as in mean\"}],\"links\":[{\"name\":\"clustering_interface\",\"doc\":\"Link to Clustering interface that was the source of the clustered data\",\"target_type\":\"Clustering\"}],\"doc\":\"DEPRECATED The mean waveform shape, including standard deviation, of the different clusters. Ideally, the waveform analysis should be performed on data that is only high-pass filtered. This is a separate module because it is expected to require updating. For example, IMEC probes may require different storage requirements to store/display mean waveforms, requiring a new interface or an extension of this one.\",\"default_name\":\"ClusterWaveforms\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"ClusterWaveforms\"},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of clusters or clustering, (e.g. cluster 0 is noise, clusters curated using Klusters, etc)\"},{\"shape\":[null],\"dims\":[\"num_events\"],\"dtype\":\"int32\",\"name\":\"num\",\"doc\":\"Cluster number of each event\"},{\"shape\":[null],\"dims\":[\"num_clusters\"],\"dtype\":\"float32\",\"name\":\"peak_over_rms\",\"doc\":\"Maximum ratio of waveform peak to RMS on any channel in the cluster (provides a basic clustering metric).\"},{\"shape\":[null],\"dims\":[\"num_events\"],\"dtype\":\"float64\",\"name\":\"times\",\"doc\":\"Times of clustered events, in seconds. This may be a link to times field in associated FeatureExtraction module.\"}],\"doc\":\"DEPRECATED Clustered spike data, whether from automatic clustering tools (e.g., klustakwik) or as a result of manual sorting.\",\"default_name\":\"Clustering\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"Clustering\"}]}"
+                  },
+                  "nwb.epoch": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"dtype\":\"float32\",\"name\":\"start_time\",\"doc\":\"Start time of epoch, in seconds.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"stop_time\",\"doc\":\"Stop time of epoch, in seconds.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"text\",\"name\":\"tags\",\"doc\":\"User-defined tags that identify or categorize events.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"tags_index\",\"doc\":\"Index for tags.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"dtype\":[{\"doc\":\"Start index into the TimeSeries 'data' and 'timestamp' datasets of the referenced TimeSeries. The first dimension of those arrays is always time.\",\"name\":\"idx_start\",\"dtype\":\"int32\"},{\"doc\":\"Number of data samples available in this time series, during this epoch.\",\"name\":\"count\",\"dtype\":\"int32\"},{\"doc\":\"the TimeSeries that this index applies to.\",\"name\":\"timeseries\",\"dtype\":{\"target_type\":\"TimeSeries\",\"reftype\":\"object\"}}],\"name\":\"timeseries\",\"doc\":\"An index into a TimeSeries object.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"timeseries_index\",\"doc\":\"Index for timeseries.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"}],\"doc\":\"A container for aggregating epoch data and the TimeSeries that each epoch applies to.\",\"neurodata_type_inc\":\"DynamicTable\",\"neurodata_type_def\":\"TimeIntervals\",\"attributes\":[{\"name\":\"colnames\",\"doc\":\"The names of the columns in this table. This should be used to specify an order to the columns.\",\"dtype\":\"text\",\"shape\":[null],\"dims\":[\"num_columns\"]},{\"name\":\"description\",\"doc\":\"Description of what is in this dynamic table.\",\"dtype\":\"text\"}]}]}"
+                  },
+                  "nwb.file": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"datasets\":[{\"doc\":\"Any one-off datasets\",\"neurodata_type_inc\":\"NWBData\",\"neurodata_type_def\":\"ScratchData\",\"attributes\":[{\"name\":\"notes\",\"doc\":\"Any notes the user has about the dataset being stored\",\"dtype\":\"text\"}]}],\"groups\":[{\"groups\":[{\"groups\":[{\"doc\":\"Acquired, raw data.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBDataInterface\"},{\"doc\":\"Tabular data that is relevent to acquisition\",\"quantity\":\"*\",\"neurodata_type_inc\":\"DynamicTable\"}],\"name\":\"acquisition\",\"doc\":\"Data streams recorded from the system, including ephys, ophys, tracking, etc. This group should be read-only after the experiment is completed and timestamps are corrected to a common timebase. The data stored here may be links to raw data stored in external NWB files. This will allow keeping bulky raw data out of the file while preserving the option of keeping some/all in the file. Acquired data includes tracking and experimental data streams (i.e., everything measured from the system). If bulky data is stored in the /acquisition group, the data can exist in a separate NWB file that is linked to by the file being used for processing and analysis.\"},{\"groups\":[{\"doc\":\"Custom analysis results.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBContainer\"},{\"doc\":\"Tabular data that is relevent to data stored in analysis\",\"quantity\":\"*\",\"neurodata_type_inc\":\"DynamicTable\"}],\"name\":\"analysis\",\"doc\":\"Lab-specific and custom scientific analysis of data. There is no defined format for the content of this group - the format is up to the individual user/lab. To facilitate sharing analysis data between labs, the contents here should be stored in standard types (e.g., neurodata_types) and appropriately documented. The file can store lab-specific and custom data analysis without restriction on its form or schema, reducing data formatting restrictions on end users. Such data should be placed in the analysis group. The analysis data should be documented so that it could be shared with other labs.\"},{\"groups\":[{\"doc\":\"Any one-off containers\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBContainer\"},{\"doc\":\"Any one-off tables\",\"quantity\":\"*\",\"neurodata_type_inc\":\"DynamicTable\"}],\"datasets\":[{\"doc\":\"Any one-off datasets\",\"quantity\":\"*\",\"neurodata_type_inc\":\"ScratchData\"}],\"name\":\"scratch\",\"doc\":\"A place to store one-off analysis results. Data placed here is not intended for sharing. By placing data here, users acknowledge that there is no guarantee that their data meets any standard.\",\"quantity\":\"?\"},{\"groups\":[{\"doc\":\"Intermediate analysis of acquired data.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"ProcessingModule\"}],\"name\":\"processing\",\"doc\":\"The home for ProcessingModules. These modules perform intermediate analysis of data that is necessary to perform before scientific analysis. Examples include spike clustering, extracting position from tracking data, stitching together image slices. ProcessingModules can be large and express many data sets from relatively complex analysis (e.g., spike detection and clustering) or small, representing extraction of position information from tracking video, or even binary lick/no-lick decisions. Common software tools (e.g., klustakwik, MClust) are expected to read/write data here.  'Processing' refers to intermediate analysis of the acquired data to make it more amenable to scientific analysis.\"},{\"groups\":[{\"groups\":[{\"doc\":\"TimeSeries objects containing data of presented stimuli.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"TimeSeries\"}],\"name\":\"presentation\",\"doc\":\"Stimuli presented during the experiment.\"},{\"groups\":[{\"doc\":\"TimeSeries objects containing template data of presented stimuli.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"TimeSeries\"}],\"name\":\"templates\",\"doc\":\"Template stimuli. Timestamps in templates are based on stimulus design and are relative to the beginning of the stimulus. When templates are used, the stimulus instances must convert presentation times to the experiment`s time reference frame.\"}],\"name\":\"stimulus\",\"doc\":\"Data pushed into the system (eg, video stimulus, sound, voltage, etc) and secondary representations of that data (eg, measurements of something used as a stimulus). This group should be made read-only after experiment complete and timestamps are corrected to common timebase. Stores both presented stimuli and stimulus templates, the latter in case the same stimulus is presented multiple times, or is pulled from an external stimulus library. Stimuli are here defined as any signal that is pushed into the system as part of the experiment (eg, sound, video, voltage, etc). Many different experiments can use the same stimuli, and stimuli can be re-used during an experiment. The stimulus group is organized so that one version of template stimuli can be stored and these be used multiple times. These templates can exist in the present file or can be linked to a remote library file.\"},{\"groups\":[{\"doc\":\"Place-holder than can be extended so that lab-specific meta-data can be placed in /general.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"LabMetaData\"},{\"groups\":[{\"doc\":\"Data acquisition devices.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"Device\"}],\"name\":\"devices\",\"doc\":\"Description of hardware devices used during experiment, e.g., monitors, ADC boards, microscopes, etc.\",\"quantity\":\"?\"},{\"name\":\"subject\",\"doc\":\"Information about the animal or person from which the data was measured.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"Subject\"},{\"groups\":[{\"doc\":\"Physical group of electrodes.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"ElectrodeGroup\"},{\"datasets\":[{\"dtype\":\"float32\",\"name\":\"x\",\"doc\":\"x coordinate of the channel location in the brain (+x is posterior).\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"y\",\"doc\":\"y coordinate of the channel location in the brain (+y is inferior).\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"z\",\"doc\":\"z coordinate of the channel location in the brain (+z is right).\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"imp\",\"doc\":\"Impedance of the channel.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"text\",\"name\":\"location\",\"doc\":\"Location of the electrode (channel). Specify the area, layer, comments on estimation of area/layer, stereotaxic coordinates if in vivo, etc. Use standard atlas names for anatomical regions when possible.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"filtering\",\"doc\":\"Description of hardware filtering.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":{\"target_type\":\"ElectrodeGroup\",\"reftype\":\"object\"},\"name\":\"group\",\"doc\":\"Reference to the ElectrodeGroup this electrode is a part of.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"text\",\"name\":\"group_name\",\"doc\":\"Name of the ElectrodeGroup this electrode is a part of.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"rel_x\",\"doc\":\"x coordinate in electrode group\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"rel_y\",\"doc\":\"y coordinate in electrode group\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"float32\",\"name\":\"rel_z\",\"doc\":\"z coordinate in electrode group\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":\"text\",\"name\":\"reference\",\"doc\":\"Description of the reference used for this electrode.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"}],\"name\":\"electrodes\",\"doc\":\"A table of all electrodes (i.e. channels) used for recording.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"DynamicTable\"}],\"name\":\"extracellular_ephys\",\"doc\":\"Metadata related to extracellular electrophysiology.\",\"quantity\":\"?\"},{\"groups\":[{\"doc\":\"An intracellular electrode.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"IntracellularElectrode\"},{\"name\":\"sweep_table\",\"doc\":\"The table which groups different PatchClampSeries together.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"SweepTable\"}],\"datasets\":[{\"dtype\":\"text\",\"name\":\"filtering\",\"doc\":\"Description of filtering used. Includes filtering type and parameters, frequency fall-off, etc. If this changes between TimeSeries, filter description should be stored as a text attribute for each TimeSeries.\",\"quantity\":\"?\"}],\"name\":\"intracellular_ephys\",\"doc\":\"Metadata related to intracellular electrophysiology.\",\"quantity\":\"?\"},{\"groups\":[{\"doc\":\"An optogenetic stimulation site.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"OptogeneticStimulusSite\"}],\"name\":\"optogenetics\",\"doc\":\"Metadata describing optogenetic stimuluation.\",\"quantity\":\"?\"},{\"groups\":[{\"doc\":\"An imaging plane.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"ImagingPlane\"}],\"name\":\"optophysiology\",\"doc\":\"Metadata related to optophysiology.\",\"quantity\":\"?\"}],\"datasets\":[{\"dtype\":\"text\",\"name\":\"data_collection\",\"doc\":\"Notes about data collection and analysis.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"experiment_description\",\"doc\":\"General description of the experiment.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_experimenters\"],\"dtype\":\"text\",\"name\":\"experimenter\",\"doc\":\"Name of person(s) who performed the experiment. Can also specify roles of different people involved.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"institution\",\"doc\":\"Institution(s) where experiment was performed.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_keywords\"],\"dtype\":\"text\",\"name\":\"keywords\",\"doc\":\"Terms to search over.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"lab\",\"doc\":\"Laboratory where experiment was performed.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"notes\",\"doc\":\"Notes about the experiment.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"pharmacology\",\"doc\":\"Description of drugs used, including how and when they were administered. Anesthesia(s), painkiller(s), etc., plus dosage, concentration, etc.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"protocol\",\"doc\":\"Experimental protocol, if applicable. e.g., include IACUC protocol number.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_publications\"],\"dtype\":\"text\",\"name\":\"related_publications\",\"doc\":\"Publication information. PMID, DOI, URL, etc.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"session_id\",\"doc\":\"Lab-specific ID for the session.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"slices\",\"doc\":\"Description of slices, including information about preparation thickness, orientation, temperature, and bath solution.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"source_script\",\"doc\":\"Script file or link to public source code used to create this NWB file.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"file_name\",\"doc\":\"Name of script file.\",\"dtype\":\"text\"}]},{\"dtype\":\"text\",\"name\":\"stimulus\",\"doc\":\"Notes about stimuli, such as how and where they were presented.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"surgery\",\"doc\":\"Narrative description about surgery/surgeries, including date(s) and who performed surgery.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"virus\",\"doc\":\"Information about virus(es) used in experiments, including virus ID, source, date made, injection location, volume, etc.\",\"quantity\":\"?\"}],\"name\":\"general\",\"doc\":\"Experimental metadata, including protocol, notes and description of hardware device(s).  The metadata stored in this section should be used to describe the experiment. Metadata necessary for interpreting the data is stored with the data. General experimental metadata, including animal strain, experimental protocols, experimenter, devices, etc, are stored under 'general'. Core metadata (e.g., that required to interpret data fields) is stored with the data itself, and implicitly defined by the file specification (e.g., time is in seconds). The strategy used here for storing non-core metadata is to use free-form text fields, such as would appear in sentences or paragraphs from a Methods section. Metadata fields are text to enable them to be more general, for example to represent ranges instead of numerical values. Machine-readable metadata is stored as attributes to these free-form datasets. All entries in the below table are to be included when data is present. Unused groups (e.g., intracellular_ephys in an optophysiology experiment) should not be created unless there is data to store within them.\"},{\"groups\":[{\"name\":\"epochs\",\"doc\":\"Divisions in time marking experimental stages or sub-divisions of a single recording session.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"TimeIntervals\"},{\"name\":\"trials\",\"doc\":\"Repeated experimental events that have a logical grouping.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"TimeIntervals\"},{\"name\":\"invalid_times\",\"doc\":\"Time intervals that should be removed from analysis.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"TimeIntervals\"},{\"doc\":\"Optional additional table(s) for describing other experimental time intervals.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"TimeIntervals\"}],\"name\":\"intervals\",\"doc\":\"Experimental intervals, whether that be logically distinct sub-experiments having a particular scientific goal, trials (see trials subgroup) during an experiment, or epochs (see epochs subgroup) deriving from analysis of data.\",\"quantity\":\"?\"},{\"name\":\"units\",\"doc\":\"Data about sorted spike units.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"Units\"}],\"datasets\":[{\"shape\":[null],\"dims\":[\"num_modifications\"],\"dtype\":\"isodatetime\",\"name\":\"file_create_date\",\"doc\":\"A record of the date the file was created and of subsequent modifications. The date is stored in UTC with local timezone offset as ISO 8601 extended formatted strings: 2018-09-28T14:43:54.123+02:00. Dates stored in UTC end in \\\"Z\\\" with no timezone offset. Date accuracy is up to milliseconds. The file can be created after the experiment was run, so this may differ from the experiment start time. Each modification to the nwb file adds a new entry to the array.\"},{\"dtype\":\"text\",\"name\":\"identifier\",\"doc\":\"A unique text identifier for the file. For example, concatenated lab name, file creation date/time and experimentalist, or a hash of these and/or other values. The goal is that the string should be unique to all other files.\"},{\"dtype\":\"text\",\"name\":\"session_description\",\"doc\":\"A description of the experimental session and data in the file.\"},{\"dtype\":\"isodatetime\",\"name\":\"session_start_time\",\"doc\":\"Date and time of the experiment/session start. The date is stored in UTC with local timezone offset as ISO 8601 extended formatted string: 2018-09-28T14:43:54.123+02:00. Dates stored in UTC end in \\\"Z\\\" with no timezone offset. Date accuracy is up to milliseconds.\"},{\"dtype\":\"isodatetime\",\"name\":\"timestamps_reference_time\",\"doc\":\"Date and time corresponding to time zero of all timestamps. The date is stored in UTC with local timezone offset as ISO 8601 extended formatted string: 2018-09-28T14:43:54.123+02:00. Dates stored in UTC end in \\\"Z\\\" with no timezone offset. Date accuracy is up to milliseconds. All times stored in the file use this time as reference (i.e., time zero).\"}],\"name\":\"root\",\"doc\":\"An NWB:N file storing cellular-based neurophysiology data from a single experimental session.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"NWBFile\",\"attributes\":[{\"name\":\"nwb_version\",\"doc\":\"File version string. Use semantic versioning, e.g. 1.2.1. This will be the name of the format with trailing major, minor and patch numbers.\",\"dtype\":\"text\",\"value\":\"2.2.5\"}]},{\"doc\":\"Lab-specific meta-data.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"LabMetaData\"},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"age\",\"doc\":\"Age of subject. Can be supplied instead of 'date_of_birth'.\",\"quantity\":\"?\"},{\"dtype\":\"isodatetime\",\"name\":\"date_of_birth\",\"doc\":\"Date of birth of subject. Can be supplied instead of 'age'.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of subject and where subject came from (e.g., breeder, if animal).\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"genotype\",\"doc\":\"Genetic strain. If absent, assume Wild Type (WT).\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"sex\",\"doc\":\"Gender of subject.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"species\",\"doc\":\"Species of subject.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"subject_id\",\"doc\":\"ID of animal/person used/participating in experiment (lab convention).\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"weight\",\"doc\":\"Weight at time of experiment, at time of surgery and at other important times.\",\"quantity\":\"?\"}],\"doc\":\"Information about the animal or person from which the data was measured.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"Subject\"}]}"
+                  },
+                  "nwb.icephys": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Recorded voltage or current.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"dtype\":\"float32\",\"name\":\"gain\",\"doc\":\"Gain of the recording, in units Volt/Amp (v-clamp) or Volt/Volt (c-clamp).\",\"quantity\":\"?\"}],\"links\":[{\"name\":\"electrode\",\"doc\":\"Link to IntracellularElectrode object that describes the electrode that was used to apply or record this data.\",\"target_type\":\"IntracellularElectrode\"}],\"doc\":\"An abstract base class for patch-clamp data - stimulus or response, current or voltage.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"PatchClampSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"name\":\"data\",\"doc\":\"Recorded voltage.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. which is fixed to 'volts'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\",\"value\":\"volts\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"dtype\":\"float32\",\"name\":\"bias_current\",\"doc\":\"Bias current, in amps.\",\"quantity\":\"?\"},{\"dtype\":\"float32\",\"name\":\"bridge_balance\",\"doc\":\"Bridge balance, in ohms.\",\"quantity\":\"?\"},{\"dtype\":\"float32\",\"name\":\"capacitance_compensation\",\"doc\":\"Capacitance compensation, in farads.\",\"quantity\":\"?\"}],\"doc\":\"Voltage data from an intracellular current-clamp recording. A corresponding CurrentClampStimulusSeries (stored separately as a stimulus) is used to store the current injected.\",\"neurodata_type_inc\":\"PatchClampSeries\",\"neurodata_type_def\":\"CurrentClampSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"dtype\":\"float32\",\"name\":\"bias_current\",\"doc\":\"Bias current, in amps, fixed to 0.0.\"},{\"dtype\":\"float32\",\"name\":\"bridge_balance\",\"doc\":\"Bridge balance, in ohms, fixed to 0.0.\"},{\"dtype\":\"float32\",\"name\":\"capacitance_compensation\",\"doc\":\"Capacitance compensation, in farads, fixed to 0.0.\"}],\"doc\":\"Voltage data from an intracellular recording when all current and amplifier settings are off (i.e., CurrentClampSeries fields will be zero). There is no CurrentClampStimulusSeries associated with an IZero series because the amplifier is disconnected and no stimulus can reach the cell.\",\"neurodata_type_inc\":\"CurrentClampSeries\",\"neurodata_type_def\":\"IZeroClampSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"name\":\"data\",\"doc\":\"Stimulus current applied.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. which is fixed to 'amperes'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\",\"value\":\"amperes\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]}],\"doc\":\"Stimulus current applied during current clamp recording.\",\"neurodata_type_inc\":\"PatchClampSeries\",\"neurodata_type_def\":\"CurrentClampStimulusSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"name\":\"data\",\"doc\":\"Recorded current.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. which is fixed to 'amperes'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\",\"value\":\"amperes\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"dtype\":\"float32\",\"name\":\"capacitance_fast\",\"doc\":\"Fast capacitance, in farads.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for capacitance_fast, which is fixed to 'farads'.\",\"dtype\":\"text\",\"value\":\"farads\"}]},{\"dtype\":\"float32\",\"name\":\"capacitance_slow\",\"doc\":\"Slow capacitance, in farads.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for capacitance_fast, which is fixed to 'farads'.\",\"dtype\":\"text\",\"value\":\"farads\"}]},{\"dtype\":\"float32\",\"name\":\"resistance_comp_bandwidth\",\"doc\":\"Resistance compensation bandwidth, in hertz.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for resistance_comp_bandwidth, which is fixed to 'hertz'.\",\"dtype\":\"text\",\"value\":\"hertz\"}]},{\"dtype\":\"float32\",\"name\":\"resistance_comp_correction\",\"doc\":\"Resistance compensation correction, in percent.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for resistance_comp_correction, which is fixed to 'percent'.\",\"dtype\":\"text\",\"value\":\"percent\"}]},{\"dtype\":\"float32\",\"name\":\"resistance_comp_prediction\",\"doc\":\"Resistance compensation prediction, in percent.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for resistance_comp_prediction, which is fixed to 'percent'.\",\"dtype\":\"text\",\"value\":\"percent\"}]},{\"dtype\":\"float32\",\"name\":\"whole_cell_capacitance_comp\",\"doc\":\"Whole cell capacitance compensation, in farads.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for whole_cell_capacitance_comp, which is fixed to 'farads'.\",\"dtype\":\"text\",\"value\":\"farads\"}]},{\"dtype\":\"float32\",\"name\":\"whole_cell_series_resistance_comp\",\"doc\":\"Whole cell series resistance compensation, in ohms.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for whole_cell_series_resistance_comp, which is fixed to 'ohms'.\",\"dtype\":\"text\",\"value\":\"ohms\"}]}],\"doc\":\"Current data from an intracellular voltage-clamp recording. A corresponding VoltageClampStimulusSeries (stored separately as a stimulus) is used to store the voltage injected.\",\"neurodata_type_inc\":\"PatchClampSeries\",\"neurodata_type_def\":\"VoltageClampSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"name\":\"data\",\"doc\":\"Stimulus voltage applied.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. which is fixed to 'volts'. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\",\"value\":\"volts\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]}],\"doc\":\"Stimulus voltage applied during a voltage clamp recording.\",\"neurodata_type_inc\":\"PatchClampSeries\",\"neurodata_type_def\":\"VoltageClampStimulusSeries\",\"attributes\":[{\"name\":\"stimulus_description\",\"doc\":\"Protocol/stimulus name for this patch-clamp dataset.\",\"dtype\":\"text\"},{\"name\":\"sweep_number\",\"doc\":\"Sweep number, allows to group different PatchClampSeries together.\",\"required\":false,\"dtype\":\"uint32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of electrode (e.g.,  whole-cell, sharp, etc.).\"},{\"dtype\":\"text\",\"name\":\"filtering\",\"doc\":\"Electrode specific filtering.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"initial_access_resistance\",\"doc\":\"Initial access resistance.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"location\",\"doc\":\"Location of the electrode. Specify the area, layer, comments on estimation of area/layer, stereotaxic coordinates if in vivo, etc. Use standard atlas names for anatomical regions when possible.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"resistance\",\"doc\":\"Electrode resistance, in ohms.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"seal\",\"doc\":\"Information about seal used for recording.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"slice\",\"doc\":\"Information about slice used for recording.\",\"quantity\":\"?\"}],\"links\":[{\"name\":\"device\",\"doc\":\"Device that was used to record from this electrode.\",\"target_type\":\"Device\"}],\"doc\":\"An intracellular electrode and its metadata.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"IntracellularElectrode\"},{\"datasets\":[{\"dtype\":\"uint32\",\"name\":\"sweep_number\",\"doc\":\"Sweep number of the PatchClampSeries in that row.\",\"neurodata_type_inc\":\"VectorData\"},{\"dtype\":{\"target_type\":\"PatchClampSeries\",\"reftype\":\"object\"},\"name\":\"series\",\"doc\":\"The PatchClampSeries with the sweep number in that row.\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"series_index\",\"doc\":\"Index for series.\",\"neurodata_type_inc\":\"VectorIndex\"}],\"doc\":\"The table which groups different PatchClampSeries together.\",\"neurodata_type_inc\":\"DynamicTable\",\"neurodata_type_def\":\"SweepTable\",\"attributes\":[{\"name\":\"colnames\",\"doc\":\"The names of the columns in this table. This should be used to specify an order to the columns.\",\"dtype\":\"text\",\"shape\":[null],\"dims\":[\"num_columns\"]},{\"name\":\"description\",\"doc\":\"Description of what is in this dynamic table.\",\"dtype\":\"text\"}]}]}"
+                  },
+                  "nwb.image": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"datasets\":[{\"shape\":[null,null],\"dims\":[\"x\",\"y\"],\"dtype\":\"numeric\",\"doc\":\"A grayscale image.\",\"neurodata_type_inc\":\"Image\",\"neurodata_type_def\":\"GrayscaleImage\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Pixel resolution of the image, in pixels per centimeter.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"description\",\"doc\":\"Description of the image.\",\"required\":false,\"dtype\":\"text\"}]},{\"shape\":[null,null,3],\"dims\":[\"x\",\"y\",\"r, g, b\"],\"dtype\":\"numeric\",\"doc\":\"A color image.\",\"neurodata_type_inc\":\"Image\",\"neurodata_type_def\":\"RGBImage\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Pixel resolution of the image, in pixels per centimeter.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"description\",\"doc\":\"Description of the image.\",\"required\":false,\"dtype\":\"text\"}]},{\"shape\":[null,null,4],\"dims\":[\"x\",\"y\",\"r, g, b, a\"],\"dtype\":\"numeric\",\"doc\":\"A color image with transparency.\",\"neurodata_type_inc\":\"Image\",\"neurodata_type_def\":\"RGBAImage\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Pixel resolution of the image, in pixels per centimeter.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"description\",\"doc\":\"Description of the image.\",\"required\":false,\"dtype\":\"text\"}]}],\"groups\":[{\"datasets\":[{\"shape\":[[null,null,null],[null,null,null,null]],\"dims\":[[\"frame\",\"x\",\"y\"],[\"frame\",\"x\",\"y\",\"z\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Binary data representing images across frames.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"}]},{\"shape\":[null],\"dims\":[\"rank\"],\"dtype\":\"int32\",\"name\":\"dimension\",\"doc\":\"Number of pixels on x, y, (and z) axes.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_files\"],\"dtype\":\"text\",\"name\":\"external_file\",\"doc\":\"Paths to one or more external file(s). The field is only present if format='external'. This is only relevant if the image series is stored in the file system as one or more image file(s). This field should NOT be used if the image is stored in another NWB file and that file is linked to this file.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"starting_frame\",\"doc\":\"Each external image may contain one or more consecutive frames of the full ImageSeries. This attribute serves as an index to indicate which frames each file contains, to faciliate random access. The 'starting_frame' attribute, hence, contains a list of frame numbers within the full ImageSeries of the first frame of each file listed in the parent 'external_file' dataset. Zero-based indexing is used (hence, the first element will always be zero). For example, if the 'external_file' dataset has three paths to files and the first file has 5 frames, the second file has 10 frames, and the third file has 20 frames, then this attribute will have values [0, 5, 15]. If there is a single external file that holds all of the frames of the ImageSeries (and so there is a single element in the 'external_file' dataset), then this attribute should have value [0].\",\"dtype\":\"int32\",\"shape\":[null],\"dims\":[\"num_files\"]}]},{\"dtype\":\"text\",\"name\":\"format\",\"doc\":\"Format of image. If this is 'external', then the attribute 'external_file' contains the path information to the image files. If this is 'raw', then the raw (single-channel) binary data is stored in the 'data' dataset. If this attribute is not present, then the default format='raw' case is assumed.\",\"quantity\":\"?\",\"default_value\":\"raw\"}],\"doc\":\"General image data that is common between acquisition and stimulus time series. Sometimes the image data is stored in the file in a raw format while other times it will be stored as a series of external image files in the host file system. The data field will either be binary data, if the data is stored in the NWB file, or empty, if the data is stored in an external image stack. [frame][x][y] or [frame][x][y][z].\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"ImageSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"links\":[{\"name\":\"masked_imageseries\",\"doc\":\"Link to ImageSeries object that this image mask is applied to.\",\"target_type\":\"ImageSeries\"}],\"doc\":\"An alpha mask that is applied to a presented visual stimulus. The 'data' array contains an array of mask values that are applied to the displayed image. Mask values are stored as RGBA. Mask can vary with time. The timestamps array indicates the starting time of a mask, and that mask pattern continues until it's explicitly changed.\",\"neurodata_type_inc\":\"ImageSeries\",\"neurodata_type_def\":\"ImageMaskSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"dtype\":\"float32\",\"name\":\"distance\",\"doc\":\"Distance from camera/monitor to target/eye.\",\"quantity\":\"?\"},{\"shape\":[[2],[3]],\"dims\":[[\"width, height\"],[\"width, height, depth\"]],\"dtype\":\"float32\",\"name\":\"field_of_view\",\"doc\":\"Width, height and depth of image, or imaged area, in meters.\",\"quantity\":\"?\"},{\"shape\":[[null,null,null],[null,null,null,3]],\"dims\":[[\"frame\",\"x\",\"y\"],[\"frame\",\"x\",\"y\",\"r, g, b\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Images presented to subject, either grayscale or RGB\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"}]},{\"dtype\":\"text\",\"name\":\"orientation\",\"doc\":\"Description of image relative to some reference frame (e.g., which way is up). Must also specify frame of reference.\",\"quantity\":\"?\"}],\"doc\":\"Image data that is presented or recorded. A stimulus template movie will be stored only as an image. When the image is presented as stimulus, additional data is required, such as field of view (e.g., how much of the visual field the image covers, or how what is the area of the target being imaged). If the OpticalSeries represents acquired imaging data, orientation is also important.\",\"neurodata_type_inc\":\"ImageSeries\",\"neurodata_type_def\":\"OpticalSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"int32\",\"name\":\"data\",\"doc\":\"Index of the frame in the referenced ImageSeries.\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"}]}],\"links\":[{\"name\":\"indexed_timeseries\",\"doc\":\"Link to ImageSeries object containing images that are indexed.\",\"target_type\":\"ImageSeries\"}],\"doc\":\"Stores indices to image frames stored in an ImageSeries. The purpose of the ImageIndexSeries is to allow a static image stack to be stored somewhere, and the images in the stack to be referenced out-of-order. This can be for the display of individual images, or of movie segments (as a movie is simply a series of images). The data field stores the index of the frame in the referenced ImageSeries, and the timestamps array indicates when that image was displayed.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"IndexSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]}]}"
+                  },
+                  "nwb.misc": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[[null],[null,null]],\"dims\":[[\"num_times\"],[\"num_times\",\"num_features\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Values of each feature at each time.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Since there can be different units for different features, store the units in 'feature_units'. The default value for this attribute is \\\"see 'feature_units'\\\".\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"see 'feature_units'\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"shape\":[null],\"dims\":[\"num_features\"],\"dtype\":\"text\",\"name\":\"feature_units\",\"doc\":\"Units of each feature.\",\"quantity\":\"?\"},{\"shape\":[null],\"dims\":[\"num_features\"],\"dtype\":\"text\",\"name\":\"features\",\"doc\":\"Description of the features represented in TimeSeries::data.\"}],\"doc\":\"Abstract features, such as quantitative descriptions of sensory stimuli. The TimeSeries::data field is a 2D array, storing those features (e.g., for visual grating stimulus this might be orientation, spatial frequency and contrast). Null stimuli (eg, uniform gray) can be marked as being an independent feature (eg, 1.0 for gray, 0.0 for actual stimulus) or by storing NaNs for feature values, or through use of the TimeSeries::control fields. A set of features is considered to persist until the next set of features is defined. The final set of features stored should be the null set. This is useful when storing the raw stimulus is impractical.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"AbstractFeatureSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"text\",\"name\":\"data\",\"doc\":\"Annotations made during an experiment.\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data. Annotations have no units, so the value is fixed to -1.0.\",\"dtype\":\"float32\",\"value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Annotations have no units, so the value is fixed to 'n/a'.\",\"dtype\":\"text\",\"value\":\"n/a\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0}]}],\"doc\":\"Stores user annotations made during an experiment. The data[] field stores a text array, and timestamps are stored for each annotation (ie, interval=1). This is largely an alias to a standard TimeSeries storing a text array but that is identifiable as storing annotations in a machine-readable way.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"AnnotationSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"int8\",\"name\":\"data\",\"doc\":\"Use values >0 if interval started, <0 if interval ended.\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data. Annotations have no units, so the value is fixed to -1.0.\",\"dtype\":\"float32\",\"value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Annotations have no units, so the value is fixed to 'n/a'.\",\"dtype\":\"text\",\"value\":\"n/a\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0}]}],\"doc\":\"Stores intervals of data. The timestamps field stores the beginning and end of intervals. The data field stores whether the interval just started (>0 value) or ended (<0 value). Different interval types can be represented in the same series by using multiple key values (eg, 1 for feature A, 2 for feature B, 3 for feature C, etc). The field data stores an 8-bit integer. This is largely an alias of a standard TimeSeries but that is identifiable as representing time intervals in a machine-readable way.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"IntervalSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"groups\":[{\"datasets\":[{\"dtype\":\"text\",\"name\":\"band_name\",\"doc\":\"Name of the band, e.g. theta.\",\"neurodata_type_inc\":\"VectorData\"},{\"shape\":[null,2],\"dims\":[\"num_bands\",\"low, high\"],\"dtype\":\"float32\",\"name\":\"band_limits\",\"doc\":\"Low and high limit of each band in Hz. If it is a Gaussian filter, use 2 SD on either side of the center.\",\"neurodata_type_inc\":\"VectorData\"},{\"shape\":[null],\"dims\":[\"num_bands\"],\"dtype\":\"float32\",\"name\":\"band_mean\",\"doc\":\"The mean Gaussian filters, in Hz.\",\"neurodata_type_inc\":\"VectorData\"},{\"shape\":[null],\"dims\":[\"num_bands\"],\"dtype\":\"float32\",\"name\":\"band_stdev\",\"doc\":\"The standard deviation of Gaussian filters, in Hz.\",\"neurodata_type_inc\":\"VectorData\"}],\"name\":\"bands\",\"doc\":\"Table for describing the bands that this series was generated from. There should be one row in this table for each band.\",\"neurodata_type_inc\":\"DynamicTable\"}],\"datasets\":[{\"shape\":[null,null,null],\"dims\":[\"num_times\",\"num_channels\",\"num_bands\"],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Data decomposed into frequency bands.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no unit\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]},{\"dtype\":\"text\",\"name\":\"metric\",\"doc\":\"The metric used, e.g. phase, amplitude, power.\"}],\"links\":[{\"name\":\"source_timeseries\",\"doc\":\"Link to TimeSeries object that this data was calculated from. Metadata about electrodes and their position can be read from that ElectricalSeries so it is not necessary to store that information here.\",\"target_type\":\"TimeSeries\",\"quantity\":\"?\"}],\"doc\":\"Spectral analysis of a time series, e.g. of an LFP or a speech signal.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"DecompositionSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"name\":\"spike_times_index\",\"doc\":\"Index into the spike_times dataset.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"dtype\":\"float64\",\"name\":\"spike_times\",\"doc\":\"Spike times for each unit.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\",\"attributes\":[{\"name\":\"resolution\",\"doc\":\"The smallest possible difference between two spike times. Usually 1 divided by the acquisition sampling rate from which spike times were extracted, but could be larger if the acquisition time series was downsampled or smaller if the acquisition time series was smoothed/interpolated and it is possible for the spike time to be between samples.\",\"required\":false,\"dtype\":\"float64\"}]},{\"name\":\"obs_intervals_index\",\"doc\":\"Index into the obs_intervals dataset.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"shape\":[null,2],\"dims\":[\"num_intervals\",\"start|end\"],\"dtype\":\"float64\",\"name\":\"obs_intervals\",\"doc\":\"Observation intervals for each unit.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"electrodes_index\",\"doc\":\"Index into electrodes.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"name\":\"electrodes\",\"doc\":\"Electrode that each spike unit came from, specified using a DynamicTableRegion.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"DynamicTableRegion\"},{\"dtype\":{\"target_type\":\"ElectrodeGroup\",\"reftype\":\"object\"},\"name\":\"electrode_group\",\"doc\":\"Electrode group that each spike unit came from.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"shape\":[[null,null],[null,null,null]],\"dims\":[[\"num_units\",\"num_samples\"],[\"num_units\",\"num_samples\",\"num_electrodes\"]],\"dtype\":\"float32\",\"name\":\"waveform_mean\",\"doc\":\"Spike waveform mean for each spike unit.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\",\"attributes\":[{\"name\":\"sampling_rate\",\"doc\":\"Sampling rate, in hertz.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"unit\",\"doc\":\"Unit of measurement. This value is fixed to 'volts'.\",\"dtype\":\"text\",\"value\":\"volts\"}]},{\"shape\":[[null,null],[null,null,null]],\"dims\":[[\"num_units\",\"num_samples\"],[\"num_units\",\"num_samples\",\"num_electrodes\"]],\"dtype\":\"float32\",\"name\":\"waveform_sd\",\"doc\":\"Spike waveform standard deviation for each spike unit.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\",\"attributes\":[{\"name\":\"sampling_rate\",\"doc\":\"Sampling rate, in hertz.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"unit\",\"doc\":\"Unit of measurement. This value is fixed to 'volts'.\",\"dtype\":\"text\",\"value\":\"volts\"}]}],\"doc\":\"Data about spiking units. Event times of observed units (e.g. cell, synapse, etc.) should be concatenated and stored in spike_times.\",\"default_name\":\"Units\",\"neurodata_type_inc\":\"DynamicTable\",\"neurodata_type_def\":\"Units\",\"attributes\":[{\"name\":\"colnames\",\"doc\":\"The names of the columns in this table. This should be used to specify an order to the columns.\",\"dtype\":\"text\",\"shape\":[null],\"dims\":[\"num_columns\"]},{\"name\":\"description\",\"doc\":\"Description of what is in this dynamic table.\",\"dtype\":\"text\"}]}]}"
+                  },
+                  "nwb.ogen": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_times\"],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Applied power for optogenetic stimulus, in watts.\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Unit of measurement for data, which is fixed to 'watts'.\",\"dtype\":\"text\",\"value\":\"watts\"},{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0}]}],\"links\":[{\"name\":\"site\",\"doc\":\"Link to OptogeneticStimulusSite object that describes the site to which this stimulus was applied.\",\"target_type\":\"OptogeneticStimulusSite\"}],\"doc\":\"An optogenetic stimulus.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"OptogeneticSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of stimulation site.\"},{\"dtype\":\"float32\",\"name\":\"excitation_lambda\",\"doc\":\"Excitation wavelength, in nm.\"},{\"dtype\":\"text\",\"name\":\"location\",\"doc\":\"Location of the stimulation site. Specify the area, layer, comments on estimation of area/layer, stereotaxic coordinates if in vivo, etc. Use standard atlas names for anatomical regions when possible.\"}],\"links\":[{\"name\":\"device\",\"doc\":\"Device that generated the stimulus.\",\"target_type\":\"Device\"}],\"doc\":\"A site of optogenetic stimulation.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"OptogeneticStimulusSite\"}]}"
+                  },
+                  "nwb.ophys": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[[2],[3]],\"dims\":[[\"width|height\"],[\"width|height|depth\"]],\"dtype\":\"float32\",\"name\":\"field_of_view\",\"doc\":\"Width, height and depth of image, or imaged area, in meters.\",\"quantity\":\"?\"}],\"links\":[{\"name\":\"imaging_plane\",\"doc\":\"Link to ImagingPlane object from which this TimeSeries data was generated.\",\"target_type\":\"ImagingPlane\"}],\"doc\":\"Image stack recorded over time from 2-photon microscope.\",\"neurodata_type_inc\":\"ImageSeries\",\"neurodata_type_def\":\"TwoPhotonSeries\",\"attributes\":[{\"name\":\"pmt_gain\",\"doc\":\"Photomultiplier gain.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"scan_line_rate\",\"doc\":\"Lines imaged per second. This is also stored in /general/optophysiology but is kept here as it is useful information for analysis, and so good to be stored w/ the actual data.\",\"required\":false,\"dtype\":\"float32\"},{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"datasets\":[{\"shape\":[[null],[null,null]],\"dims\":[[\"num_times\"],[\"num_times\",\"num_ROIs\"]],\"dtype\":\"numeric\",\"name\":\"data\",\"doc\":\"Signals from ROIs.\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as signed 16-bit integers (int16 range -32,768 to 32,767) that correspond to a 5V range (-2.5V to 2.5V), and the data acquisition system gain is 8000X, then the 'conversion' multiplier to get from raw data acquisition values to recorded volts is 2.5/32768/8000 = 9.5367e-9.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"resolution\",\"doc\":\"Smallest meaningful difference between values in data, stored in the specified by unit, e.g., the change in value of the least significant bit, or a larger number if signal noise is known to be present. If unknown, use -1.0.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":-1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. Actual stored values are not necessarily stored in these units. To access the data in these units, multiply 'data' by 'conversion'.\",\"dtype\":\"text\"}]},{\"name\":\"rois\",\"doc\":\"DynamicTableRegion referencing into an ROITable containing information on the ROIs stored in this timeseries.\",\"neurodata_type_inc\":\"DynamicTableRegion\"}],\"doc\":\"ROI responses over an imaging plane. The first dimension represents time. The second dimension, if present, represents ROIs.\",\"neurodata_type_inc\":\"TimeSeries\",\"neurodata_type_def\":\"RoiResponseSeries\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of the time series.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no description\"},{\"name\":\"comments\",\"doc\":\"Human-readable comments about the TimeSeries. This second descriptive field can be used to store additional information, or descriptive information if the primary description field is populated with a computer-readable string.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"no comments\"}]},{\"groups\":[{\"doc\":\"RoiResponseSeries object(s) containing dF/F for a ROI.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"RoiResponseSeries\"}],\"doc\":\"dF/F information about a region of interest (ROI). Storage hierarchy of dF/F should be the same as for segmentation (i.e., same names for ROIs and for image planes).\",\"default_name\":\"DfOverF\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"DfOverF\"},{\"groups\":[{\"doc\":\"RoiResponseSeries object(s) containing fluorescence data for a ROI.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"RoiResponseSeries\"}],\"doc\":\"Fluorescence information about a region of interest (ROI). Storage hierarchy of fluorescence should be the same as for segmentation (ie, same names for ROIs and for image planes).\",\"default_name\":\"Fluorescence\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"Fluorescence\"},{\"groups\":[{\"doc\":\"Results from image segmentation of a specific imaging plane.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"PlaneSegmentation\"}],\"doc\":\"Stores pixels in an image that represent different regions of interest (ROIs) or masks. All segmentation for a given imaging plane is stored together, with storage for multiple imaging planes (masks) supported. Each ROI is stored in its own subgroup, with the ROI group containing both a 2D mask and a list of pixels that make up this mask. Segments can also be used for masking neuropil. If segmentation is allowed to change with time, a new imaging plane (or module) is required and ROI names should remain consistent between them.\",\"default_name\":\"ImageSegmentation\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"ImageSegmentation\"},{\"groups\":[{\"groups\":[{\"doc\":\"One or more image stacks that the masks apply to (can be one-element stack).\",\"quantity\":\"*\",\"neurodata_type_inc\":\"ImageSeries\"}],\"name\":\"reference_images\",\"doc\":\"Image stacks that the segmentation masks apply to.\"}],\"datasets\":[{\"shape\":[[null,null,null],[null,null,null,null]],\"dims\":[[\"num_roi\",\"num_x\",\"num_y\"],[\"num_roi\",\"num_x\",\"num_y\",\"num_z\"]],\"name\":\"image_mask\",\"doc\":\"ROI masks for each ROI. Each image mask is the size of the original imaging plane (or volume) and members of the ROI are finite non-zero.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"pixel_mask_index\",\"doc\":\"Index into pixel_mask.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"dtype\":[{\"doc\":\"Pixel x-coordinate.\",\"name\":\"x\",\"dtype\":\"uint32\"},{\"doc\":\"Pixel y-coordinate.\",\"name\":\"y\",\"dtype\":\"uint32\"},{\"doc\":\"Weight of the pixel.\",\"name\":\"weight\",\"dtype\":\"float32\"}],\"name\":\"pixel_mask\",\"doc\":\"Pixel masks for each ROI: a list of indices and weights for the ROI. Pixel masks are concatenated and parsing of this dataset is maintained by the PlaneSegmentation\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"},{\"name\":\"voxel_mask_index\",\"doc\":\"Index into voxel_mask.\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorIndex\"},{\"dtype\":[{\"doc\":\"Voxel x-coordinate.\",\"name\":\"x\",\"dtype\":\"uint32\"},{\"doc\":\"Voxel y-coordinate.\",\"name\":\"y\",\"dtype\":\"uint32\"},{\"doc\":\"Voxel z-coordinate.\",\"name\":\"z\",\"dtype\":\"uint32\"},{\"doc\":\"Weight of the voxel.\",\"name\":\"weight\",\"dtype\":\"float32\"}],\"name\":\"voxel_mask\",\"doc\":\"Voxel masks for each ROI: a list of indices and weights for the ROI. Voxel masks are concatenated and parsing of this dataset is maintained by the PlaneSegmentation\",\"quantity\":\"?\",\"neurodata_type_inc\":\"VectorData\"}],\"links\":[{\"name\":\"imaging_plane\",\"doc\":\"Link to ImagingPlane object from which this data was generated.\",\"target_type\":\"ImagingPlane\"}],\"doc\":\"Results from image segmentation of a specific imaging plane.\",\"neurodata_type_inc\":\"DynamicTable\",\"neurodata_type_def\":\"PlaneSegmentation\",\"attributes\":[{\"name\":\"colnames\",\"doc\":\"The names of the columns in this table. This should be used to specify an order to the columns.\",\"dtype\":\"text\",\"shape\":[null],\"dims\":[\"num_columns\"]},{\"name\":\"description\",\"doc\":\"Description of what is in this dynamic table.\",\"dtype\":\"text\"}]},{\"groups\":[{\"doc\":\"An optical channel used to record from an imaging plane.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"OpticalChannel\"}],\"datasets\":[{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description of the imaging plane.\",\"quantity\":\"?\"},{\"dtype\":\"float32\",\"name\":\"excitation_lambda\",\"doc\":\"Excitation wavelength, in nm.\"},{\"dtype\":\"float32\",\"name\":\"imaging_rate\",\"doc\":\"Rate that images are acquired, in Hz. If the corresponding TimeSeries is present, the rate should be stored there instead.\",\"quantity\":\"?\"},{\"dtype\":\"text\",\"name\":\"indicator\",\"doc\":\"Calcium indicator.\"},{\"dtype\":\"text\",\"name\":\"location\",\"doc\":\"Location of the imaging plane. Specify the area, layer, comments on estimation of area/layer, stereotaxic coordinates if in vivo, etc. Use standard atlas names for anatomical regions when possible.\"},{\"shape\":[[null,null,3],[null,null,null,3]],\"dims\":[[\"height\",\"width\",\"x, y, z\"],[\"height\",\"width\",\"depth\",\"x, y, z\"]],\"dtype\":\"float32\",\"name\":\"manifold\",\"doc\":\"DEPRECATED Physical position of each pixel. 'xyz' represents the position of the pixel relative to the defined coordinate space. Deprecated in favor of origin_coords and grid_spacing.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"conversion\",\"doc\":\"Scalar to multiply each element in data to convert it to the specified 'unit'. If the data are stored in acquisition system units or other units that require a conversion to be interpretable, multiply the data by 'conversion' to convert the data to the specified 'unit'. e.g. if the data acquisition system stores values in this object as pixels from x = -500 to 499, y = -500 to 499 that correspond to a 2 m x 2 m range, then the 'conversion' multiplier to get from raw data acquisition pixel units to meters is 2/1000.\",\"required\":false,\"dtype\":\"float32\",\"default_value\":1.0},{\"name\":\"unit\",\"doc\":\"Base unit of measurement for working with the data. The default value is 'meters'.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"meters\"}]},{\"shape\":[[2],[3]],\"dims\":[[\"x, y\"],[\"x, y, z\"]],\"dtype\":\"float32\",\"name\":\"origin_coords\",\"doc\":\"Physical location of the first element of the imaging plane (0, 0) for 2-D data or (0, 0, 0) for 3-D data. See also reference_frame for what the physical location is relative to (e.g., bregma).\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Measurement units for origin_coords. The default value is 'meters'.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"meters\"}]},{\"shape\":[[2],[3]],\"dims\":[[\"x, y\"],[\"x, y, z\"]],\"dtype\":\"float32\",\"name\":\"grid_spacing\",\"doc\":\"Space between pixels in (x, y) or voxels in (x, y, z) directions, in the specified unit. Assumes imaging plane is a regular grid. See also reference_frame to interpret the grid.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"unit\",\"doc\":\"Measurement units for grid_spacing. The default value is 'meters'.\",\"required\":false,\"dtype\":\"text\",\"default_value\":\"meters\"}]},{\"dtype\":\"text\",\"name\":\"reference_frame\",\"doc\":\"Describes reference frame of origin_coords and grid_spacing. For example, this can be a text description of the anatomical location and orientation of the grid defined by origin_coords and grid_spacing or the vectors needed to transform or rotate the grid to a common anatomical axis (e.g., AP/DV/ML). This field is necessary to interpret origin_coords and grid_spacing. If origin_coords and grid_spacing are not present, then this field is not required. For example, if the microscope takes 10 x 10 x 2 images, where the first value of the data matrix (index (0, 0, 0)) corresponds to (-1.2, -0.6, -2) mm relative to bregma, the spacing between pixels is 0.2 mm in x, 0.2 mm in y and 0.5 mm in z, and larger numbers in x means more anterior, larger numbers in y means more rightward, and larger numbers in z means more ventral, then enter the following -- origin_coords = (-1.2, -0.6, -2) grid_spacing = (0.2, 0.2, 0.5) reference_frame = \\\"Origin coordinates are relative to bregma. First dimension corresponds to anterior-posterior axis (larger index = more anterior). Second dimension corresponds to medial-lateral axis (larger index = more rightward). Third dimension corresponds to dorsal-ventral axis (larger index = more ventral).\\\"\",\"quantity\":\"?\"}],\"links\":[{\"name\":\"device\",\"doc\":\"Link to the Device object that was used to record from this electrode.\",\"target_type\":\"Device\"}],\"doc\":\"An imaging plane and its metadata.\",\"quantity\":\"*\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"ImagingPlane\"},{\"datasets\":[{\"dtype\":\"text\",\"name\":\"description\",\"doc\":\"Description or other notes about the channel.\"},{\"dtype\":\"float32\",\"name\":\"emission_lambda\",\"doc\":\"Emission wavelength for channel, in nm.\"}],\"doc\":\"An optical channel used to record from an imaging plane.\",\"neurodata_type_inc\":\"NWBContainer\",\"neurodata_type_def\":\"OpticalChannel\"},{\"groups\":[{\"doc\":\"Reuslts from motion correction of an image stack.\",\"quantity\":\"+\",\"neurodata_type_inc\":\"CorrectedImageStack\"}],\"doc\":\"An image stack where all frames are shifted (registered) to a common coordinate system, to account for movement and drift between frames. Note: each frame at each point in time is assumed to be 2-D (has only x & y dimensions).\",\"default_name\":\"MotionCorrection\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"MotionCorrection\"},{\"groups\":[{\"name\":\"corrected\",\"doc\":\"Image stack with frames shifted to the common coordinates.\",\"neurodata_type_inc\":\"ImageSeries\"},{\"name\":\"xy_translation\",\"doc\":\"Stores the x,y delta necessary to align each frame to the common coordinates, for example, to align each frame to a reference image.\",\"neurodata_type_inc\":\"TimeSeries\"}],\"links\":[{\"name\":\"original\",\"doc\":\"Link to ImageSeries object that is being registered.\",\"target_type\":\"ImageSeries\"}],\"doc\":\"Reuslts from motion correction of an image stack.\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"CorrectedImageStack\"}]}"
+                  },
+                  "nwb.retinotopy": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"float32\",\"name\":\"axis_1_phase_map\",\"doc\":\"Phase response to stimulus on the first measured axis.\",\"attributes\":[{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"unit\",\"doc\":\"Unit that axis data is stored in (e.g., degrees).\",\"dtype\":\"text\"}]},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"float32\",\"name\":\"axis_1_power_map\",\"doc\":\"Power response on the first measured axis. Response is scaled so 0.0 is no power in the response and 1.0 is maximum relative power.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"unit\",\"doc\":\"Unit that axis data is stored in (e.g., degrees).\",\"dtype\":\"text\"}]},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"float32\",\"name\":\"axis_2_phase_map\",\"doc\":\"Phase response to stimulus on the second measured axis.\",\"attributes\":[{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"unit\",\"doc\":\"Unit that axis data is stored in (e.g., degrees).\",\"dtype\":\"text\"}]},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"float32\",\"name\":\"axis_2_power_map\",\"doc\":\"Power response on the second measured axis. Response is scaled so 0.0 is no power in the response and 1.0 is maximum relative power.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"unit\",\"doc\":\"Unit that axis data is stored in (e.g., degrees).\",\"dtype\":\"text\"}]},{\"shape\":[2],\"dims\":[\"axis_1, axis_2\"],\"dtype\":\"text\",\"name\":\"axis_descriptions\",\"doc\":\"Two-element array describing the contents of the two response axis fields. Description should be something like ['altitude', 'azimuth'] or '['radius', 'theta'].\"},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"uint16\",\"name\":\"focal_depth_image\",\"doc\":\"Gray-scale image taken with same settings/parameters (e.g., focal depth, wavelength) as data collection. Array format: [rows][columns].\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"bits_per_pixel\",\"doc\":\"Number of bits used to represent each value. This is necessary to determine maximum (white) pixel value.\",\"dtype\":\"int32\"},{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"focal_depth\",\"doc\":\"Focal depth offset, in meters.\",\"dtype\":\"float32\"},{\"name\":\"format\",\"doc\":\"Format of image. Right now only 'raw' is supported.\",\"dtype\":\"text\"}]},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"float32\",\"name\":\"sign_map\",\"doc\":\"Sine of the angle between the direction of the gradient in axis_1 and axis_2.\",\"quantity\":\"?\",\"attributes\":[{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]}]},{\"shape\":[null,null],\"dims\":[\"num_rows\",\"num_cols\"],\"dtype\":\"uint16\",\"name\":\"vasculature_image\",\"doc\":\"Gray-scale anatomical image of cortical surface. Array structure: [rows][columns]\",\"attributes\":[{\"name\":\"bits_per_pixel\",\"doc\":\"Number of bits used to represent each value. This is necessary to determine maximum (white) pixel value\",\"dtype\":\"int32\"},{\"name\":\"dimension\",\"doc\":\"Number of rows and columns in the image. NOTE: row, column representation is equivalent to height, width.\",\"dtype\":\"int32\",\"shape\":[2],\"dims\":[\"num_rows, num_cols\"]},{\"name\":\"field_of_view\",\"doc\":\"Size of viewing area, in meters.\",\"dtype\":\"float32\",\"shape\":[2],\"dims\":[\"height, width\"]},{\"name\":\"format\",\"doc\":\"Format of image. Right now only 'raw' is supported.\",\"dtype\":\"text\"}]}],\"doc\":\"Intrinsic signal optical imaging or widefield imaging for measuring retinotopy. Stores orthogonal maps (e.g., altitude/azimuth; radius/theta) of responses to specific stimuli and a combined polarity map from which to identify visual areas. This group does not store the raw responses imaged during retinotopic mapping or the stimuli presented, but rather the resulting phase and power maps after applying a Fourier transform on the averaged responses. Note: for data consistency, all images and arrays are stored in the format [row][column] and [row, col], which equates to [y][x]. Field of view and dimension arrays may appear backward (i.e., y before x).\",\"default_name\":\"ImagingRetinotopy\",\"neurodata_type_inc\":\"NWBDataInterface\",\"neurodata_type_def\":\"ImagingRetinotopy\"}]}"
+                  }
+                }
+              }
+            }
+          },
+          "hdmf-common": {
+            "groups": {
+              "1.3.0": {
+                "datasets": {
+                  "base": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"datasets\":[{\"doc\":\"An abstract data type for a dataset.\",\"data_type_def\":\"Data\"}],\"groups\":[{\"doc\":\"An abstract data type for a group storing collections of data and metadata. Base type for all data and metadata containers.\",\"data_type_def\":\"Container\"},{\"groups\":[{\"doc\":\"Container objects held within this SimpleMultiContainer.\",\"quantity\":\"*\",\"data_type_inc\":\"Container\"}],\"datasets\":[{\"doc\":\"Data objects held within this SimpleMultiContainer.\",\"quantity\":\"*\",\"data_type_inc\":\"Data\"}],\"doc\":\"A simple Container for holding onto multiple containers.\",\"data_type_inc\":\"Container\",\"data_type_def\":\"SimpleMultiContainer\"}]}"
+                  },
+                  "namespace": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"namespaces\":[{\"doc\":\"Common data structures provided by HDMF\",\"schema\":[{\"source\":\"base\"},{\"source\":\"table\"},{\"source\":\"sparse\"},{\"source\":\"resources\"}],\"name\":\"hdmf-common\",\"full_name\":\"HDMF Common\",\"version\":\"1.3.0\",\"author\":[\"Andrew Tritt\",\"Oliver Ruebel\",\"Ryan Ly\",\"Ben Dichter\"],\"contact\":[\"ajtritt@lbl.gov\",\"oruebel@lbl.gov\",\"rly@lbl.gov\",\"bdichter@lbl.gov\"]}]}"
+                  },
+                  "resources": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":[{\"doc\":\"The user term that maps to one or more resources in the 'resources' table.\",\"name\":\"key_name\",\"dtype\":\"text\"}],\"name\":\"keys\",\"doc\":\"A table for storing user terms that are used to refer to external resources.\",\"data_type_inc\":\"Data\"},{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":[{\"doc\":\"The index to the key in the 'keys' table.\",\"name\":\"keytable_idx\",\"dtype\":\"uint\"},{\"doc\":\"The name of the online resource (e.g., website, database) that has the entity.\",\"name\":\"resource_name\",\"dtype\":\"text\"},{\"doc\":\"The unique identifier for the resource entity at the resource.\",\"name\":\"resource_id\",\"dtype\":\"text\"},{\"doc\":\"The URI for the resource entity this reference applies to. This can be an empty string.\",\"name\":\"uri\",\"dtype\":\"text\"}],\"name\":\"resources\",\"doc\":\"A table for mapping user terms (i.e., keys) to resource entities.\",\"data_type_inc\":\"Data\"},{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":[{\"doc\":\"The UUID for the object.\",\"name\":\"object_id\",\"dtype\":\"text\"},{\"doc\":\"The field of the object. This can be an empty string if the object is a dataset and the field is the dataset values.\",\"name\":\"field\",\"dtype\":\"text\"}],\"name\":\"objects\",\"doc\":\"A table for identifying which objects in a file contain references to external resources.\",\"data_type_inc\":\"Data\"},{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":[{\"doc\":\"The index to the 'objects' table for the object that holds the key.\",\"name\":\"objecttable_idx\",\"dtype\":\"uint\"},{\"doc\":\"The index to the 'keys' table for the key.\",\"name\":\"keytable_idx\",\"dtype\":\"uint\"}],\"name\":\"object_keys\",\"doc\":\"A table for identifying which objects use which keys.\",\"data_type_inc\":\"Data\"}],\"doc\":\"A set of four tables for tracking external resource references in a file. NOTE: this data type is in beta testing and is subject to change in a later version.\",\"data_type_inc\":\"Container\",\"data_type_def\":\"ExternalResources\"}]}"
+                  },
+                  "sparse": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"groups\":[{\"datasets\":[{\"shape\":[null],\"dims\":[\"number of non-zero values\"],\"dtype\":\"uint\",\"name\":\"indices\",\"doc\":\"The column indices.\"},{\"shape\":[null],\"dims\":[\"number of rows in the matrix + 1\"],\"dtype\":\"uint\",\"name\":\"indptr\",\"doc\":\"The row index pointer.\"},{\"shape\":[null],\"dims\":[\"number of non-zero values\"],\"name\":\"data\",\"doc\":\"The non-zero values in the matrix.\"}],\"doc\":\"A compressed sparse row matrix. Data are stored in the standard CSR format, where column indices for row i are stored in indices[indptr[i]:indptr[i+1]] and their corresponding values are stored in data[indptr[i]:indptr[i+1]].\",\"data_type_inc\":\"Container\",\"data_type_def\":\"CSRMatrix\",\"attributes\":[{\"name\":\"shape\",\"doc\":\"The shape (number of rows, number of columns) of this sparse matrix.\",\"dtype\":\"uint\",\"shape\":[2],\"dims\":[\"number of rows, number of columns\"]}]}]}"
+                  },
+                  "table": {
+                    "filters": [],
+                    "dtype": "object",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": "{\"datasets\":[{\"shape\":[[null],[null,null],[null,null,null],[null,null,null,null]],\"dims\":[[\"dim0\"],[\"dim0\",\"dim1\"],[\"dim0\",\"dim1\",\"dim2\"],[\"dim0\",\"dim1\",\"dim2\",\"dim3\"]],\"doc\":\"An n-dimensional dataset representing a column of a DynamicTable. If used without an accompanying VectorIndex, first dimension is along the rows of the DynamicTable and each step along the first dimension is a cell of the larger table. VectorData can also be used to represent a ragged array if paired with a VectorIndex. This allows for storing arrays of varying length in a single cell of the DynamicTable by indexing into this VectorData. The first vector is at VectorData[0:VectorIndex[0]]. The second vector is at VectorData[VectorIndex[0]:VectorIndex[1]], and so on.\",\"data_type_inc\":\"Data\",\"data_type_def\":\"VectorData\",\"attributes\":[{\"name\":\"description\",\"doc\":\"Description of what these vectors represent.\",\"dtype\":\"text\"}]},{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":\"uint8\",\"doc\":\"Used with VectorData to encode a ragged array. An array of indices into the first dimension of the target VectorData, and forming a map between the rows of a DynamicTable and the indices of the VectorData. The name of the VectorIndex is expected to be the name of the target VectorData object followed by \\\"_index\\\".\",\"data_type_inc\":\"VectorData\",\"data_type_def\":\"VectorIndex\",\"attributes\":[{\"name\":\"target\",\"doc\":\"Reference to the target dataset that this index applies to.\",\"dtype\":{\"target_type\":\"VectorData\",\"reftype\":\"object\"}},{\"name\":\"description\",\"doc\":\"Description of what these vectors represent.\",\"dtype\":\"text\"}]},{\"shape\":[null],\"dims\":[\"num_elements\"],\"dtype\":\"int\",\"doc\":\"A list of unique identifiers for values within a dataset, e.g. rows of a DynamicTable.\",\"default_name\":\"element_id\",\"data_type_inc\":\"Data\",\"data_type_def\":\"ElementIdentifiers\"},{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":\"int\",\"doc\":\"DynamicTableRegion provides a link from one table to an index or region of another. The `table` attribute is a link to another `DynamicTable`, indicating which table is referenced, and the data is int(s) indicating the row(s) (0-indexed) of the target array. `DynamicTableRegion`s can be used to associate rows with repeated meta-data without data duplication. They can also be used to create hierarchical relationships between multiple `DynamicTable`s. `DynamicTableRegion` objects may be paired with a `VectorIndex` object to create ragged references, so a single cell of a `DynamicTable` can reference many rows of another `DynamicTable`.\",\"data_type_inc\":\"VectorData\",\"data_type_def\":\"DynamicTableRegion\",\"attributes\":[{\"name\":\"table\",\"doc\":\"Reference to the DynamicTable object that this region applies to.\",\"dtype\":{\"target_type\":\"DynamicTable\",\"reftype\":\"object\"}},{\"name\":\"description\",\"doc\":\"Description of what this table region points to.\",\"dtype\":\"text\"}]},{\"dtype\":\"uint8\",\"doc\":\"Data that come from a controlled vocabulary of text values. A data value of i corresponds to the i-th element in the 'vocabulary' array attribute.\",\"data_type_inc\":\"VectorData\",\"data_type_def\":\"VocabData\",\"attributes\":[{\"name\":\"vocabulary\",\"doc\":\"The available items in the controlled vocabulary.\",\"dtype\":\"text\",\"shape\":[null]},{\"name\":\"description\",\"doc\":\"Description of what these vectors represent.\",\"dtype\":\"text\"}]}],\"groups\":[{\"datasets\":[{\"shape\":[null],\"dims\":[\"num_rows\"],\"dtype\":\"int\",\"name\":\"id\",\"doc\":\"Array of unique identifiers for the rows of this dynamic table.\",\"data_type_inc\":\"ElementIdentifiers\"},{\"doc\":\"Vector columns, including index columns, of this dynamic table.\",\"quantity\":\"*\",\"data_type_inc\":\"VectorData\"}],\"doc\":\"A group containing multiple datasets that are aligned on the first dimension (Currently, this requirement if left up to APIs to check and enforce). These datasets represent different columns in the table. Apart from a column that contains unique identifiers for each row, there are no other required datasets. Users are free to add any number of custom VectorData objects (columns) here. DynamicTable also supports ragged array columns, where each element can be of a different size. To add a ragged array column, use a VectorIndex type to index the corresponding VectorData type. See documentation for VectorData and VectorIndex for more details. Unlike a compound data type, which is analogous to storing an array-of-structs, a DynamicTable can be thought of as a struct-of-arrays. This provides an alternative structure to choose from when optimizing storage for anticipated access patterns. Additionally, this type provides a way of creating a table without having to define a compound type up front. Although this convenience may be attractive, users should think carefully about how data will be accessed. DynamicTable is more appropriate for column-centric access, whereas a dataset with a compound type would be more appropriate for row-centric access. Finally, data size should also be taken into account. For small tables, performance loss may be an acceptable trade-off for the flexibility of a DynamicTable.\",\"data_type_inc\":\"Container\",\"data_type_def\":\"DynamicTable\",\"attributes\":[{\"name\":\"colnames\",\"doc\":\"The names of the columns in this table. This should be used to specify an order to the columns.\",\"dtype\":\"text\",\"shape\":[null],\"dims\":[\"num_columns\"]},{\"name\":\"description\",\"doc\":\"Description of what is in this dynamic table.\",\"dtype\":\"text\"}]}]}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "stimulus": {
+        "groups": {
+          "presentation": {
+            "groups": {
+              "bckgndJitter": {
+                "datasets": {
+                  "data": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      31722
+                    ],
+                    "chunks": [
+                      31722
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "conversion": 1.0,
+                      "resolution": -1.0,
+                      "unit": "n.a."
+                    }
+                  },
+                  "starting_time": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "rate": 15.460937499999998,
+                      "unit": "seconds"
+                    }
+                  }
+                },
+                "attributes": {
+                  "comments": "no comments",
+                  "description": "information about stimulus in arbitrary units",
+                  "namespace": "core",
+                  "neurodata_type": "TimeSeries",
+                  "object_id": "ef6ae5cd-592f-4562-80ee-469186f9127b"
+                }
+              },
+              "morph": {
+                "datasets": {
+                  "data": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      31722
+                    ],
+                    "chunks": [
+                      31722
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "conversion": 1.0,
+                      "resolution": -1.0,
+                      "unit": "n.a."
+                    }
+                  },
+                  "starting_time": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "rate": 15.460937499999998,
+                      "unit": "seconds"
+                    }
+                  }
+                },
+                "attributes": {
+                  "comments": "no comments",
+                  "description": "information about stimulus in arbitrary units",
+                  "namespace": "core",
+                  "neurodata_type": "TimeSeries",
+                  "object_id": "6e0dbbe3-d7a4-48d3-915d-a7c0a6cd4c4a"
+                }
+              },
+              "reward": {
+                "datasets": {
+                  "data": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      31722
+                    ],
+                    "chunks": [
+                      31722
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "conversion": 1.0,
+                      "resolution": -1.0,
+                      "unit": "n.a."
+                    }
+                  },
+                  "starting_time": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "rate": 15.460937499999998,
+                      "unit": "seconds"
+                    }
+                  }
+                },
+                "attributes": {
+                  "comments": "no comments",
+                  "description": "number of rewards dispensed ",
+                  "namespace": "core",
+                  "neurodata_type": "TimeSeries",
+                  "object_id": "5ae2f524-dd04-46b8-afd6-33dd509597db"
+                }
+              },
+              "towerJitter": {
+                "datasets": {
+                  "data": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      31722
+                    ],
+                    "chunks": [
+                      31722
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "conversion": 1.0,
+                      "resolution": -1.0,
+                      "unit": "n.a."
+                    }
+                  },
+                  "starting_time": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "rate": 15.460937499999998,
+                      "unit": "seconds"
+                    }
+                  }
+                },
+                "attributes": {
+                  "comments": "no comments",
+                  "description": "information about stimulus in arbitrary units",
+                  "namespace": "core",
+                  "neurodata_type": "TimeSeries",
+                  "object_id": "30f134d9-dfad-4ca5-ac55-9af44327a5f1"
+                }
+              },
+              "wallJitter": {
+                "datasets": {
+                  "data": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [
+                      31722
+                    ],
+                    "chunks": [
+                      31722
+                    ],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "conversion": 1.0,
+                      "resolution": -1.0,
+                      "unit": "n.a."
+                    }
+                  },
+                  "starting_time": {
+                    "filters": [],
+                    "dtype": "float64",
+                    "shape": [],
+                    "chunks": [],
+                    "compressor": null,
+                    "fill_value": null,
+                    "data": null,
+                    "attributes": {
+                      "rate": 15.460937499999998,
+                      "unit": "seconds"
+                    }
+                  }
+                },
+                "attributes": {
+                  "comments": "no comments",
+                  "description": "information about stimulus in arbitrary units",
+                  "namespace": "core",
+                  "neurodata_type": "TimeSeries",
+                  "object_id": "ac4b8222-3d6f-4c28-b91c-6c51c0b074fb"
+                }
+              }
+            }
+          },
+          "templates": {}
+        }
+      }
+    },
+    "datasets": {
+      "file_create_date": {
+        "filters": [],
+        "dtype": "object",
+        "shape": [
+          1
+        ],
+        "chunks": [
+          1
+        ],
+        "compressor": null,
+        "fill_value": null,
+        "data": [
+          "2021-03-01T11:53:37.565348-05:00"
+        ]
+      },
+      "identifier": {
+        "filters": [],
+        "dtype": "object",
+        "shape": [],
+        "chunks": [],
+        "compressor": null,
+        "fill_value": null,
+        "data": "70b75193-b8dd-4c43-822b-960c030981f3"
+      },
+      "session_description": {
+        "filters": [],
+        "dtype": "object",
+        "shape": [],
+        "chunks": [],
+        "compressor": null,
+        "fill_value": null,
+        "data": "TwoTower_foraging_002_005"
+      },
+      "session_start_time": {
+        "filters": [],
+        "dtype": "object",
+        "shape": [],
+        "chunks": [],
+        "compressor": null,
+        "fill_value": null,
+        "data": "2019-04-09T21:00:00-07:00"
+      },
+      "timestamps_reference_time": {
+        "filters": [],
+        "dtype": "object",
+        "shape": [],
+        "chunks": [],
+        "compressor": null,
+        "fill_value": null,
+        "data": "2019-04-09T21:00:00-07:00"
+      }
+    },
+    "attributes": {
+      ".specloc": {
+        "dtype": "object_reference",
+        "path": "/groups/specifications"
+      },
+      "namespace": "core",
+      "neurodata_type": "NWBFile",
+      "nwb_version": "2.2.5",
+      "object_id": "c7bc6cfb-7bf7-4978-95d0-9a7738f53f6f"
+    }
+  }
+}
