@@ -6,18 +6,20 @@ pip install remfile dandi
 ```
 """
 
-from typing import Optional
-from dandi.dandiapi import DandiAPIClient, RemoteDandiset
-from linked_arrays import H5ToJson
 import os
 import sys
 import time
-from tqdm import tqdm
 import traceback
 import warnings
+from typing import List, Optional
+
+from dandi.dandiapi import DandiAPIClient, RemoteDandiset
+from tqdm import tqdm
+
+from linked_arrays import H5ToJson
 
 # these take too long - skip when scraping dandisets in bulk
-skip_dandisets = []
+skip_dandisets: List[str] = []
 
 # DANDI:000016 - a lot of groups
 # Translation time: 253.93 s
@@ -121,8 +123,6 @@ def scrape_dandi_nwb_to_json(
 
         # append translation times to csv file after every read so we don't lose data if the script crashes
         with open(translation_times_path, "a") as f:
-            if dandiset_translation_times[dandiset] is None:
-                continue
             for asset_path, translation_time in dandiset_translation_times[dandiset].items():
                 f.write(f"{dandiset.identifier},{asset_path},{translation_time}\n")
 
@@ -134,7 +134,7 @@ def scrape_dandi_nwb_to_json(
 
 def translate_dandiset_assets(
     dandiset: RemoteDandiset, num_assets: Optional[int], output_dir: str, overwrite: bool
-) -> Optional[float]:
+) -> dict:
     """Process a single dandiset from a RemoteDandiset object.
 
     Parameters
@@ -151,8 +151,8 @@ def translate_dandiset_assets(
 
     Returns
     -------
-    float
-        The time it took to translate the NWB file.
+    dict
+        The time it took to translate each NWB file.
     """
     id = dandiset.identifier
     if id.startswith("DANDI:"):
@@ -171,7 +171,7 @@ def translate_dandiset_assets(
 
     if num_assets == 0:
         print("No NWB files?!")
-        return None
+        return dict()
 
     assets = assets[:num_assets]
     asset_translation_times = dict()

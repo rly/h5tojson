@@ -43,6 +43,8 @@ dev = [
     "codespell",
     "ruff",
     "interrogate",
+    "mypy",
+    "types-ujson",
 ]
 
 [project.urls]
@@ -66,8 +68,9 @@ exclude = [".git_archival.txt"]
 [tool.hatch.build.targets.wheel]
 packages = ["linked_arrays"]
 
-# [tool.mypy]
-# no_incremental = true
+[tool.mypy]
+no_incremental = true
+ignore_missing_imports = true
 
 [tool.interrogate]
 fail-under = 95
@@ -81,7 +84,7 @@ addopts = "--cov --cov-report html"
 # norecursedirs = "tests/unit/helpers"
 
 [tool.codespell]
-skip = "htmlcov,.git,.mypy_cache,.pytest_cache,.coverage,*.pdf,*.svg,venvs,.tox"
+skip = "htmlcov,.git,.mypy_cache,.pytest_cache,.coverage,*.pdf,*.svg,venvs,.tox,*.json"
 ignore-words-list = "fo"
 
 [tool.coverage.run]
@@ -116,3 +119,6 @@ line-length = 120
 
 [tool.ruff.mccabe]
 max-complexity = 17
+
+[tool.isort]
+profile = "black"

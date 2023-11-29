@@ -45,6 +45,8 @@ black .
 ruff .
 codespell .
 interrogate .
+mypy .
+isort .
 ```
 
 To use notebooks, install `jupyterlab`.

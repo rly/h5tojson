@@ -88,21 +88,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from collections import defaultdict
-import warnings
-import fsspec
-import h5py
 import json
 import logging
+import os
+import warnings
+from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+from typing import Optional, Union
+
+import fsspec
+import h5py
 import numcodecs
 import numpy as np
-import os
-from pathlib import Path
 import remfile
-from datetime import datetime
-from tqdm import tqdm
-from typing import Union
 import ujson
+from tqdm import tqdm
 
 logger = logging.getLogger("h5tojson")
 
@@ -152,7 +153,7 @@ class H5ToJson:
         self,
         hdf5_file_path: Union[str, Path],  # or BinaryIO
         json_file_path: Union[str, Path],
-        chunk_refs_file_path: Union[str, Path],
+        chunk_refs_file_path: Optional[Union[str, Path]],
         dataset_inline_max_bytes=500,
         object_dataset_inline_max_bytes=200000,
         compound_dtype_dataset_inline_max_bytes=2000,
@@ -166,7 +167,7 @@ class H5ToJson:
             Path to the HDF5 file to convert.
         json_file_path : Union[str, Path]
             Path to the JSON file to write.
-        chunk_refs_file_path : Union[str, Path]
+        chunk_refs_file_path : Union[str, Path], optional
             Path to the JSON file to write chunk references to. If None, then chunk references will not be written.
         dataset_inline_max_bytes : int, optional
             Maximum number of bytes per dataset that does not have an object dtype to store inline in the JSON file.
@@ -434,8 +435,8 @@ class H5ToJson:
                 raise RuntimeError("Region references are not supported.")
         # convert array to nested lists and convert numpy numeric types to python int/float
         # so that it is json-serializable
-        values = values.tolist()
-        return values
+        values_list = values.tolist()
+        return values_list
 
     @staticmethod
     def get_json_path(h5obj: Union[h5py.Group, h5py.Dataset]) -> str:
@@ -767,7 +768,7 @@ class H5ToJson:
         return dset.name[1:]
 
     @staticmethod
-    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, this_dset_dict: dict) -> dict:
+    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, this_dset_dict: dict) -> dict[str, Union[str, list]]:
         """Get kerchunk-style chunk references of an HDF5 dataset in the HDF5 file.
 
         This is the format expected by fsspec.implementations.reference.ReferenceFileSystem.
@@ -812,7 +813,7 @@ class H5ToJson:
             lists of uri, chunk file offset, and chunk size.
         """
         name = H5ToJson.get_ref_key_prefix(dset)
-        ret = {
+        ret: dict[str, Union[str, list]] = {
             # alternatively store as a dictionary instead of a JSON string
             f"{name}/.zarray": ujson.dumps({
                 "chunks": this_dset_dict["chunks"],
@@ -850,7 +851,7 @@ class H5ToJson:
             # Go over all the dataset chunks...
             chunk_size = dset.chunks
 
-            def get_key(blob):
+            def get_key(blob) -> str:
                 """Get indexing key for the chunk."""
                 return name + "/" + ".".join(map(str, tuple([a // b for a, b in zip(blob.chunk_offset, chunk_size)])))
 

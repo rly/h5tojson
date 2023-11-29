@@ -1,18 +1,21 @@
 """Functions to test translation from HDF5 to JSON using H5ToJson"""
 
-from dateutil.parser import parse
+import json
+from pathlib import Path
+from typing import Callable, Optional
+
 import fsspec
 import h5py
-import json
 import numpy as np
-from pathlib import Path
-from typing import Callable
 import zarr
+from dateutil.parser import parse
 
 from linked_arrays.h5tojson import H5ToJson
 
 
-def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwargs: dict = None) -> tuple[dict, dict]:
+def _create_translate(
+    tmp_path: Path, callable: Callable[[h5py.File], None], kwargs: Optional[dict] = None
+) -> tuple[dict, dict]:
     """Helper function to create an HDF5 file using the callable function, and translate it to JSON
 
     Parameters
@@ -21,7 +24,7 @@ def _create_translate(tmp_path: Path, callable: Callable[[h5py.File], None], kwa
         Path to a temporary directory.
     callable : function
         A function that takes an h5py.File object as its only argument.
-    kwargs : dict
+    kwargs : dict, optional
         Keyword arguments to pass to the H5ToJson constructor.
 
     Returns
