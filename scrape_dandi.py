@@ -12,8 +12,7 @@ from linked_arrays import H5ToJson
 import os
 import sys
 import time
-
-# from tqdm import tqdm
+from tqdm import tqdm
 import traceback
 import warnings
 
@@ -58,7 +57,11 @@ skip_dandisets = []
 
 
 def scrape_dandi_nwb_to_json(
-    dandiset_indices_to_read: slice, output_dir: str, translation_times_path: str, overwrite: bool
+    dandiset_indices_to_read: slice,
+    num_assets_per_dandiset: int,
+    output_dir: str,
+    translation_times_path: str,
+    overwrite: bool,
 ):
     """Test reading the first NWB asset from a random selection of 50 dandisets that uses NWB.
 
@@ -66,6 +69,8 @@ def scrape_dandi_nwb_to_json(
     ----------
     dandiset_indices_to_read : slice
         The slice of dandisets returned from `DandiAPIClient.get_dandisets()` to read.
+    num_assets_per_dandiset : int
+        The number of assets to translate per dandiset.
     output_dir : str
         The directory to write the JSON files to.
     translation_times_path : str
@@ -73,6 +78,12 @@ def scrape_dandi_nwb_to_json(
     overwrite : bool
         Whether to overwrite existing files.
     """
+
+    if overwrite or not os.path.exists(translation_times_path):
+        # overwrite translation times file so we don't append to it
+        with open(translation_times_path, "w") as f:
+            f.write("dandiset_id,asset_path,read_time\n")
+
     client = DandiAPIClient()
     dandisets = list(client.get_dandisets())
 
@@ -83,7 +94,7 @@ def scrape_dandi_nwb_to_json(
     warnings.filterwarnings("ignore", message=r"Ignoring cached namespace.*", category=UserWarning)
 
     failed_reads = dict()
-    translation_times = dict()
+    dandiset_translation_times = dict()
     for i, dandiset in enumerate(dandisets_to_read):
         dandiset_metadata = dandiset.get_raw_metadata()
 
@@ -101,17 +112,19 @@ def scrape_dandi_nwb_to_json(
             continue
 
         try:
-            translation_times[dandiset] = process_dandiset(dandiset, output_dir, overwrite)
+            dandiset_translation_times[dandiset] = translate_dandiset_assets(
+                dandiset, num_assets_per_dandiset, output_dir, overwrite
+            )
         except Exception as e:
             print(traceback.format_exc())
             failed_reads[dandiset] = e
 
-    # write translation times to a csv file
-    # TODO append to a csv file after every read so we don't lose data if the script crashes
-    with open(translation_times_path, "w") as f:
-        f.write("dandiset_id,read_time\n")
-        for dandiset, translation_time in translation_times.items():
-            f.write(f"{dandiset.identifier},{translation_time}\n")
+        # append translation times to csv file after every read so we don't lose data if the script crashes
+        with open(translation_times_path, "a") as f:
+            if dandiset_translation_times[dandiset] is None:
+                continue
+            for asset_path, translation_time in dandiset_translation_times[dandiset].items():
+                f.write(f"{dandiset.identifier},{asset_path},{translation_time}\n")
 
     if failed_reads:
         print("Failed reads:")
@@ -119,13 +132,18 @@ def scrape_dandi_nwb_to_json(
         sys.exit(1)
 
 
-def process_dandiset(dandiset: RemoteDandiset, output_dir: str, overwrite: bool) -> Optional[float]:
+def translate_dandiset_assets(
+    dandiset: RemoteDandiset, num_assets: Optional[int], output_dir: str, overwrite: bool
+) -> Optional[float]:
     """Process a single dandiset from a RemoteDandiset object.
 
     Parameters
     ----------
     dandiset : RemoteDandiset
         The dandiset to process.
+    num_assets : int, optional
+        The number of assets to translate. If None, then all assets are translated.
+        Already translated assets count toward this limit.
     output_dir : str
         The directory to write the JSON file to.
     overwrite : bool
@@ -140,45 +158,49 @@ def process_dandiset(dandiset: RemoteDandiset, output_dir: str, overwrite: bool)
     if id.startswith("DANDI:"):
         id = id[6:]
 
-    # iterate through assets until we get an NWB file (it could be MP4)
-    assets = dandiset.get_assets()
-    first_asset = next(assets)
-    while first_asset.path.split(".")[-1] != "nwb":
-        first_asset = next(assets)
-    if first_asset.path.split(".")[-1] != "nwb":
+    # reading all into a list when we want only one may be inefficient
+    # (can take 1-5 seconds depending on number of assets)
+    # but it's negligible compared to the translation time
+    assets = list(dandiset.get_assets())
+
+    # remove non-NWB files (it could be MP4)
+    assets = [a for a in assets if a.path.split(".")[-1] == "nwb"]
+
+    if num_assets is None:
+        num_assets = len(assets)
+
+    if num_assets == 0:
         print("No NWB files?!")
         return None
 
-    asset = first_asset
+    assets = assets[:num_assets]
+    asset_translation_times = dict()
 
-    # read all assets
-    # assets = list(dandiset.get_assets())
-    # for asset in tqdm(assets):
-    if asset.path.split(".")[-1] != "nwb":
-        return None
+    for asset in tqdm(assets, desc=f"{id} assets"):
+        json_path = f"{output_dir}/{id}/{asset.path}.json"
+        if overwrite or not os.path.exists(json_path):
+            os.makedirs(os.path.dirname(json_path), exist_ok=True)
 
-    json_path = f"{output_dir}/{id}/{asset.path}.json"
-    if os.path.exists(json_path) and not overwrite:
-        return None
-    os.makedirs(os.path.dirname(json_path), exist_ok=True)
+            s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
+            start = time.perf_counter()
+            translator = H5ToJson(s3_url, json_path, None)
+            translator.translate()
+            end = time.perf_counter()
 
-    s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
-    start = time.perf_counter()
-    translator = H5ToJson(s3_url, json_path, None)
-    translator.translate()
-    end = time.perf_counter()
-    print(f"Translation time: {end - start:.2f} s")
+            asset_translation_times[asset.path] = end - start
 
-    return end - start
+    return asset_translation_times
 
 
-def process_dandiset_from_id(dandiset_id: str, output_dir: str, overwrite: bool):
+def scrape_single_dandiset_nwb_to_json(dandiset_id: str, num_assets: int, output_dir: str, overwrite: bool):
     """Process a single dandiset from the dandiset ID.
 
     Parameters
     ----------
     dandiset_id : str
         The dandiset ID to process.
+    num_assets : int
+        The number of assets to translate.
     output_dir : str
         The directory to write the JSON file to.
     overwrite : bool
@@ -186,17 +208,19 @@ def process_dandiset_from_id(dandiset_id: str, output_dir: str, overwrite: bool)
     """
     client = DandiAPIClient()
     dandiset = client.get_dandiset(dandiset_id)
-    process_dandiset(dandiset, output_dir, overwrite)
+    translate_dandiset_assets(dandiset, num_assets, output_dir, overwrite)
 
 
 if __name__ == "__main__":
-    # process_dandiset_from_id("000546", output_dir="dandi_json", overwrite=True)
+    # scrape_single_dandiset_nwb_to_json("000004", num_assets=None, output_dir="dandi_json", overwrite=True)
+    # stop
 
     # NOTE perf_counter includes sleep time
     start = time.perf_counter()
     dandiset_indices_to_read = slice(None)  # slice(0, 1000)  # slice(None) = all
     scrape_dandi_nwb_to_json(
         dandiset_indices_to_read,
+        num_assets_per_dandiset=1,
         output_dir="dandi_json",
         translation_times_path="dandi_json_translation_times.csv",
         overwrite=False,
