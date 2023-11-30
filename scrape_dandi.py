@@ -1,5 +1,7 @@
 """Test reading NWB files from the DANDI Archive using remfile.
 
+TODO: parallelize
+
 Requires:
 ```
 pip install remfile dandi
@@ -212,7 +214,7 @@ def scrape_single_dandiset_nwb_to_json(dandiset_id: str, num_assets: int, output
 
 
 if __name__ == "__main__":
-    # scrape_single_dandiset_nwb_to_json("000004", num_assets=None, output_dir="dandi_json", overwrite=True)
+    # scrape_single_dandiset_nwb_to_json("000005", num_assets=None, output_dir="dandi_json", overwrite=True)
     # stop
 
     # NOTE perf_counter includes sleep time
