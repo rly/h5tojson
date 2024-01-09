@@ -165,3 +165,4 @@ _version.py
 
 dandi_json
 *.csv
+nwb-cache
