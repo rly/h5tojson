@@ -10,7 +10,7 @@ import numpy as np
 import zarr
 from dateutil.parser import parse
 
-from linked_arrays.h5tojson import H5ToJson
+from h5tojson.h5tojson import H5ToJson
 
 
 def _create_translate(
@@ -989,9 +989,9 @@ def test_translate_attrs(tmp_path):
         # f.attrs["cpd_type_int_vlen_ascii"] = arr_cpd_type_int_vlen_ascii
 
         # scalar compound dtype (int, fixed length utf8, fixed length ascii)
-        cpd_type_int_flen_strings = np.dtype([
-            ("int", int), ("flen_utf8", fixed_length_utf8_type), ("flen_ascii", fixed_length_ascii_type)
-        ])
+        cpd_type_int_flen_strings = np.dtype(
+            [("int", int), ("flen_utf8", fixed_length_utf8_type), ("flen_ascii", fixed_length_ascii_type)]
+        )
         f.attrs.create("cpd_type_int_flen_strings", data=(3, "3", b"3"), dtype=cpd_type_int_flen_strings)
 
         f.attrs["list[int]"] = [42, 314]
@@ -1005,9 +1005,9 @@ def test_translate_attrs(tmp_path):
         f.attrs["list[flen_ascii]"] = np.array(["value1", "value2"], dtype=fixed_length_ascii_type)
 
         # 1d array of compound dtype (int, fixed length utf8, fixed length ascii)
-        cpd_type_int_flen_strings = np.dtype([
-            ("int", int), ("flen_utf8", fixed_length_utf8_type), ("flen_ascii", fixed_length_ascii_type)
-        ])
+        cpd_type_int_flen_strings = np.dtype(
+            [("int", int), ("flen_utf8", fixed_length_utf8_type), ("flen_ascii", fixed_length_ascii_type)]
+        )
         f.attrs["1d_cpd_type_int_flen_strings"] = np.array(
             [(3, "3", "3"), (10, "10", "10")], dtype=cpd_type_int_flen_strings
         )
@@ -1136,17 +1136,15 @@ def test_translate_attrs(tmp_path):
             "path": "/",
         },
     ]
-    assert attrs["1d_cpd_type_int_flen_strings_ref"] == [
-        [
-            3,
-            "3",
-            "3",
-            {
-                "dtype": "object_reference",
-                "path": "/",
-            },
-        ]
-    ]
+    assert attrs["1d_cpd_type_int_flen_strings_ref"] == [[
+        3,
+        "3",
+        "3",
+        {
+            "dtype": "object_reference",
+            "path": "/",
+        },
+    ]]
 
 
 def test_translate_nested_group_attrs(tmp_path):

@@ -18,7 +18,7 @@ from typing import List, Optional
 from dandi.dandiapi import DandiAPIClient, RemoteDandiset
 from tqdm import tqdm
 
-from linked_arrays import H5ToJson
+from h5tojson import H5ToJson
 
 # these take too long - skip when scraping dandisets in bulk
 skip_dandisets: List[str] = []

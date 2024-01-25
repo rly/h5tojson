@@ -3,11 +3,11 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "linked-arrays"
+name = "h5tojson"
 authors = [
   { name="Ryan Ly", email="rly@lbl.gov" },
 ]
-description = "Experimental format for datasets with linked arrays"
+description = "Experimental JSON-based format for HDF5 datasets"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "BSD-3-Clause"}
@@ -27,11 +27,12 @@ classifiers = [
 dependencies = [
     "h5py>=2.10",
     "numpy>=1.18",
-    "json>=5.8",
+    "ujson>=5.8",
     "numcodecs>=0.12.1",
     "fsspec>=2023.10.0",
     "tqdm>=4.66.1",
     "remfile>=0.1.9",
+    "zarr>=2",
 ]
 dynamic = ["version"]
 
@@ -44,11 +45,12 @@ dev = [
     "ruff",
     "interrogate",
     "mypy",
+    "isort",
     "types-ujson",
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/rly/linked-arrays"
+"Homepage" = "https://github.com/rly/h5tojson"
 # "Documentation" = "https://package.readthedocs.io/"
 # "Bug Tracker" = "https://github.com/organization/package/issues"
 # "Discussions" = "https://github.com/organization/package/discussions"
@@ -59,14 +61,14 @@ source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
 # this file is created/updated when the package is installed and used in
-# linked_arrays/__init__.py to set `linked_arrays.__version__`
-version-file = "linked_arrays/_version.py"
+# h5tojson/__init__.py to set `h5tojson.__version__`
+version-file = "h5tojson/_version.py"
 
 [tool.hatch.build.targets.sdist]
 exclude = [".git_archival.txt"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["linked_arrays"]
+packages = ["h5tojson"]
 
 [tool.mypy]
 no_incremental = true
@@ -76,7 +78,7 @@ ignore_missing_imports = true
 fail-under = 95
 verbose = 1
 ignore-init-module = true
-exclude = ["linked_arrays/_version.py"]
+exclude = ["h5tojson/_version.py"]
 ignore-regex = ["set_up_test_file"]  # used in tests
 
 [tool.pytest.ini_options]
@@ -84,12 +86,12 @@ addopts = "--cov --cov-report html"
 # norecursedirs = "tests/unit/helpers"
 
 [tool.codespell]
-skip = "htmlcov,.git,.mypy_cache,.pytest_cache,.coverage,*.pdf,*.svg,venvs,.tox,*.json"
+skip = "*/__pycache__/*,htmlcov,.git,.mypy_cache,.pytest_cache,.ruff_cache,nwb-cache,.coverage*,*.pdf,*.svg,venvs,.tox,*.json,dandi_json"
 ignore-words-list = "fo"
 
 [tool.coverage.run]
 branch = true
-source = ["linked_arrays/"]
+source = ["h5tojson/"]
 
 [tool.coverage.report]
 exclude_lines = [
