@@ -1,8 +1,15 @@
-# linked-arrays
-Experimental format for storing HDF5 data as JSON.
+# h5tojson
+Experimental format for storing HDF5 data as JSON, with or without array chunk metadata
 
-Kerchunk with human-readable metadata (names, attributes, links, etc.) separated from array data so that the array chunk
-references do not need to be downloaded if not needed.
+## Differences with [kerchunk](https://github.com/fsspec/kerchunk)
+
+h5tojson provides the option to leave out the array chunk metadata for faster caching and processing of 
+the non-array metadata.
+
+h5tojson is like kerchunk but with human-readable metadata (names, attributes, links, etc.) separated from 
+array data so that the array chunk references do not need to be downloaded if not needed.
+
+In addition:
 
 1. Kerchunk stores keys that represent zarr files, e.g. `"acquisition/ElectricalSeries/data/.zarray"`,
 `"acquisition/ElectricalSeries/data/.zattrs"`, and `"acquisition/ElectricalSeries/data/0.0"`. The `.zarray` and
