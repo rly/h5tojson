@@ -54,12 +54,22 @@ To use notebooks, install `jupyterlab`.
 TODO:
 - [ ] Set up pre-commit hooks
 
-## Querying JSON:
-- JSONPath - older language. Works well.
-  - Python implementation https://github.com/h2non/jsonpath-ng
-- JMESPath - newer language, like JSONPath but has pros and cons. It is a complete grammar, can do joins/multiselects, yields single results, has pipes, and does not support recursion. Very popular. Used by AWS CLI.
-  - Python implementation https://github.com/jmespath/jmespath.py
-- jq - older language that is turing-complete and can do a lot
+## How to run
+
+```python
+from dandi.dandiapi import DandiAPIClient
+from h5tojson import H5ToJson
+
+dandiset_id = '000055'  # ephys dataset from the Svoboda Lab
+filepath = 'sub-01/sub-01_ses-7_behavior+ecephys.nwb'  # 450 kB file
+with DandiAPIClient() as client:
+    asset = client.get_dandiset(dandiset_id).get_asset_by_path(filepath)
+    s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
+
+json_path = 'sub-01/sub-01_ses-7_behavior+ecephys.nwb.json'
+translator = H5ToJson(s3_url, json_path)
+translator.translate()
+```
 
 ## What can we use these JSON for?
 
@@ -72,3 +82,13 @@ Answering queries across many dandisets, e.g.:
 - How many dandisets have raw data?
 - How many dandisets have processed data from a particular pipeline?
 - How many dandisets have the same data organization in all of their NWB files?
+
+Run `scrape_dandi.py` to generate one JSON file for one NWB file from each dandiset.
+Then see `queries.ipynb` for example code on how to run some of the above queries using those JSON files.
+
+## Ideas for querying JSON (not used yet):
+- JSONPath - older language. Works well.
+  - Python implementation https://github.com/h2non/jsonpath-ng
+- JMESPath - newer language, like JSONPath but has pros and cons. It is a complete grammar, can do joins/multiselects, yields single results, has pipes, and does not support recursion. Very popular. Used by AWS CLI.
+  - Python implementation https://github.com/jmespath/jmespath.py
+- jq - older language that is turing-complete and can do a lot
