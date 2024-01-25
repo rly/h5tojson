@@ -61,20 +61,33 @@ To use notebooks, install `jupyterlab`.
 TODO:
 - [ ] Set up pre-commit hooks
 
-## How to run
+## Example of how to run
+
+1. Install using the steps above.
+2. `pip install dandi` for an API to access the S3 URLs of NWB HDF5 files.
+3. Run the code below.
 
 ```python
 from dandi.dandiapi import DandiAPIClient
 from h5tojson import H5ToJson
+import os
 
-dandiset_id = '000055'  # ephys dataset from the Svoboda Lab
-filepath = 'sub-01/sub-01_ses-7_behavior+ecephys.nwb'  # 450 kB file
+# Get the S3 URL of a particular NWB HDF5 file from Dandiset 000055
+dandiset_id = '000004'  # ephys dataset from the Svoboda Lab
+subject_id = 'sub-P11HMH'
+file_name = 'sub-P11HMH_ses-20061101_ecephys+image.nwb'
 with DandiAPIClient() as client:
-    asset = client.get_dandiset(dandiset_id).get_asset_by_path(filepath)
+    path = f"{subject_id}/{file_name}"
+    asset = client.get_dandiset(dandiset_id).get_asset_by_path(path)
     s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
 
-json_path = 'sub-01/sub-01_ses-7_behavior+ecephys.nwb.json'
-translator = H5ToJson(s3_url, json_path)
+# Create an output directory and set the output JSON path
+output_dir = f'{dandiset_id}/{subject_id}'
+os.makedirs(output_dir, exist_ok=True)
+json_path = f'{output_dir}/sub-01_ses-7_behavior+ecephys.nwb.json'
+
+# Create the H5ToJson translator object and run it
+translator = H5ToJson(s3_url, json_path, chunk_refs_file_path=None)
 translator.translate()
 ```
 
