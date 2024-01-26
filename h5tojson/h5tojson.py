@@ -166,6 +166,7 @@ class H5ToJson:
         dataset_inline_max_bytes=500,
         object_dataset_inline_max_bytes=200000,
         compound_dtype_dataset_inline_max_bytes=2000,
+        skip_all_dataset_data=False,
         storage_options=None,
     ):
         """Create an object to translate an HDF5 file to JSON with Kerchunk-style references to dataset chunks.
@@ -187,6 +188,8 @@ class H5ToJson:
         compound_dtype_dataset_inline_max_bytes : int, optional
             Maximum number of bytes per dataset that has a compound dtype to store inline in the JSON file.
             Default is 2000.
+        skip_all_dataset_data : bool, optional
+            If True, then do not any data in datasets. Default is False.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
@@ -203,6 +206,7 @@ class H5ToJson:
         self.dataset_inline_max_bytes = dataset_inline_max_bytes
         self.object_dataset_inline_max_bytes = object_dataset_inline_max_bytes
         self.compound_dtype_dataset_inline_max_bytes = compound_dtype_dataset_inline_max_bytes
+        self.skip_all_dataset_data = skip_all_dataset_data
         self.json_file_path = str(json_file_path) if json_file_path else None
         self.chunk_refs_file_path = str(chunk_refs_file_path) if chunk_refs_file_path else None
 
@@ -219,6 +223,7 @@ class H5ToJson:
                 dataset_inline_threshold_max_bytes=self.dataset_inline_max_bytes,
                 object_dataset_inline_max_bytes=self.object_dataset_inline_max_bytes,
                 compound_dtype_dataset_inline_max_bytes=self.compound_dtype_dataset_inline_max_bytes,
+                skip_all_dataset_data=self.skip_all_dataset_data,
             ),
             templates={},
             file=H5ToJsonGroup(),
@@ -532,73 +537,74 @@ class H5ToJson:
 
         data = None
 
-        # if the dataset is a scalar or has only 1 element, then store the value directly into the "data" key
-        # just like for attributes
-        if h5dataset.shape == () or h5dataset.size == 1:
-            value = h5dataset[()]
-            data = self._translate_data(value)  # a value, not a dict
+        if not self.skip_all_dataset_data:
+            # if the dataset is a scalar or has only 1 element, then store the value directly into the "data" key
+            # just like for attributes
+            if h5dataset.shape == () or h5dataset.size == 1:
+                value = h5dataset[()]
+                data = self._translate_data(value)  # a value, not a dict
 
-        dset_size_bytes: int = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
+            dset_size_bytes: int = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
 
-        # handle object dtype datasets (strings, references)
-        # store the entire dataset in the "data" key as a dict
-        if data is None and h5dataset.dtype.kind == "O":
-            if dset_size_bytes <= self.object_dataset_inline_max_bytes:
+            # handle object dtype datasets (strings, references)
+            # store the entire dataset in the "data" key as a dict
+            if data is None and h5dataset.dtype.kind == "O":
+                if dset_size_bytes <= self.object_dataset_inline_max_bytes:
+                    # scalar case is handled above
+                    values = h5dataset[:]  # read the entire dataset into memory
+                    # array.flat[0] returns the first element of the flattened array - useful for testing dtype
+                    if not isinstance(values.flat[0], (bytes, str, h5py.h5r.Reference)):
+                        raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}: {type(values.flat[0])}")
+                    data = self._translate_object_array_to_list(values)
+                else:
+                    warnings.warn(
+                        f"Dataset with name {h5dataset.name} has object dtype and is too large to inline:"
+                        f" {dset_size_bytes} > {self.object_dataset_inline_max_bytes} bytes. Increase"
+                        " `object_dataset_inline_max_bytes` to inline this dataset."
+                    )
+
+                # if isinstance(values.flat[0], (bytes, str)):
+                #     data = H5ToJson._translate_array_object_strings(values)
+                # elif isinstance(values.flat[0], h5py.h5r.Reference):
+                #     data = self._translate_array_object_refs(values)
+                # else:
+                #     raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}")
+
+            # handle fixed-length string datasets
+            # store the entire dataset in the "data" key as a list
+            if data is None and h5dataset.dtype.kind == "S":
+                if dset_size_bytes <= self.object_dataset_inline_max_bytes:
+                    # decode from byte array to python string so that it is json-serializable
+                    # NOTE: in some cases np.char.decode may be needed instead of astype("U")
+                    data = h5dataset[:].astype("U").tolist()
+                else:
+                    warnings.warn(
+                        f"Dataset with name {h5dataset.name} has 'S' dtype and is too large to inline: {dset_size_bytes} >"
+                        f" {self.object_dataset_inline_max_bytes} bytes. Increase"
+                        " `object_dataset_inline_max_bytes` to inline this dataset."
+                    )
+
+            # handle compound dtype datasets
+            # store the entire dataset in the "data" key as a list
+            if data is None and h5dataset.dtype.kind == "V":
                 # scalar case is handled above
-                values = h5dataset[:]  # read the entire dataset into memory
-                # array.flat[0] returns the first element of the flattened array - useful for testing dtype
-                if not isinstance(values.flat[0], (bytes, str, h5py.h5r.Reference)):
-                    raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}: {type(values.flat[0])}")
-                data = self._translate_object_array_to_list(values)
-            else:
-                warnings.warn(
-                    f"Dataset with name {h5dataset.name} has object dtype and is too large to inline:"
-                    f" {dset_size_bytes} > {self.object_dataset_inline_max_bytes} bytes. Increase"
-                    " `object_dataset_inline_max_bytes` to inline this dataset."
-                )
+                if dset_size_bytes <= self.compound_dtype_dataset_inline_max_bytes:
+                    values = h5dataset[:]  # read the entire dataset into memory
+                    data = self._translate_compound_dtype_array(values)
+                else:
+                    warnings.warn(
+                        f"Dataset with name {h5dataset.name} has compound dtype and is too large to inline: size"
+                        f" {dset_size_bytes} > {self.compound_dtype_dataset_inline_max_bytes} bytes. Increase"
+                        " `compound_dtype_dataset_inline_max_bytes` to inline this dataset."
+                    )
 
-            # if isinstance(values.flat[0], (bytes, str)):
-            #     data = H5ToJson._translate_array_object_strings(values)
-            # elif isinstance(values.flat[0], h5py.h5r.Reference):
-            #     data = self._translate_array_object_refs(values)
-            # else:
-            #     raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}")
-
-        # handle fixed-length string datasets
-        # store the entire dataset in the "data" key as a list
-        if data is None and h5dataset.dtype.kind == "S":
-            if dset_size_bytes <= self.object_dataset_inline_max_bytes:
-                # decode from byte array to python string so that it is json-serializable
-                # NOTE: in some cases np.char.decode may be needed instead of astype("U")
-                data = h5dataset[:].astype("U").tolist()
-            else:
-                warnings.warn(
-                    f"Dataset with name {h5dataset.name} has 'S' dtype and is too large to inline: {dset_size_bytes} >"
-                    f" {self.object_dataset_inline_max_bytes} bytes. Increase"
-                    " `object_dataset_inline_max_bytes` to inline this dataset."
-                )
-
-        # handle compound dtype datasets
-        # store the entire dataset in the "data" key as a list
-        if data is None and h5dataset.dtype.kind == "V":
-            # scalar case is handled above
-            if dset_size_bytes <= self.compound_dtype_dataset_inline_max_bytes:
-                values = h5dataset[:]  # read the entire dataset into memory
-                data = self._translate_compound_dtype_array(values)
-            else:
-                warnings.warn(
-                    f"Dataset with name {h5dataset.name} has compound dtype and is too large to inline: size"
-                    f" {dset_size_bytes} > {self.compound_dtype_dataset_inline_max_bytes} bytes. Increase"
-                    " `compound_dtype_dataset_inline_max_bytes` to inline this dataset."
-                )
-
-        if data is None:
-            # if dataset is small enough, inline it into "data" key
-            if dset_size_bytes <= self.dataset_inline_max_bytes:
-                # NOTE this is OK for ints, but floats will be stored as strings which means potential
-                # loss of precision. an alternative is to read the floats into memory (decode with all
-                # filters) and then encode it in base64 and then store it in JSON.
-                data = h5dataset[:].tolist()
+            if data is None:
+                # if dataset is small enough, inline it into "data" key
+                if dset_size_bytes <= self.dataset_inline_max_bytes:
+                    # NOTE this is OK for ints, but floats will be stored as strings which means potential
+                    # loss of precision. an alternative is to read the floats into memory (decode with all
+                    # filters) and then encode it in base64 and then store it in JSON.
+                    data = h5dataset[:].tolist()
 
         # even if we have unfiltered the data, report the original chunks/compression below
         dataset.data = data or None  # can be list or dict. should this be written if it is none?

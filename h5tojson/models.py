@@ -53,6 +53,7 @@ class H5ToJsonTranslationOptions(BaseModel):
     dataset_inline_threshold_max_bytes: int = Field(description="Max bytes for inline dataset")
     object_dataset_inline_max_bytes: int = Field(description="Max bytes for inline object dataset")
     compound_dtype_dataset_inline_max_bytes: int = Field(description="Max bytes for inline compound dtype dataset")
+    skip_all_dataset_data: bool = Field(description="Skip all data in datasets")
 
 
 class H5ToJsonFile(BaseModel):

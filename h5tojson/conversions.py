@@ -13,6 +13,7 @@ class H5ToJsonOpts(BaseModel):
     compound_dtype_dataset_inline_max_bytes: int = Field(
         2000, description="Max bytes for inline compound dtype dataset"
     )
+    skip_all_dataset_data: bool = Field(False, description="Skip all data in datasets")
     storage_options: Optional[dict] = Field(None, description="Storage options for the file")
 
 
@@ -25,6 +26,7 @@ def h5_to_object(hdf5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpt
         dataset_inline_max_bytes=opts.dataset_inline_max_bytes,
         object_dataset_inline_max_bytes=opts.object_dataset_inline_max_bytes,
         compound_dtype_dataset_inline_max_bytes=opts.compound_dtype_dataset_inline_max_bytes,
+        skip_all_dataset_data=opts.skip_all_dataset_data,
         storage_options=opts.storage_options,
     )
     X.translate()
@@ -47,6 +49,7 @@ def h5_to_json_file(hdf5_file_path: str, json_file_path: str, opts: Optional[H5T
         dataset_inline_max_bytes=opts.dataset_inline_max_bytes,
         object_dataset_inline_max_bytes=opts.object_dataset_inline_max_bytes,
         compound_dtype_dataset_inline_max_bytes=opts.compound_dtype_dataset_inline_max_bytes,
+        skip_all_dataset_data=opts.skip_all_dataset_data,
         storage_options=opts.storage_options,
     )
     X.translate()
