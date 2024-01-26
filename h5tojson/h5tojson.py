@@ -231,6 +231,7 @@ class H5ToJson:
         # translate the root group and all its contents
         self.translate_group(self._h5f, file_object.file)
 
+        self.file_object = file_object
         self.json_dict = _remove_empty_dicts_in_dict(file_object.model_dump())
 
         # write the dictionary to a human-readable JSON file

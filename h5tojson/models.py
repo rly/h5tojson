@@ -63,3 +63,17 @@ class H5ToJsonFile(BaseModel):
     translation_options: H5ToJsonTranslationOptions = Field(description="Translation options")
     templates: dict = Field({}, description="Templates")
     file: H5ToJsonGroup = Field(description="Root group")
+
+    @staticmethod
+    def from_dict(d: dict) -> "H5ToJsonFile":
+        """Create an H5ToJsonFile from a dictionary"""
+        return H5ToJsonFile(**d)
+
+    @staticmethod
+    def from_json_file(json_file_path: str) -> "H5ToJsonFile":
+        """Create an H5ToJsonFile from a JSON file"""
+        import json
+
+        with open(json_file_path, "r") as f:
+            d = json.load(f)
+        return H5ToJsonFile.from_dict(d)
