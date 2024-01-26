@@ -94,7 +94,7 @@ import os
 import warnings
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Union
+from typing import Optional, Union, Dict
 
 import fsspec
 import h5py
@@ -779,7 +779,7 @@ class H5ToJson:
         return dset.name[1:]
 
     @staticmethod
-    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, dataset: H5ToJsonDataset) -> dict[str, Union[str, list]]:
+    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, dataset: H5ToJsonDataset) -> Dict[str, Union[str, list]]:
         """Get kerchunk-style chunk references of an HDF5 dataset in the HDF5 file.
 
         This is the format expected by fsspec.implementations.reference.ReferenceFileSystem.
@@ -824,7 +824,7 @@ class H5ToJson:
             lists of uri, chunk file offset, and chunk size.
         """
         name = H5ToJson.get_ref_key_prefix(dset)
-        ret: dict[str, Union[str, list]] = {
+        ret: Dict[str, Union[str, list]] = {
             # alternatively store as a dictionary instead of a JSON string
             f"{name}/.zarray": ujson.dumps({
                 "chunks": dataset.chunks,
