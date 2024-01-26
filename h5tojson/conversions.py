@@ -35,7 +35,7 @@ def h5_to_object(h5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts(
 def h5_to_dict(h5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> Dict[str, Any]:
     """Convert an HDF5 file to a dictionary"""
     obj = h5_to_object(h5_file_path=h5_file_path, opts=opts)
-    return _remove_empty_dicts_in_dict(obj.model_dump())
+    return _remove_empty_dicts_in_dict(obj.dict())
 
 
 def h5_to_json_file(h5_file_path: str, json_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> None:

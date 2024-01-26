@@ -232,7 +232,7 @@ class H5ToJson:
         self.translate_group(self._h5f, file_object.file)
 
         self.file_object = file_object
-        self.json_dict = _remove_empty_dicts_in_dict(file_object.model_dump())
+        self.json_dict = _remove_empty_dicts_in_dict(file_object.dict())
 
         # write the dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
