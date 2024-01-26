@@ -554,7 +554,9 @@ class H5ToJson:
                     values = h5dataset[:]  # read the entire dataset into memory
                     # array.flat[0] returns the first element of the flattened array - useful for testing dtype
                     if not isinstance(values.flat[0], (bytes, str, h5py.h5r.Reference)):
-                        raise RuntimeError(f"Unexpected object dtype for dataset {h5dataset.name}: {type(values.flat[0])}")
+                        raise RuntimeError(
+                            f"Unexpected object dtype for dataset {h5dataset.name}: {type(values.flat[0])}"
+                        )
                     data = self._translate_object_array_to_list(values)
                 else:
                     warnings.warn(
@@ -579,8 +581,8 @@ class H5ToJson:
                     data = h5dataset[:].astype("U").tolist()
                 else:
                     warnings.warn(
-                        f"Dataset with name {h5dataset.name} has 'S' dtype and is too large to inline: {dset_size_bytes} >"
-                        f" {self.object_dataset_inline_max_bytes} bytes. Increase"
+                        f"Dataset with name {h5dataset.name} has 'S' dtype and is too large to inline:"
+                        f" {dset_size_bytes} > {self.object_dataset_inline_max_bytes} bytes. Increase"
                         " `object_dataset_inline_max_bytes` to inline this dataset."
                     )
 

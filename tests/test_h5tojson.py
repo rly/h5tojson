@@ -88,6 +88,7 @@ def test_translate_root(tmp_path):
             "compound_dtype_dataset_inline_max_bytes": 2000,
             "dataset_inline_threshold_max_bytes": 500,
             "object_dataset_inline_max_bytes": 200000,
+            "skip_all_dataset_data": False,
         },
     }
 

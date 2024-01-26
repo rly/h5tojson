@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, Tuple
 
 from pydantic import BaseModel, Field
 
@@ -78,3 +78,19 @@ class H5ToJsonFile(BaseModel):
         with open(json_file_path, "r") as f:
             d = json.load(f)
         return H5ToJsonFile.from_dict(d)
+
+    def get_all_groups_and_datasets(self) -> Tuple[Dict[str, H5ToJsonGroup], Dict[str, H5ToJsonDataset]]:
+        """Get all groups and datasets in the file (flattens the tree)"""
+        groups: Dict[str, H5ToJsonGroup] = {}
+        datasets: Dict[str, H5ToJsonDataset] = {}
+
+        def _helper(g: H5ToJsonGroup, path: str):
+            nonlocal groups
+            groups[path] = g
+            for k, v in g.groups.items():
+                _helper(v, path + "/" + k)
+            for k, v in g.datasets.items():
+                datasets[path + "/" + k] = v
+
+        _helper(self.file, "/")
+        return groups, datasets
