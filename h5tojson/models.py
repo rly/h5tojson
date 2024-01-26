@@ -88,9 +88,11 @@ class H5ToJsonFile(BaseModel):
             nonlocal groups
             groups[path] = g
             for k, v in g.groups.items():
-                _helper(v, path + "/" + k)
+                new_path = f"{path}/{k}" if path != "/" else f"{path}{k}"
+                _helper(v, new_path)
             for k, v in g.datasets.items():
-                datasets[path + "/" + k] = v
+                new_path = f"{path}/{k}" if path != "/" else f"{path}{k}"
+                datasets[new_path] = v
 
         _helper(self.file, "/")
         return groups, datasets
