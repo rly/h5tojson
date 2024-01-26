@@ -33,6 +33,7 @@ dependencies = [
     "tqdm>=4.66.1",
     "remfile>=0.1.9",
     "zarr>=2",
+    "pydantic>=2.5.3"
 ]
 dynamic = ["version"]
 

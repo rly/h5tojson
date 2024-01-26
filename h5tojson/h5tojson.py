@@ -92,7 +92,6 @@ import json
 import logging
 import os
 import warnings
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Union
@@ -104,6 +103,16 @@ import numpy as np
 import remfile
 import ujson
 from tqdm import tqdm
+
+from .models import (
+    H5ToJsonDataset,
+    H5ToJsonDatasetRefs,
+    H5ToJsonExternalLink,
+    H5ToJsonFile,
+    H5ToJsonGroup,
+    H5ToJsonSoftLink,
+    H5ToJsonTranslationOptions,
+)
 
 logger = logging.getLogger("h5tojson")
 
@@ -152,7 +161,7 @@ class H5ToJson:
     def __init__(
         self,
         hdf5_file_path: Union[str, Path],  # or BinaryIO
-        json_file_path: Union[str, Path],
+        json_file_path: Union[str, Path, None],
         chunk_refs_file_path: Optional[Union[str, Path]],
         dataset_inline_max_bytes=500,
         object_dataset_inline_max_bytes=200000,
@@ -165,8 +174,8 @@ class H5ToJson:
         ----------
         hdf5_file_path : Union[str, Path]
             Path to the HDF5 file to convert.
-        json_file_path : Union[str, Path]
-            Path to the JSON file to write.
+        json_file_path : Union[str, Path, None]
+            Path to the JSON file to write, or None if the JSON file should not be written.
         chunk_refs_file_path : Union[str, Path], optional
             Path to the JSON file to write chunk references to. If None, then chunk references will not be written.
         dataset_inline_max_bytes : int, optional
@@ -194,7 +203,7 @@ class H5ToJson:
         self.dataset_inline_max_bytes = dataset_inline_max_bytes
         self.object_dataset_inline_max_bytes = object_dataset_inline_max_bytes
         self.compound_dtype_dataset_inline_max_bytes = compound_dtype_dataset_inline_max_bytes
-        self.json_file_path = str(json_file_path)
+        self.json_file_path = str(json_file_path) if json_file_path else None
         self.chunk_refs_file_path = str(chunk_refs_file_path) if chunk_refs_file_path else None
 
     def close(self):
@@ -203,28 +212,34 @@ class H5ToJson:
 
     def translate(self):
         """Translate the HDF5 file to JSON with Kerchunk-style references to dataset chunks."""
-        self.json_dict = {
-            "version": 1,
-            "created_at": datetime.utcnow().isoformat(),
-            "translation_options": {
-                "dataset_inline_threshold_max_bytes": self.dataset_inline_max_bytes,
-                "object_dataset_inline_max_bytes": self.object_dataset_inline_max_bytes,
-                "compound_dtype_dataset_inline_max_bytes": self.compound_dtype_dataset_inline_max_bytes,
-            },
-        }
+        file_object = H5ToJsonFile(
+            version=1,
+            created_at=datetime.utcnow().isoformat(),
+            translation_options=H5ToJsonTranslationOptions(
+                dataset_inline_threshold_max_bytes=self.dataset_inline_max_bytes,
+                object_dataset_inline_max_bytes=self.object_dataset_inline_max_bytes,
+                compound_dtype_dataset_inline_max_bytes=self.compound_dtype_dataset_inline_max_bytes,
+            ),
+            templates={},
+            file=H5ToJsonGroup(),
+        )
+
         if self.chunk_refs_file_path:
-            self.json_dict["templates"] = {"c": "file://" + self.chunk_refs_file_path}  # use kerchunk-style template
+            file_object.templates["c"] = "file://" + self.chunk_refs_file_path  # use kerchunk-style template
         self.chunk_refs = {}
 
         # translate the root group and all its contents
-        self.translate_group(self._h5f, self.json_dict)
+        self.translate_group(self._h5f, file_object.file)
+
+        self.json_dict = _remove_empty_dicts_in_dict(file_object.model_dump())
 
         # write the dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
-        with open(self.json_file_path, "w") as f:
-            # ujson.dump(self.json_dict, f, indent=2, escape_forward_slashes=False)
-            # NOTE: ujson does not allow for custom encoders, so use the standard library json module
-            json.dump(self.json_dict, f, indent=2, allow_nan=False, cls=FloatJSONEncoder)
+        if self.json_file_path is not None:
+            with open(self.json_file_path, "w") as f:
+                # ujson.dump(self.json_dict, f, indent=2, escape_forward_slashes=False)
+                # NOTE: ujson does not allow for custom encoders, so use the standard library json module
+                json.dump(self.json_dict, f, indent=2, allow_nan=False, cls=FloatJSONEncoder)
 
         # write the chunk refs dictionary to a human-readable JSON file
         # NOTE: spaces take up a lot of space in the JSON file...
@@ -232,26 +247,17 @@ class H5ToJson:
             with open(self.chunk_refs_file_path, "w") as f:
                 ujson.dump(self.chunk_refs, f, indent=2, escape_forward_slashes=False)
 
-    def translate_group(self, h5obj: h5py.Group, group_dict: dict):
-        """Translate a group and all its contents in the HDF5 file to a dictionary.
+    def translate_group(self, h5obj: h5py.Group, group: H5ToJsonGroup):
+        """Translate a group and all its contents in the HDF5 file.
 
         Parameters
         ----------
         h5obj : h5py.Group
             An HDF5 group.
-        group_dict : dict
-            A dictionary representing the groups contained within the parent group.
+        group: H5ToJsonGroup
+            An object representing the translated HDF5 group.
         """
         logger.debug(f"HDF5 group: {h5obj.name}")
-        if h5obj.name == "/":  # root group
-            name = "file"
-        else:
-            name = os.path.basename(h5obj.name)
-        logger.debug(f"Group name: {name}")
-
-        # create a new key for this group in the dictionary of groups contained in the parent group.
-        # use defaultdict so that we can add to the "soft_links", "external_links", etc. keys more easily.
-        group_dict[name] = defaultdict(dict)
 
         # add soft links, external links, subgroups, datasets, and attributes to this group dict
         for sub_obj_name, sub_obj in h5obj.items():
@@ -259,27 +265,29 @@ class H5ToJson:
 
             if isinstance(link_type, h5py.SoftLink):
                 logger.debug(f"Adding HDF5 soft link: {sub_obj_name}")
-                group_dict[name]["soft_links"][sub_obj_name] = {"path": link_type.path}
+                group.soft_links[sub_obj_name] = H5ToJsonSoftLink(path=link_type.path)
 
             elif isinstance(link_type, h5py.ExternalLink):
                 logger.debug(f"Adding HDF5 external link: {sub_obj_name}")
-                group_dict[name]["external_links"][sub_obj_name] = {
-                    "path": link_type.path,
-                    "filename": link_type.filename,
-                }
+                group.external_links[sub_obj_name] = H5ToJsonExternalLink(
+                    path=link_type.path,
+                    filename=link_type.filename,
+                )
 
             else:  # link_type must be an h5py.HardLink
                 if isinstance(sub_obj, h5py.Group):
                     logger.debug(f"Adding HDF5 subgroup: {sub_obj.name}")
-                    self.translate_group(sub_obj, group_dict[name]["groups"])
+                    group.groups[sub_obj_name] = H5ToJsonGroup()
+                    self.translate_group(sub_obj, group.groups[sub_obj_name])
 
                 else:  # sub_obj must be an h5py.Dataset
                     logger.debug(f"Adding HDF5 dataset: {sub_obj.name}")
-                    self.translate_dataset(sub_obj, group_dict[name]["datasets"])
+                    group.datasets[sub_obj_name] = H5ToJsonDataset()
+                    self.translate_dataset(sub_obj, group.datasets[sub_obj_name])
 
         attrs = self.translate_attrs(h5obj)
         if attrs:
-            group_dict[name]["attributes"] = attrs
+            group.attributes = attrs
 
     # NOTE many of these methods are instance methods so that HDF5 references can be dereferenced using self._h5f
     def translate_attrs(
@@ -463,15 +471,15 @@ class H5ToJson:
 
         return H5ToJson.get_json_path(h5obj.parent) + "/" + base
 
-    def translate_dataset(self, h5dataset: h5py.Dataset, datasets_dict: dict):
-        """Translate an HDF5 dataset to a new dict within the given dict.
+    def translate_dataset(self, h5dataset: h5py.Dataset, dataset: H5ToJsonDataset):
+        """Translate an HDF5 dataset.
 
         Parameters
         ----------
         h5dataset : h5py.Dataset
             An HDF5 dataset.
-        datasets_dict : dict
-            A dictionary representing the datasets contained in the parent group.
+        dataset : H5ToJsonDataset
+            An object representing the translated HDF5 dataset.
         """
         logger.debug(f"HDF5 dataset: {h5dataset.name}")
         logger.debug(f"HDF5 compression: {h5dataset.compression}")
@@ -479,16 +487,10 @@ class H5ToJson:
         if h5dataset.file != self._h5f:
             raise RuntimeError("External datasets are not supported.")
 
-        name = os.path.basename(h5dataset.name)
-
-        # create a new key for this dataset in the dictionary of datasets contained in the parent group
-        datasets_dict[name] = {}
-        this_dset_dict = datasets_dict[name]
-
         fill = h5dataset.fillvalue or None
         if h5dataset.id.get_create_plist().get_layout() == h5py.h5d.COMPACT:
             # TODO Only do if h5obj.nbytes < self.inline??
-            this_dset_dict["data"] = h5dataset[:]
+            dataset.data = h5dataset[:]
             fill = None
             filters = []
         else:
@@ -503,12 +505,12 @@ class H5ToJson:
         # HDF5 uses slightly different keys:
         # HDF5 {"chunks": False} = Zarr {"chunks": dataset.shape}
         # HDF5 "compression" = Zarr "compressor" or it is placed in "filters"
-        this_dset_dict["filters"] = filters  # list
-        this_dset_dict["dtype"] = str(h5dataset.dtype)
-        this_dset_dict["shape"] = h5dataset.shape
-        this_dset_dict["chunks"] = h5dataset.chunks or h5dataset.shape
-        this_dset_dict["compressor"] = None
-        this_dset_dict["fill_value"] = fill
+        dataset.filters = filters
+        dataset.dtype = str(h5dataset.dtype)
+        dataset.shape = h5dataset.shape
+        dataset.chunks = h5dataset.chunks or h5dataset.shape
+        dataset.compressor = None
+        dataset.fill_value = fill
 
         # TODO how to represent in the JSON file that string data are vlen strings
         # so that zarr can decode the binary data if desired.
@@ -520,12 +522,12 @@ class H5ToJson:
         # this_dset_dict["object_codec"] = object_codec
 
         if self.chunk_refs_file_path:
-            kerchunk_refs = H5ToJson.get_kerchunk_refs(self._uri, h5dataset, this_dset_dict)
+            kerchunk_refs = H5ToJson.get_kerchunk_refs(self._uri, h5dataset, dataset)
             self.chunk_refs.update(kerchunk_refs)
-            this_dset_dict["refs"] = {
-                "file": "{{c}}",  # use template
-                "prefix": H5ToJson.get_ref_key_prefix(h5dataset),
-            }
+            dataset.refs = H5ToJsonDatasetRefs(
+                file="{{c}}",  # use template
+                prefix=H5ToJson.get_ref_key_prefix(h5dataset),
+            )
 
         data = None
 
@@ -535,7 +537,7 @@ class H5ToJson:
             value = h5dataset[()]
             data = self._translate_data(value)  # a value, not a dict
 
-        dset_size_bytes = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
+        dset_size_bytes: int = np.prod(h5dataset.shape) * h5dataset.dtype.itemsize
 
         # handle object dtype datasets (strings, references)
         # store the entire dataset in the "data" key as a dict
@@ -598,11 +600,13 @@ class H5ToJson:
                 data = h5dataset[:].tolist()
 
         # even if we have unfiltered the data, report the original chunks/compression below
-        this_dset_dict["data"] = data or None  # can be list or dict. should this be written if it is none?
+        dataset.data = data or None  # can be list or dict. should this be written if it is none?
 
         attrs = self.translate_attrs(h5dataset)
         if attrs:
-            this_dset_dict["attributes"] = attrs
+            dataset.attributes = attrs
+        else:
+            dataset.attributes = {}
 
         # TODO handle fillvalue, fletcher32, scaleoffset -- see kerchunk/HDF5Zarr
 
@@ -768,7 +772,7 @@ class H5ToJson:
         return dset.name[1:]
 
     @staticmethod
-    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, this_dset_dict: dict) -> dict[str, Union[str, list]]:
+    def get_kerchunk_refs(uri: str, dset: h5py.Dataset, dataset: H5ToJsonDataset) -> dict[str, Union[str, list]]:
         """Get kerchunk-style chunk references of an HDF5 dataset in the HDF5 file.
 
         This is the format expected by fsspec.implementations.reference.ReferenceFileSystem.
@@ -802,8 +806,8 @@ class H5ToJson:
             URI of the HDF5 file.
         dset : h5py.Dataset
             HDF5 dataset for which to collect storage information.
-        this_dset_dict : dict
-            A dictionary representing the dataset in the JSON file.
+        dataset: H5ToJsonDataset
+            An object representing the translated HDF5 dataset.
 
         Returns
         -------
@@ -816,13 +820,13 @@ class H5ToJson:
         ret: dict[str, Union[str, list]] = {
             # alternatively store as a dictionary instead of a JSON string
             f"{name}/.zarray": ujson.dumps({
-                "chunks": this_dset_dict["chunks"],
-                "compressor": this_dset_dict["compressor"],
-                "dtype": this_dset_dict["dtype"],
-                "fill_value": this_dset_dict["fill_value"],
-                "filters": this_dset_dict["filters"],
+                "chunks": dataset.chunks,
+                "compressor": dataset.compressor,
+                "dtype": dataset.dtype,
+                "fill_value": dataset.fill_value,
+                "filters": dataset.filters,
                 "order": "C",
-                "shape": this_dset_dict["shape"],
+                "shape": dataset.shape,
                 "zarr_format": 2,
             })
         }
@@ -877,3 +881,31 @@ class H5ToJson:
                         store_chunk_info(dsid.get_chunk_info(index))
 
             return ret
+
+
+def _remove_empty_dicts_in_dict(x: dict):
+    ret = {}
+    for k, v in x.items():
+        if isinstance(v, dict):
+            if not v:
+                continue
+            v2 = _remove_empty_dicts_in_dict(v)
+        elif isinstance(v, list):
+            v2 = _remove_empty_dicts_in_list(v)
+        else:
+            v2 = v
+        ret[k] = v2
+    return ret
+
+
+def _remove_empty_dicts_in_list(x: list):
+    ret = []
+    for v in x:
+        if isinstance(v, dict):
+            v2 = _remove_empty_dicts_in_dict(v)
+        elif isinstance(v, list):
+            v2 = _remove_empty_dicts_in_list(v)
+        else:
+            v2 = v
+        ret.append(v2)
+    return ret
