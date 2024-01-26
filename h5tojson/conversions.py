@@ -16,10 +16,10 @@ class H5ToJsonOpts(BaseModel):
     storage_options: Optional[dict] = Field(None, description="Storage options for the file")
 
 
-def h5_to_object(h5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> H5ToJsonFile:
+def h5_to_object(hdf5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> H5ToJsonFile:
     """Convert an HDF5 file to an object"""
     X = H5ToJson(
-        h5_file_path=h5_file_path,
+        hdf5_file_path=hdf5_file_path,
         json_file_path=None,
         chunk_refs_file_path=opts.chunk_refs_file_path,
         dataset_inline_max_bytes=opts.dataset_inline_max_bytes,
@@ -32,16 +32,16 @@ def h5_to_object(h5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts(
     return ret
 
 
-def h5_to_dict(h5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> Dict[str, Any]:
+def h5_to_dict(hdf5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> Dict[str, Any]:
     """Convert an HDF5 file to a dictionary"""
-    obj = h5_to_object(h5_file_path=h5_file_path, opts=opts)
+    obj = h5_to_object(hdf5_file_path=hdf5_file_path, opts=opts)
     return _remove_empty_dicts_in_dict(obj.dict())
 
 
-def h5_to_json_file(h5_file_path: str, json_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> None:
+def h5_to_json_file(hdf5_file_path: str, json_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpts()) -> None:
     """Convert an HDF5 file to a JSON file"""
     X = H5ToJson(
-        h5_file_path=h5_file_path,
+        hdf5_file_path=hdf5_file_path,
         json_file_path=json_file_path,
         chunk_refs_file_path=opts.chunk_refs_file_path,
         dataset_inline_max_bytes=opts.dataset_inline_max_bytes,
