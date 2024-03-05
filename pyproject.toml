@@ -79,6 +79,7 @@ ignore_missing_imports = true
 fail-under = 95
 verbose = 1
 ignore-init-module = true
+ignore-nested-functions = true
 exclude = ["h5tojson/_version.py"]
 ignore-regex = ["set_up_test_file"]  # used in tests
 
@@ -119,6 +120,7 @@ line-length = 120
 [tool.ruff.per-file-ignores]
 # Ignore `F401` (imported but unused) in all `__init__.py` files, and in `path/to/file.py`.
 "__init__.py" = ["F401"]
+"scrape_dandi.py" = ["T201"]
 
 [tool.ruff.mccabe]
 max-complexity = 17

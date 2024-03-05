@@ -185,7 +185,7 @@ def translate_dandiset_assets(
 
             s3_url = asset.get_content_url(follow_redirects=1, strip_query=True)
             start = time.perf_counter()
-            translator = H5ToJson(s3_url, json_path, None)
+            translator = H5ToJson(s3_url, json_path)
             translator.translate()
             end = time.perf_counter()
 

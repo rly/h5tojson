@@ -1,4 +1,6 @@
-from typing import Any, Dict, Optional, Union, Tuple
+"""Pydantic models for h5tojson."""
+
+from typing import Any, Dict, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field
 
@@ -8,6 +10,13 @@ class H5ToJsonDatasetRefs(BaseModel):
 
     file: str = Field(description="Path to the chunk refs file")
     prefix: str = Field(description="Prefix to use for the key")
+
+
+class H5ToJsonDatasetExternalFile(BaseModel):
+    """H5ToJsonDatasetExternalFile model"""
+
+    file: str = Field(description="Path to the external file")
+    key: str = Field(description="Key/path to the dataset within the external file")
 
 
 class H5ToJsonDataset(BaseModel):
@@ -22,6 +31,7 @@ class H5ToJsonDataset(BaseModel):
     compressor: Optional[str] = Field(None, description="Dataset compressor")
     fill_value: Optional[Union[str, int, float]] = Field(None, description="Dataset fill value")
     refs: Optional[H5ToJsonDatasetRefs] = Field(None, description="Dataset chunk refs")
+    external_file: Optional[H5ToJsonDatasetExternalFile] = Field(None, description="Dataset external file")
 
 
 class H5ToJsonSoftLink(BaseModel):
@@ -54,6 +64,9 @@ class H5ToJsonTranslationOptions(BaseModel):
     object_dataset_inline_max_bytes: int = Field(description="Max bytes for inline object dataset")
     compound_dtype_dataset_inline_max_bytes: int = Field(description="Max bytes for inline compound dtype dataset")
     skip_all_dataset_data: bool = Field(description="Skip all data in datasets")
+    datasets_as_hdf5: Optional[Union[list[str], bool]] = Field(
+        None, description="Paths to datasets to be saved in individual hdf5 files"
+    )
 
 
 class H5ToJsonFile(BaseModel):
