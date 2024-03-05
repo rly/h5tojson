@@ -104,6 +104,14 @@ translator = H5ToJson(
 translator.translate()
 ```
 
+This package supports taking an existing HDF5 file and translating it into:
+
+1. Only metadata as JSON (no datasets) (set `skip_all_dataset_data` == True)
+2. Metadata as JSON plus references to chunk locations for efficient streaming in a separate JSON (set `chunk_refs_file_path`)
+3. Metadata as JSON plus inlined datasets as readable values in the same JSON (configure `dataset_inline_max_bytes`, `object_dataset_inline_max_bytes`, `compound_dtype_dataset_inline_max_bytes`)
+4. Metadata as JSON plus select or all datasets stored as individual HDF5 files referenced by metadata JSON (set `datasets_as_hdf5`)
+
+
 ## What can we use these JSON for?
 
 Answering queries across many dandisets, e.g.:

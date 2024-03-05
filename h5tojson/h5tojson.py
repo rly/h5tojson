@@ -201,6 +201,10 @@ class H5ToJson:
             List of string paths to datasets to be downloaded and saved as individual HDF5 files. If True, all datasets
             will be downloaded and saved. Each path must start with "/".
             False is equivalent to None. skip_all_dataset_data must be False if a value is provided here.
+            The individual HDF5 files have one dataset named "data" with the dataset, preserving all filters,
+            chunking settings, and attributes. The HDF5 files are placed in a new directory with the same name
+            as the output JSON file plus the path of the dataset within the HDF5 file. For example, a dataset at
+            `/DfOverF/data` will be written to `{output JSON file name without .json suffix}/DfOverF/data.h5`.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
