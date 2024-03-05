@@ -53,9 +53,9 @@ dev = [
 [project.urls]
 "Homepage" = "https://github.com/rly/h5tojson"
 # "Documentation" = "https://package.readthedocs.io/"
-# "Bug Tracker" = "https://github.com/organization/package/issues"
-# "Discussions" = "https://github.com/organization/package/discussions"
-# "Changelog" = "https://github.com/organization/package/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/rly/h5tojson/issues"
+# "Discussions" = "https://github.com/rly/h5tojson/discussions"
+# "Changelog" = "https://github.com/orly/h5tojson/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 source = "vcs"
@@ -94,6 +94,9 @@ ignore-words-list = "fo"
 [tool.coverage.run]
 branch = true
 source = ["h5tojson/"]
+omit = [
+    "_version.py"
+]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -118,8 +121,6 @@ exclude = [
 line-length = 120
 
 [tool.ruff.per-file-ignores]
-# Ignore `F401` (imported but unused) in all `__init__.py` files, and in `path/to/file.py`.
-"__init__.py" = ["F401"]
 "scrape_dandi.py" = ["T201"]
 
 [tool.ruff.mccabe]
