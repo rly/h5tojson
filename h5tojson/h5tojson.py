@@ -94,7 +94,7 @@ import os
 import warnings
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Union, Dict
+from typing import Dict, Optional, Union
 
 import fsspec
 import h5py
@@ -106,6 +106,7 @@ from tqdm import tqdm
 
 from .models import (
     H5ToJsonDataset,
+    H5ToJsonDatasetExternalFile,
     H5ToJsonDatasetRefs,
     H5ToJsonExternalLink,
     H5ToJsonFile,
@@ -158,15 +159,21 @@ class FloatJSONEncoder(json.JSONEncoder):
 class H5ToJson:
     """Class to manage translation of an HDF5 file to JSON with Kerchunk-style references to dataset chunks."""
 
+    # names of attributes written to HDF5 file when writing individual datasets to HDF5 files
+    ORIG_URI_ATTR = "H5TOJSON_ORIG_URI"
+    ORIG_PATH_ATTR = "H5TOJSON_ORIG_PATH"
+
     def __init__(
         self,
         hdf5_file_path: Union[str, Path],  # or BinaryIO
         json_file_path: Union[str, Path, None],
-        chunk_refs_file_path: Optional[Union[str, Path]],
+        *,
+        chunk_refs_file_path: Optional[Union[str, Path]] = None,
         dataset_inline_max_bytes=500,
         object_dataset_inline_max_bytes=200000,
         compound_dtype_dataset_inline_max_bytes=2000,
         skip_all_dataset_data=False,
+        datasets_as_hdf5=None,
         storage_options=None,
     ):
         """Create an object to translate an HDF5 file to JSON with Kerchunk-style references to dataset chunks.
@@ -190,6 +197,10 @@ class H5ToJson:
             Default is 2000.
         skip_all_dataset_data : bool, optional
             If True, then do not any data in datasets. Default is False.
+        datasets_as_hdf5 : list or bool, optional
+            If not None, then string paths to datasets contained in this list are downloaded and saved as HDF5 files,
+            and the . Each path must start with "/". If True, then all datasets are downloaded saved as HDF5 files.
+            False is equivalent to None. skip_all_dataset_data must be False if a value is provided here.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
         """
@@ -207,6 +218,16 @@ class H5ToJson:
         self.object_dataset_inline_max_bytes = object_dataset_inline_max_bytes
         self.compound_dtype_dataset_inline_max_bytes = compound_dtype_dataset_inline_max_bytes
         self.skip_all_dataset_data = skip_all_dataset_data
+        if datasets_as_hdf5 and skip_all_dataset_data:
+            raise ValueError("If `datasets_as_hdf5` is provided, then `skip_all_dataset_data` must be False.")
+        self.datasets_as_hdf5 = datasets_as_hdf5 if datasets_as_hdf5 else list()
+        # do some validation to make sure these values make sense and do not have human error.
+        if isinstance(self.datasets_as_hdf5, list):
+            for p in self.datasets_as_hdf5:
+                if not p.startswith("/"):
+                    raise ValueError(f"Path to dataset '{p}' must start with '/'.")
+                if p not in self._h5f:
+                    raise ValueError(f"No dataset found at path '{p}' in HDF5 file.")
         self.json_file_path = str(json_file_path) if json_file_path else None
         self.chunk_refs_file_path = str(chunk_refs_file_path) if chunk_refs_file_path else None
 
@@ -224,6 +245,7 @@ class H5ToJson:
                 object_dataset_inline_max_bytes=self.object_dataset_inline_max_bytes,
                 compound_dtype_dataset_inline_max_bytes=self.compound_dtype_dataset_inline_max_bytes,
                 skip_all_dataset_data=self.skip_all_dataset_data,
+                datasets_as_hdf5=self.datasets_as_hdf5,
             ),
             templates={},
             file=H5ToJsonGroup(),
@@ -535,6 +557,39 @@ class H5ToJson:
                 prefix=H5ToJson.get_ref_key_prefix(h5dataset),
             )
 
+        # self.datasets_as_hdf5 is either True (copy all datasets) or a list of dataset paths to copy
+        if self.datasets_as_hdf5 is True or h5dataset.name in self.datasets_as_hdf5:
+            # the scheme for the path is to create a directory with the same name as the output json file
+            # and use the dataset name (path) as the path within that directory.
+            # the name should be meaningful to a novice user exploring the filesystem.
+            # currently, the key within the hdf5 file is always "data".
+            # exclude the leading "/" when appending the dataset name to the output directory
+            dataset_hdf5_rel_path = h5dataset.name[1:] + ".h5"
+            dataset_hdf5_abs_path = Path(self.json_file_path).parent / dataset_hdf5_rel_path
+            dataset_name = "data"
+
+            # recursively make the directories to place the file into
+            os.makedirs(dataset_hdf5_abs_path.parent, exist_ok=True)
+
+            # copy the dataset.
+            # filters and chunking settings will be preserved.
+            # attributes are also copied. can not do that using kwarg without_attrs=True
+            # NOTE: datasets containing references will not copy correctly
+            # TODO: raise an error if the first value of the dataset contains a reference
+            with h5py.File(dataset_hdf5_abs_path, "w") as write_f:
+                # if the file is remote, then the dataset will be streamed to disk and this
+                # can take some time
+                write_f.copy(h5dataset, dataset_name)
+
+                # store information about where the dataset came from
+                write_f.attrs[H5ToJson.ORIG_URI_ATTR] = self._uri
+                write_f.attrs[H5ToJson.ORIG_PATH_ATTR] = h5dataset.name
+
+            dataset.external_file = H5ToJsonDatasetExternalFile(
+                file=dataset_hdf5_rel_path,
+                key=dataset_name,
+            )
+
         data = None
 
         if not self.skip_all_dataset_data:
@@ -828,16 +883,18 @@ class H5ToJson:
         name = H5ToJson.get_ref_key_prefix(dset)
         ret: Dict[str, Union[str, list]] = {
             # alternatively store as a dictionary instead of a JSON string
-            f"{name}/.zarray": ujson.dumps({
-                "chunks": dataset.chunks,
-                "compressor": dataset.compressor,
-                "dtype": dataset.dtype,
-                "fill_value": dataset.fill_value,
-                "filters": dataset.filters,
-                "order": "C",
-                "shape": dataset.shape,
-                "zarr_format": 2,
-            })
+            f"{name}/.zarray": ujson.dumps(
+                {
+                    "chunks": dataset.chunks,
+                    "compressor": dataset.compressor,
+                    "dtype": dataset.dtype,
+                    "fill_value": dataset.fill_value,
+                    "filters": dataset.filters,
+                    "order": "C",
+                    "shape": dataset.shape,
+                    "zarr_format": 2,
+                }
+            )
         }
 
         # Empty (null) dataset...

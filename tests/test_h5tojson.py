@@ -7,6 +7,7 @@ from typing import Callable, Optional
 import fsspec
 import h5py
 import numpy as np
+import pytest
 import zarr
 from dateutil.parser import parse
 
@@ -38,7 +39,7 @@ def _create_translate(
 
     json_file_path = tmp_path / "test.json"
     chunk_refs_file_path = tmp_path / "chunk_refs.json"
-    translator = H5ToJson(hdf5_file_path, json_file_path, chunk_refs_file_path, **(kwargs or {}))
+    translator = H5ToJson(hdf5_file_path, json_file_path, chunk_refs_file_path=chunk_refs_file_path, **(kwargs or {}))
     translator.translate()
 
     with open(json_file_path) as f:
@@ -89,6 +90,7 @@ def test_translate_root(tmp_path):
             "dataset_inline_threshold_max_bytes": 500,
             "object_dataset_inline_max_bytes": 200000,
             "skip_all_dataset_data": False,
+            "datasets_as_hdf5": [],
         },
     }
 
@@ -164,6 +166,7 @@ def test_translate_scalar_int_dataset(tmp_path):
                 "shape": [],
                 "chunks": [],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -206,6 +209,7 @@ def test_translate_1d_int_dataset(tmp_path):
                 "shape": [3],
                 "chunks": [3],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -248,6 +252,7 @@ def test_translate_1d_int_dataset_no_inline(tmp_path):
                 "shape": [3],
                 "chunks": [3],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -291,6 +296,7 @@ def test_translate_2d_int_dataset_full(tmp_path):
                 "shape": [1000, 1000],
                 "chunks": [900, 900],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [{"id": "zlib", "level": 4}],
                 "refs": {
@@ -349,6 +355,7 @@ def test_translate_2d_int_dataset_full_inline(tmp_path):
                 "shape": [10, 10],
                 "chunks": [9, 9],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [{"id": "zlib", "level": 4}],
                 "refs": {
@@ -399,6 +406,7 @@ def test_translate_dataset_deep(tmp_path):
                                 "shape": [3],
                                 "chunks": [3],
                                 "compressor": None,
+                                "external_file": None,
                                 "fill_value": None,
                                 "filters": [],
                                 "refs": {
@@ -445,6 +453,7 @@ def test_translate_scalar_string_dataset(tmp_path):
                 "shape": [],
                 "chunks": [],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -487,6 +496,7 @@ def test_translate_1d_string_dataset(tmp_path):
                 "shape": [3],
                 "chunks": [3],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -525,6 +535,7 @@ def test_translate_2d_string_dataset(tmp_path):
                 "shape": [2, 3],
                 "chunks": [2, 3],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -568,6 +579,7 @@ def test_translate_2d_string_dataset_full(tmp_path):
                 "shape": [2, 3],
                 "chunks": [2, 2],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [{"id": "zlib", "level": 4}],
                 "refs": {
@@ -612,6 +624,7 @@ def test_translate_scalar_dataset_object_refs(tmp_path):
                 "shape": [],
                 "chunks": [],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -654,6 +667,7 @@ def test_translate_1d_dataset_object_refs(tmp_path):
                 "shape": [2],
                 "chunks": [2],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -697,6 +711,7 @@ def test_translate_2d_dataset_object_refs(tmp_path):
                 "shape": [3, 2],
                 "chunks": [3, 2],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -725,13 +740,15 @@ def test_translate_scalar_compound_dataset(tmp_path):
     def set_up_test_file(f: h5py.File):
         fixed_length_utf8_type = h5py.string_dtype("utf-8", 30)
         fixed_length_ascii_type = h5py.string_dtype("ascii", 30)
-        cpd_type_int_vlen_flen_strings = np.dtype([
-            ("int", int),
-            ("vlen_utf8", h5py.string_dtype("utf-8")),
-            ("vlen_ascii", h5py.string_dtype("ascii")),
-            ("flen_utf8", fixed_length_utf8_type),
-            ("flen_ascii", fixed_length_ascii_type),
-        ])
+        cpd_type_int_vlen_flen_strings = np.dtype(
+            [
+                ("int", int),
+                ("vlen_utf8", h5py.string_dtype("utf-8")),
+                ("vlen_ascii", h5py.string_dtype("ascii")),
+                ("flen_utf8", fixed_length_utf8_type),
+                ("flen_ascii", fixed_length_ascii_type),
+            ]
+        )
         f.create_dataset(
             "dataset1", data=(2, "±", b"v", "±".encode("utf-8"), b"v"), dtype=cpd_type_int_vlen_flen_strings
         )
@@ -749,6 +766,7 @@ def test_translate_scalar_compound_dataset(tmp_path):
                 "shape": [],
                 "chunks": [],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -778,13 +796,15 @@ def test_translate_1d_compound_dataset(tmp_path):
     def set_up_test_file(f: h5py.File):
         fixed_length_utf8_type = h5py.string_dtype("utf-8", 30)
         fixed_length_ascii_type = h5py.string_dtype("ascii", 30)
-        cpd_type_int_vlen_flen_strings = np.dtype([
-            ("int", int),
-            ("vlen_utf8", h5py.string_dtype("utf-8")),
-            ("vlen_ascii", h5py.string_dtype("ascii")),
-            ("flen_utf8", fixed_length_utf8_type),
-            ("flen_ascii", fixed_length_ascii_type),
-        ])
+        cpd_type_int_vlen_flen_strings = np.dtype(
+            [
+                ("int", int),
+                ("vlen_utf8", h5py.string_dtype("utf-8")),
+                ("vlen_ascii", h5py.string_dtype("ascii")),
+                ("flen_utf8", fixed_length_utf8_type),
+                ("flen_ascii", fixed_length_ascii_type),
+            ]
+        )
         f.create_dataset(
             "dataset1",
             data=[(2, "±", b"v", "±".encode("utf-8"), b"v"), (2, "💜", b"v", "💜".encode("utf-8"), b"v")],
@@ -804,6 +824,7 @@ def test_translate_1d_compound_dataset(tmp_path):
                 "shape": [2],
                 "chunks": [2],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -834,14 +855,16 @@ def test_translate_scalar_compound_dataset_object_refs(tmp_path):
         f.create_group("group1")
         fixed_length_utf8_type = h5py.string_dtype("utf-8", 30)
         fixed_length_ascii_type = h5py.string_dtype("ascii", 30)
-        cpd_type_int_vlen_flen_strings = np.dtype([
-            ("int", int),
-            ("vlen_utf8", h5py.string_dtype("utf-8")),
-            ("vlen_ascii", h5py.string_dtype("ascii")),
-            ("flen_utf8", fixed_length_utf8_type),
-            ("flen_ascii", fixed_length_ascii_type),
-            ("ref1", h5py.ref_dtype),
-        ])
+        cpd_type_int_vlen_flen_strings = np.dtype(
+            [
+                ("int", int),
+                ("vlen_utf8", h5py.string_dtype("utf-8")),
+                ("vlen_ascii", h5py.string_dtype("ascii")),
+                ("flen_utf8", fixed_length_utf8_type),
+                ("flen_ascii", fixed_length_ascii_type),
+                ("ref1", h5py.ref_dtype),
+            ]
+        )
         f.create_dataset(
             "dataset1",
             data=(2, "±", b"v", "±".encode("utf-8"), b"v", f["group1"].ref),
@@ -861,6 +884,7 @@ def test_translate_scalar_compound_dataset_object_refs(tmp_path):
                 "shape": [],
                 "chunks": [],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -894,14 +918,16 @@ def test_translate_1d_compound_dataset_object_refs(tmp_path):
         f.create_group("group1")
         fixed_length_utf8_type = h5py.string_dtype("utf-8", 30)
         fixed_length_ascii_type = h5py.string_dtype("ascii", 30)
-        cpd_type_int_vlen_flen_strings = np.dtype([
-            ("int", int),
-            ("vlen_utf8", h5py.string_dtype("utf-8")),
-            ("vlen_ascii", h5py.string_dtype("ascii")),
-            ("flen_utf8", fixed_length_utf8_type),
-            ("flen_ascii", fixed_length_ascii_type),
-            ("ref1", h5py.ref_dtype),
-        ])
+        cpd_type_int_vlen_flen_strings = np.dtype(
+            [
+                ("int", int),
+                ("vlen_utf8", h5py.string_dtype("utf-8")),
+                ("vlen_ascii", h5py.string_dtype("ascii")),
+                ("flen_utf8", fixed_length_utf8_type),
+                ("flen_ascii", fixed_length_ascii_type),
+                ("ref1", h5py.ref_dtype),
+            ]
+        )
         f.create_dataset(
             "dataset1",
             data=[
@@ -927,6 +953,7 @@ def test_translate_1d_compound_dataset_object_refs(tmp_path):
                 "shape": [2],
                 "chunks": [2],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -1042,12 +1069,14 @@ def test_translate_attrs(tmp_path):
         f.attrs["1d_root_ref"] = np.array([f.ref, f.ref], dtype=h5py.ref_dtype)
         f.attrs["2d_root_ref"] = np.array([[f.ref, f.ref], [f.ref, f.ref]], dtype=h5py.ref_dtype)
 
-        cpd_type_int_flen_strings_ref = np.dtype([
-            ("int", int),
-            ("flen_utf8", fixed_length_utf8_type),
-            ("flen_ascii", fixed_length_ascii_type),
-            ("ref1", h5py.ref_dtype),
-        ])
+        cpd_type_int_flen_strings_ref = np.dtype(
+            [
+                ("int", int),
+                ("flen_utf8", fixed_length_utf8_type),
+                ("flen_ascii", fixed_length_ascii_type),
+                ("ref1", h5py.ref_dtype),
+            ]
+        )
         f.attrs.create("cpd_type_int_flen_strings_ref", data=(3, "3", b"3", f.ref), dtype=cpd_type_int_flen_strings_ref)
 
         f.attrs.create(
@@ -1137,15 +1166,17 @@ def test_translate_attrs(tmp_path):
             "path": "/",
         },
     ]
-    assert attrs["1d_cpd_type_int_flen_strings_ref"] == [[
-        3,
-        "3",
-        "3",
-        {
-            "dtype": "object_reference",
-            "path": "/",
-        },
-    ]]
+    assert attrs["1d_cpd_type_int_flen_strings_ref"] == [
+        [
+            3,
+            "3",
+            "3",
+            {
+                "dtype": "object_reference",
+                "path": "/",
+            },
+        ]
+    ]
 
 
 def test_translate_nested_group_attrs(tmp_path):
@@ -1197,6 +1228,7 @@ def test_translate_dataset_attrs(tmp_path):
                 "shape": [3],
                 "chunks": [3],
                 "compressor": None,
+                "external_file": None,
                 "fill_value": None,
                 "filters": [],
                 "refs": {
@@ -1211,3 +1243,239 @@ def test_translate_dataset_attrs(tmp_path):
         },
     }
     assert json_dict["file"] == expected
+
+
+def test_translate_dataset_external_file_select(tmp_path):
+    """Test translation and copy of a dataset with filters and attributes to a standalone hdf5 file."""
+    data = np.ones((1000, 1000))
+
+    def set_up_test_file(f: h5py.File):
+        f.create_dataset("group1/group2/dataset1", data=data, chunks=(900, 900), compression="gzip")
+        f["group1/group2/dataset1"].attrs["int"] = 42
+        f.create_dataset("group1/group2/dataset2", data=data, chunks=(900, 900), compression="gzip")
+
+    json_dict, _ = _create_translate(
+        tmp_path,
+        set_up_test_file,
+        kwargs=dict(datasets_as_hdf5=["/group1/group2/dataset1"]),
+    )
+
+    expected = {
+        "groups": {
+            "group1": {
+                "groups": {
+                    "group2": {
+                        "datasets": {
+                            "dataset1": {
+                                "data": None,
+                                "dtype": "float64",
+                                "shape": [1000, 1000],
+                                "chunks": [900, 900],
+                                "compressor": None,
+                                "external_file": {
+                                    "file": "group1/group2/dataset1.h5",
+                                    "key": "data",
+                                },
+                                "fill_value": None,
+                                "filters": [{"id": "zlib", "level": 4}],
+                                "refs": {
+                                    "file": "{{c}}",
+                                    "prefix": "group1/group2/dataset1",
+                                },
+                                "attributes": {
+                                    "int": 42,
+                                },
+                            },
+                            "dataset2": {
+                                "data": None,
+                                "dtype": "float64",
+                                "shape": [1000, 1000],
+                                "chunks": [900, 900],
+                                "compressor": None,
+                                "external_file": None,
+                                "fill_value": None,
+                                "filters": [{"id": "zlib", "level": 4}],
+                                "refs": {
+                                    "file": "{{c}}",
+                                    "prefix": "group1/group2/dataset2",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    }
+    assert json_dict["file"] == expected
+
+    dset1_file_path = tmp_path / "group1/group2/dataset1.h5"
+    assert dset1_file_path.exists()
+
+    dset2_file_path = tmp_path / "group1/group2/dataset2.h5"
+    assert not dset2_file_path.exists()
+
+    with h5py.File(dset1_file_path) as f:
+        assert list(f.keys()) == ["data"]
+        dataset = f["data"]
+        assert dataset.chunks == (900, 900)
+        assert dataset.compression == "gzip"
+        assert dict(dataset.attrs) == dict(int=42)
+
+        translated_array = f["data"][:]
+        expected_array = data
+        assert (translated_array == expected_array).all()
+
+        assert f.attrs[H5ToJson.ORIG_URI_ATTR] == "file://" + str(tmp_path / "test.h5")
+        assert f.attrs[H5ToJson.ORIG_PATH_ATTR] == "/group1/group2/dataset1"
+
+
+def test_translate_dataset_external_file_all(tmp_path):
+    """Test translation and copy of all datasets with filters and attributes to a standalone hdf5 file."""
+    data = np.ones((1000, 1000))
+
+    def set_up_test_file(f: h5py.File):
+        f.create_dataset("group1/group2/dataset1", data=data, chunks=(900, 900), compression="gzip")
+        f["group1/group2/dataset1"].attrs["int"] = 42
+        f.create_dataset("group1/group2/dataset2", data=data, chunks=(900, 900), compression="gzip")
+
+    json_dict, _ = _create_translate(
+        tmp_path,
+        set_up_test_file,
+        kwargs=dict(datasets_as_hdf5=True),
+    )
+
+    expected = {
+        "groups": {
+            "group1": {
+                "groups": {
+                    "group2": {
+                        "datasets": {
+                            "dataset1": {
+                                "data": None,
+                                "dtype": "float64",
+                                "shape": [1000, 1000],
+                                "chunks": [900, 900],
+                                "compressor": None,
+                                "external_file": {
+                                    "file": "group1/group2/dataset1.h5",
+                                    "key": "data",
+                                },
+                                "fill_value": None,
+                                "filters": [{"id": "zlib", "level": 4}],
+                                "refs": {
+                                    "file": "{{c}}",
+                                    "prefix": "group1/group2/dataset1",
+                                },
+                                "attributes": {
+                                    "int": 42,
+                                },
+                            },
+                            "dataset2": {
+                                "data": None,
+                                "dtype": "float64",
+                                "shape": [1000, 1000],
+                                "chunks": [900, 900],
+                                "compressor": None,
+                                "external_file": {
+                                    "file": "group1/group2/dataset2.h5",
+                                    "key": "data",
+                                },
+                                "fill_value": None,
+                                "filters": [{"id": "zlib", "level": 4}],
+                                "refs": {
+                                    "file": "{{c}}",
+                                    "prefix": "group1/group2/dataset2",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    }
+    assert json_dict["file"] == expected
+
+    dset1_file_path = tmp_path / "group1/group2/dataset1.h5"
+    assert dset1_file_path.exists()
+
+    dset2_file_path = tmp_path / "group1/group2/dataset2.h5"
+    assert dset2_file_path.exists()
+
+    with h5py.File(dset1_file_path) as f:
+        assert list(f.keys()) == ["data"]
+        dataset = f["data"]
+        assert dataset.chunks == (900, 900)
+        assert dataset.compression == "gzip"
+        assert dict(dataset.attrs) == dict(int=42)
+
+        translated_array = f["data"][:]
+        expected_array = data
+        assert (translated_array == expected_array).all()
+
+        assert f.attrs[H5ToJson.ORIG_URI_ATTR] == "file://" + str(tmp_path / "test.h5")
+        assert f.attrs[H5ToJson.ORIG_PATH_ATTR] == "/group1/group2/dataset1"
+
+    with h5py.File(dset2_file_path) as f:
+        assert list(f.keys()) == ["data"]
+        dataset = f["data"]
+        assert dataset.chunks == (900, 900)
+        assert dataset.compression == "gzip"
+
+        translated_array = f["data"][:]
+        expected_array = data
+        assert (translated_array == expected_array).all()
+
+        assert f.attrs[H5ToJson.ORIG_URI_ATTR] == "file://" + str(tmp_path / "test.h5")
+        assert f.attrs[H5ToJson.ORIG_PATH_ATTR] == "/group1/group2/dataset2"
+
+
+def test_translate_dataset_external_file_bad_args(tmp_path):
+    """Test translation and copy of a dataset with a bad combination of kwargs."""
+
+    def set_up_test_file(f: h5py.File):
+        f.create_dataset("dataset1", data=[1])
+
+    msg = "If `datasets_as_hdf5` is provided, then `skip_all_dataset_data` must be False."
+    with pytest.raises(ValueError, match=msg):
+        _create_translate(
+            tmp_path,
+            set_up_test_file,
+            kwargs=dict(
+                skip_all_dataset_data=True,
+                datasets_as_hdf5=["dataset1"],
+            ),
+        )
+
+
+def test_translate_dataset_external_file_bad_value(tmp_path):
+    """Test translation and copy of a dataset with a path that don't start with /."""
+
+    def set_up_test_file(f: h5py.File):
+        f.create_dataset("dataset1", data=[1])
+
+    msg = "Path to dataset 'dataset1' must start with '/'."
+    with pytest.raises(ValueError, match=msg):
+        _create_translate(
+            tmp_path,
+            set_up_test_file,
+            kwargs=dict(
+                datasets_as_hdf5=["dataset1"],
+            ),
+        )
+
+
+def test_translate_dataset_external_file_invalid_path(tmp_path):
+    """Test translation and copy of a dataset with a path that doesn't exist."""
+
+    def set_up_test_file(f: h5py.File):
+        f.create_dataset("dataset1", data=[1])
+
+    msg = "No dataset found at path '/notfound' in HDF5 file."
+    with pytest.raises(ValueError, match=msg):
+        _create_translate(
+            tmp_path,
+            set_up_test_file,
+            kwargs=dict(
+                datasets_as_hdf5=["/notfound"],
+            ),
+        )

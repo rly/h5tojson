@@ -1,5 +1,9 @@
-from typing import Any, Dict, Optional
+"""Functions to convert HDF5 files to objects, dictionaries, and JSON files."""
+
+from typing import Any, Dict, Optional, Union
+
 from pydantic import BaseModel, Field
+
 from .h5tojson import H5ToJson, _remove_empty_dicts_in_dict
 from .models import H5ToJsonFile
 
@@ -14,6 +18,9 @@ class H5ToJsonOpts(BaseModel):
         2000, description="Max bytes for inline compound dtype dataset"
     )
     skip_all_dataset_data: bool = Field(False, description="Skip all data in datasets")
+    datasets_as_hdf5: Optional[Union[list[str], bool]] = Field(
+        None, description="Paths to datasets to be saved in individual hdf5 files"
+    )
     storage_options: Optional[dict] = Field(None, description="Storage options for the file")
 
 
@@ -27,6 +34,7 @@ def h5_to_object(hdf5_file_path: str, opts: Optional[H5ToJsonOpts] = H5ToJsonOpt
         object_dataset_inline_max_bytes=opts.object_dataset_inline_max_bytes,
         compound_dtype_dataset_inline_max_bytes=opts.compound_dtype_dataset_inline_max_bytes,
         skip_all_dataset_data=opts.skip_all_dataset_data,
+        datasets_as_hdf5=opts.datasets_as_hdf5,
         storage_options=opts.storage_options,
     )
     X.translate()
@@ -50,6 +58,7 @@ def h5_to_json_file(hdf5_file_path: str, json_file_path: str, opts: Optional[H5T
         object_dataset_inline_max_bytes=opts.object_dataset_inline_max_bytes,
         compound_dtype_dataset_inline_max_bytes=opts.compound_dtype_dataset_inline_max_bytes,
         skip_all_dataset_data=opts.skip_all_dataset_data,
+        datasets_as_hdf5=opts.datasets_as_hdf5,
         storage_options=opts.storage_options,
     )
     X.translate()

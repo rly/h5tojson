@@ -166,3 +166,4 @@ _version.py
 dandi_json
 *.csv
 nwb-cache
+test_output
