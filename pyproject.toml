@@ -79,6 +79,7 @@ ignore_missing_imports = true
 fail-under = 95
 verbose = 1
 ignore-init-module = true
+ignore-nested-functions = true
 exclude = ["h5tojson/_version.py"]
 ignore-regex = ["set_up_test_file"]  # used in tests
 

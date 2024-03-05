@@ -1,5 +1,7 @@
-# This code is a copy of the code in README.md.
-# It requires the internet to run because it streams an NWB file from DANDI.
+"""Test the example code in README.md.
+
+NOTE: This requires the internet because it streams an NWB file from DANDI.
+"""
 
 import os
 

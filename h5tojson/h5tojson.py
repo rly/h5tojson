@@ -198,8 +198,8 @@ class H5ToJson:
         skip_all_dataset_data : bool, optional
             If True, then do not any data in datasets. Default is False.
         datasets_as_hdf5 : list or bool, optional
-            If not None, then string paths to datasets contained in this list are downloaded and saved as HDF5 files,
-            and the . Each path must start with "/". If True, then all datasets are downloaded saved as HDF5 files.
+            List of string paths to datasets to be downloaded and saved as individual HDF5 files. If True, all datasets
+            will be downloaded and saved. Each path must start with "/".
             False is equivalent to None. skip_all_dataset_data must be False if a value is provided here.
         storage_options : dict, optional
             Options to pass to fsspec when opening the HDF5 file. Default is None.
@@ -950,6 +950,7 @@ class H5ToJson:
 
 
 def _remove_empty_dicts_in_dict(x: dict):
+    """Remove empty dictionaries from a dictionary."""
     ret = {}
     for k, v in x.items():
         if isinstance(v, dict):
@@ -965,6 +966,7 @@ def _remove_empty_dicts_in_dict(x: dict):
 
 
 def _remove_empty_dicts_in_list(x: list):
+    """Remove empty dictionaries from a list."""
     ret = []
     for v in x:
         if isinstance(v, dict):
