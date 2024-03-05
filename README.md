@@ -45,7 +45,15 @@ mamba activate h5tojson
 pip install -e ".[dev]"
 ```
 
-Run tests and other dev checks:
+Optional: Install [`pre-commit`](https://pre-commit.com/) which runs several basic checks and
+`ruff`, `isort`, `black`, `interrogate`, and `codespell`.
+```
+pip install pre-commit
+pre-commit install
+pre-commit run
+```
+
+Run tests and other dev checks individually:
 ```
 pytest
 black .
@@ -57,9 +65,6 @@ isort .
 ```
 
 To use notebooks, install `jupyterlab`.
-
-TODO:
-- [ ] Set up pre-commit hooks
 
 ## Example of how to run
 
