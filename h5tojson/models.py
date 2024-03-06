@@ -1,6 +1,6 @@
 """Pydantic models for h5tojson."""
 
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, Optional, Tuple, Union, List
 
 from pydantic import BaseModel, Field
 
@@ -64,7 +64,7 @@ class H5ToJsonTranslationOptions(BaseModel):
     object_dataset_inline_max_bytes: int = Field(description="Max bytes for inline object dataset")
     compound_dtype_dataset_inline_max_bytes: int = Field(description="Max bytes for inline compound dtype dataset")
     skip_all_dataset_data: bool = Field(description="Skip all data in datasets")
-    datasets_as_hdf5: Optional[Union[list[str], bool]] = Field(
+    datasets_as_hdf5: Optional[Union[List[str], bool]] = Field(
         None, description="Paths to datasets to be saved in individual hdf5 files"
     )
 
