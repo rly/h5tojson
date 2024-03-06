@@ -1,6 +1,6 @@
 """Functions to convert HDF5 files to objects, dictionaries, and JSON files."""
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, List
 
 from pydantic import BaseModel, Field
 
@@ -18,7 +18,7 @@ class H5ToJsonOpts(BaseModel):
         2000, description="Max bytes for inline compound dtype dataset"
     )
     skip_all_dataset_data: bool = Field(False, description="Skip all data in datasets")
-    datasets_as_hdf5: Optional[Union[list[str], bool]] = Field(
+    datasets_as_hdf5: Optional[Union[List[str], bool]] = Field(
         None, description="Paths to datasets to be saved in individual hdf5 files"
     )
     storage_options: Optional[dict] = Field(None, description="Storage options for the file")
